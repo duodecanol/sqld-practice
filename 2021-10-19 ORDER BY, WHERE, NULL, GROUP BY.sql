@@ -160,6 +160,59 @@ SELECT SUM(COMM) / COUNT(COMM) AS AVERAGE FROM EMP;
 SELECT AVG(COMM) FROM EMP; -- 위의 식과 같은 결과. COUNT는 NULL을 제외하고 연산
 
 
-
+-- 출력 결과 수를 제한하기 ROWNUM
 SELECT ENAME, SAL FROM EMP WHERE ROWNUM < 4 ORDER BY SAL DESC;
 SELECT ENAME, SAL FROM EMP ORDER BY SAL DESC LIMIT 3;    -- MySQL STYLE
+
+/*******************************
+    GROUP BY 사용예제 p.144
+********************************/
+
+SELECT JOB, AVG(SAL) FROM EMP GROUP BY JOB;
+SELECT DEPTNO, SUM(SAL) FROM EMP GROUP BY DEPTNO;
+SELECT DEPTNO, SUM(SAL) FROM EMP GROUP BY DEPTNO HAVING SUM(SAL) < 10000;
+
+--부서별, 관리자별 급여평균 계산 
+SELECT DEPTNO, MGR, AVG(SAL) FROM EMP GROUP BY DEPTNO, MGR;
+
+--각 부서별로 그룹화, 부서원의 최대 급여가 3000 이하인 부서의 SAL의 총합
+SELECT DEPTNO, SUM(SAL), MAX(SAL) FROM EMP
+GROUP BY DEPTNO HAVING MAX(SAL) <= 3000;
+
+--JOB이 CLERK인 직원들에 대해서 각 부서별로 그룹화, 부서원의 최소 급여가 1000 이하인 부서에서 직원들의 급여 총합
+-- 부서번호 오름차순 정렬
+SELECT DEPTNO, SUM(SAL) FROM EMP
+WHERE JOB = 'CLERK'
+GROUP BY DEPTNO
+    HAVING MIN(SAL) < 1000
+ORDER BY DEPTNO ASC;
+    
+--급여가 1500 이상인 직원들에 대해서 부서별로 그룹화
+--부서원의 최소 급여가 1000 이상, 최대 급여가 5000 이하인 부서에서 직원들의 평균 급여
+--부서로 내림차순 정렬
+
+SELECT DEPTNO, AVG(SAL)             -- 5
+FROM EMP                            -- 1 숫자는 실행 순서를 나타냄
+WHERE SAL >= 1500                   -- 2
+GROUP BY DEPTNO                     -- 3
+    HAVING                          -- 4            
+        MIN(SAL) >= 1000 AND -- OR/AND 둘다 결과가 같네?
+        MAX(SAL) <= 5000
+ORDER BY DEPTNO DESC;               -- 6
+
+-- 직원번호별로 부하직원의 수와 부하직원 번호의 나열, 부하직원 번호의 나열을 출력
+
+SELECT * FROM EMP ORDER BY MGR;
+
+SELECT * FROM
+(SELECT EMPNO, ENAME, JOB FROM EMP) A,
+(SELECT MGR, ENAME, JOB FROM EMP) B
+WHERE A.EMPNO = B.MGR
+ORDER BY A.EMPNO;
+
+SELECT * FROM
+(SELECT EMPNO, ENAME, JOB FROM EMP) A
+INNER JOIN
+(SELECT MGR, ENAME, JOB FROM EMP) B
+ON A.EMPNO = B.MGR
+ORDER BY A.EMPNO;
