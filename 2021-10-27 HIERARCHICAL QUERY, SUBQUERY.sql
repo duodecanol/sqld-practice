@@ -64,10 +64,10 @@ CONNECT BY PRIOR EMPNO = MGR;
 
 /*******************************
     SUBQUERY      p.186
-    
-    Inline view - FROM
-    Scala Subquery - SELECT
-    Subquery - WHERE
+---------------------------------    
+        - Inline view    - FROM
+        - Scala Subquery - SELECT
+        - Subquery       - WHERE
 ********************************/
 SELECT * FROM EMP
     WHERE DEPTNO = (
@@ -85,5 +85,123 @@ SELECT *
     FROM (SELECT ROWNUM NUM, ENAME FROM EMP) A   -- ILINE VIEW IN FROM CLAUSE
     WHERE NUM < 5;
     
-   
     
+--////////////////////// 스캇이 근무하는 부서명을 가져와. //////////////////////////////
+SELECT DEPTNO FROM EMP WHERE ENAME = 'SCOTT'; -- FETCH SCOTT'S INFO
+SELECT DNAME FROM DEPT 
+    WHERE DEPTNO = (
+        SELECT DEPTNO FROM EMP WHERE ENAME = 'SCOTT'  -- WHERE CLAUSE 의 SUBQUERY로 가져옴.
+    );
+    
+SELECT DNAME, ENAME FROM EMP NATURAL JOIN DEPT WHERE ENAME = 'SCOTT'; -- APPROACH USING JOIN
+
+
+
+/*******************************
+    Scala Subquery      p.134
+        - The query must return one row and one col.
+        - Use in project operation
+********************************/
+
+SELECT DEPTNO, (SELECT SUM(SAL) FROM EMP) -- SCALAR SUBQUERY <-- [ SELECT ]
+FROM EMP;
+
+SELECT DEPTNO, SUM(SAL)
+FROM EMP
+GROUP BY DEPTNO;
+
+SELECT DEPTNO, SUM(SAL)
+FROM EMP
+GROUP BY (SELECT DEPTNO FROM EMP); ---!!!!!! GROUP BY 에는 SUBQUERY 사용 불가 !!!!!!!!!!!!
+
+
+SELECT *
+FROM (SELECT ROWNUM, EMPNO, ENAME, DEPTNO FROM EMP ORDER BY DEPTNO); -- INLINE VIEW <--- [ FROM ] 
+-- ㅠㅠㅠ ORDER BY와 ROWNUM을 같이 하고 싶다!
+
+-- ////////////  방법 1.
+SELECT ROWNUM, A.*
+FROM (SELECT EMPNO, ENAME, DEPTNO FROM EMP ORDER BY DEPTNO) A;
+
+-- ////////////  방법 2.
+SELECT ROW_NUMBER() OVER (ORDER BY DEPTNO) RNUM, EMPNO, ENAME, DEPTNO
+FROM EMP
+ORDER BY DEPTNO;
+
+SELECT ROW_NUMBER() OVER (ORDER BY EMPNO) RNUM, 
+    EMPNO, ENAME, DEPTNO -- ROW_NUMBER 함수는 ROW 정렬과 데이터정렬을 달리 할 수 있다.
+FROM EMP
+ORDER BY DEPTNO;  -- https://gent.tistory.com/170
+
+SELECT ROW_NUMBER() OVER (PARTITION BY JOB ORDER BY JOB, DEPTNO) RNUM, 
+    JOB, EMPNO, ENAME, DEPTNO
+FROM EMP NATURAL JOIN DEPT
+ORDER BY JOB, DEPTNO;
+
+SELECT ROW_NUMBER() OVER (PARTITION BY MGR ORDER BY MGR) RNUM, 
+    JOB, EMPNO, ENAME, DEPTNO, MGR
+FROM EMP NATURAL JOIN DEPT
+ORDER BY MGR, EMPNO;
+
+-- ////////////////  실험. ORDER BY 문에도 SUBQUERY가 가능한가?
+-- ////////////////  가능하다. 다만 정렬이 이상해진다? 랜덤?
+
+SELECT * FROM EMP;
+
+SELECT * FROM EMP
+ORDER BY (SELECT EMPNO FROM EMP WHERE ENAME='SCOTT'); -- 스칼라 값  77881
+
+-- ////////////////  -- ////////////////  -- ////////////////  -- ////////////////  
+-- FORD와 같은 부서에 근무하는 사원들의 사번, 이름, 급여 , 부서번호를 FETCH.
+-- SUBQUERY MUST BE USED.
+SELECT EMPNO, ENAME, SAL, DEPTNO
+FROM EMP
+WHERE DEPTNO = (SELECT DEPTNO FROM EMP WHERE ENAME = 'FORD');
+
+-- ALLEN과 같은 직속상관을 가진 사원들의 사번, 이름, 직속상관번호 
+SELECT EMPNO, ENAME, MGR
+FROM EMP
+WHERE MGR = (SELECT MGR FROM EMP WHERE ENAME = 'ALLEN');
+
+-- 시카고 지역에서 근무하는 사원들중 블레이크가 직속상관인 사원들 -=> 사번, 이름, 직무
+SELECT EMPNO, ENAME, JOB, 
+    (SELECT ENAME FROM EMP WHERE EMPNO = A.MGR) AS SUPERVISOR, 
+    B.LOC
+FROM EMP A JOIN DEPT B ON (A.DEPTNO = B.DEPTNO)
+WHERE 
+    LOC = 'CHICAGO'
+    AND MGR = (SELECT EMPNO FROM EMP WHERE ENAME = 'BLAKE')
+ORDER BY EMPNO    ;
+
+-- 두 쿼리의 차이는 무엇인가?
+select sal, (select avg(sal) from emp) from emp;
+
+select sal, avg(sal) from emp;
+
+select sal, (select avg(sal) from emp where 1=0) from emp;
+select sal, (select avg(sal) from emp where 1=1) from emp;
+
+-- 급여가 전 직원 평균급여보다 높은 사원 <- 사번, 이름, 급여
+SELECT EMPNO, ENAME, SAL FROM EMP WHERE SAL > (SELECT AVG(SAL) FROM EMP);
+
+-- 가상의 테이블을 설정하여 사원정보 테이블의 4번째 사원이름 조회
+SELECT
+    * 
+FROM (
+    SELECT ROW_NUMBER() OVER(ORDER BY ENAME) R, ENAME FROM EMP ORDER BY ENAME
+    )
+WHERE R = 4;
+
+--https://docs.oracle.com/database/121/DWHSG/analysis.htm#DWHSG9191
+SELECT ROW_NUMBER() OVER(ORDER BY ENAME) R, ENAME FROM EMP 
+ORDER BY ENAME
+FETCH FIRST 5 ROWS ONLY;
+OFFSET 2 ROWS FETCH FIRST 5 ROWS ONLY;
+
+-- 사원의 편균 급여에서 급여가 가까운 순서대로 오름차순으로 정렬하여 사원의 이름 급여 전사원평균급여, 급여차이값
+SELECT 
+    ABS((SELECT ROUND(AVG(SAL), 3) FROM EMP) - E.SAL) DIST_FROM_AVG_SAL, 
+    (SELECT ROUND(AVG(SAL), 3) FROM EMP) AVG_SAL, 
+    E.SAL, E.ENAME    
+FROM EMP E
+ORDER BY DIST_FROM_AVG_SAL;
