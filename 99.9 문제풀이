@@ -1,0 +1,3 @@
+SELECT * FROM dept;
+
+SELECT * FROM dept  A LEFT OUTER JOIN dept B ON (a.deptno = b.deptno AND b.deptno BETWEEN 10 AND 30);
