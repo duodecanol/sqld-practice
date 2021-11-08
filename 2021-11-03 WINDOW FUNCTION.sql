@@ -235,3 +235,32 @@ SELECT
 	EMPNO, ENAME, SAL,
 	SUM(SAL) OVER(ORDER BY SAL ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS SAL_ACC
 FROM EMP;
+
+/*******************************
+    비율 관련 함수 p.204
+    
+               CUME_DIST           : 파티션 전체 건수에서 현재 행보다 작거나 같은 건수에 대한 누적 백분율을 조회한다.
+               PERCENT_RANK        : 파티션에서 제일 먼저 나온 것을 0으로, 제일 늦게 나온 것을 1로 하여 값이 아닌 행의 순서별 백분율을 조회한다.
+               NTILE               : 파티션별로 전체 건수를 ARGUMENT 값으로 N 등분한 결과를 조회한다.
+               RATIO_TO_REPORT     : 파티션 내에 전체 SUM(칼럼)에 대한 행 별 칼럼값의 백분율을 소수점까지 조회한다.
+********************************/
+
+-- JOB 이 MANAGER인 사원들을 대상으로 전체 급여에서 본인이 차지하는 비율 출력
+SELECT 
+    ENAME, JOB,
+    ROUND(RATIO_TO_REPORT(SAL) OVER (PARTITION BY JOB), 3) * 100 || '%' RATIO
+FROM EMP
+WHERE JOB = 'MANAGER';
+
+-- 같은 부서 소속사원들의 집합에서 
+-- 본인의 급여가 순서상으로 상위 몇% 위치인지 소수점비율로 출력
+SELECT
+    EMPNO, ENAME, SAL, DEPTNO,
+    ROUND(PERCENT_RANK() OVER (PARTITION BY DEPTNO ORDER BY SAL ASC), 5) * 100 || '%' PERCENT_RANK
+FROM EMP
+;
+
+-- 전체 사원을 급여 내림차순으로 정렬하고 급여를 기준으로 4개의 그룹으로 분류.
+SELECT EMPNO, ENAME, SAL, DEPTNO,
+    NTILE(4) OVER (ORDER BY SAL DESC) -- 14명을 4개 그룹으로 급여를 기준으로 분류한다. \\ 나누어 떨어지는 12로 3명씩 그룹짓고, 나머지 2를 상위 그룹에 분배한다.  4/4/3/3    
+FROM EMP;
