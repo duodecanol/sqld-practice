@@ -12,13 +12,13 @@ SELECT [ WINDOW_FUNCTION ] ( [ args ] )
 ***************************************************************/
 
 SELECT ENAME, JOB, 
-    RANK() OVER(ORDER BY SAL DESC) SAL_RANK-- ±Þ¿© ¼øÀ§¸¦ ³»¸²Â÷¼øÀ¸·Î 
+    RANK() OVER(ORDER BY SAL DESC) SAL_RANK-- ê¸‰ì—¬ ìˆœìœ„ë¥¼ ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ 
 FROM EMP;
 
 SELECT
     ENAME, JOB,
     RANK() OVER (PARTITION BY JOB ORDER BY SAL DESC) SAL_RANK_BY_JOB,
-    DEPTNO        -- ±Þ¿© ¼øÀ§¸¦ Á÷¾÷º°·Î
+    DEPTNO        -- ê¸‰ì—¬ ìˆœìœ„ë¥¼ ì§ì—…ë³„ë¡œ
 FROM EMP C;
 
 /*******************************
@@ -27,51 +27,51 @@ FROM EMP C;
     WINDOW_FUNCTION.ROW_NUMBER()
 ********************************/
 SELECT ENAME, JOB, 
-    RANK() OVER(ORDER BY SAL DESC) SAL_RANK-- µ¿ÀÏ°ªÀº µ¿¼øÀ§ Ã³¸®ÇÏ°í ´ÙÀ½¼øÀ§°¡ ¹Ð¸°´Ù.
+    RANK() OVER(ORDER BY SAL DESC) SAL_RANK-- ë™ì¼ê°’ì€ ë™ìˆœìœ„ ì²˜ë¦¬í•˜ê³  ë‹¤ìŒìˆœìœ„ê°€ ë°€ë¦°ë‹¤.
 FROM EMP;
 -------------------------------------------------------
 SELECT ENAME, JOB, 
-    DENSE_RANK() OVER(ORDER BY SAL DESC) SAL_RANK-- µ¿ÀÏ°ªÀº µ¿¼øÀ§Ã³¸®ÇÏ°í ¿¬¼Ó¹øÈ£ ºÎ¿©ÇÑ´Ù.
+    DENSE_RANK() OVER(ORDER BY SAL DESC) SAL_RANK-- ë™ì¼ê°’ì€ ë™ìˆœìœ„ì²˜ë¦¬í•˜ê³  ì—°ì†ë²ˆí˜¸ ë¶€ì—¬í•œë‹¤.
 FROM EMP;
 -------------------------------------------------------
 SELECT ENAME, JOB, 
-    ROW_NUMBER() OVER(ORDER BY SAL DESC) SAL_RANK-- ¼ø¼­´ë·Î Çà¹øÈ£¸¦ ºÎ¿©ÇÑ´Ù.
+    ROW_NUMBER() OVER(ORDER BY SAL DESC) SAL_RANK-- ìˆœì„œëŒ€ë¡œ í–‰ë²ˆí˜¸ë¥¼ ë¶€ì—¬í•œë‹¤.
 FROM EMP;
 -------------------------------------------------------
 
 SELECT * FROM EMP;
--- »ç¹ø, ÀÌ¸§, ±Þ¿©, ±Þ¿© ÇÕ
+-- ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ í•©
 SELECT ENAME, SAL, (SELECT SUM(SAL) FROM EMP) SAL_SUM
 FROM EMP;
--- À§ Äõ¸®¿Í ¿ÏÀüÈ÷ µ¿ÀÏÇÑ °á°ú.   // USING SUBQUERY
+-- ìœ„ ì¿¼ë¦¬ì™€ ì™„ì „ížˆ ë™ì¼í•œ ê²°ê³¼.   // USING SUBQUERY
 SELECT ENAME, SAL, SUM(SAL) OVER ()
 FROM EMP;
 -------------------------------------------------------
--- »ç¹ø, ÀÌ¸§, ±Þ¿©, ±Þ¿© ÇÕ BY DEPT
+-- ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ í•© BY DEPT
 SELECT ENAME, SAL, SUM(SAL) OVER (PARTITION BY DEPTNO) SUM_SAL_BY_DEPT
 FROM EMP;
--- À§ Äõ¸®¿Í ¿ÏÀüÈ÷ µ¿ÀÏÇÑ °á°ú.   // USING SUBQUERY
+-- ìœ„ ì¿¼ë¦¬ì™€ ì™„ì „ížˆ ë™ì¼í•œ ê²°ê³¼.   // USING SUBQUERY
 SELECT A.ENAME, A.SAL, 
     (SELECT SUM(B.SAL) FROM EMP B 
         GROUP BY B.DEPTNO HAVING B.DEPTNO=A.DEPTNO) SUM_SAL_BY_DEPT
 FROM EMP A
 ORDER BY A.DEPTNO;
 -------------------------------------------------------
--- ÀÌ»óÇÑ °á°ú????
-SELECT ENAME, SAL, SUM(SAL) OVER (PARTITION BY JOB) SUM_SAL_BY_JOB  -- PARTITIONÇÏ¸é Á¤·Äµµ µÊ³ª?
-FROM EMP  -- ORDER BY ¹®ÀÌ °¡Àå ¸¶Áö¸·¿¡ ½ÇÇàµÇ±â ¶§¹®¿¡
-ORDER BY SAL;  --±â²¯ ÇØ³õÀº PARTITION¿¡¼­ ±×·ìº° Á¤·ÄÇØ³õÀº°ÍÀ» ´Ù½Ã ÀüÃ¼Á¤·ÄÇÑ´Ù.
--- »ç¹ø, ÀÌ¸§, ±Þ¿©, ±Þ¿© ÇÕ BY JOB
-SELECT ENAME, SAL, SUM(SAL) OVER (PARTITION BY JOB) SUM_SAL_BY_JOB  -- PARTITIONÇÏ¸é Á¤·Äµµ µÊ³ª?
+-- ì´ìƒí•œ ê²°ê³¼????
+SELECT ENAME, SAL, SUM(SAL) OVER (PARTITION BY JOB) SUM_SAL_BY_JOB  -- PARTITIONí•˜ë©´ ì •ë ¬ë„ ë¨ë‚˜?
+FROM EMP  -- ORDER BY ë¬¸ì´ ê°€ìž¥ ë§ˆì§€ë§‰ì— ì‹¤í–‰ë˜ê¸° ë•Œë¬¸ì—
+ORDER BY SAL;  --ê¸°ê» í•´ë†“ì€ PARTITIONì—ì„œ ê·¸ë£¹ë³„ ì •ë ¬í•´ë†“ì€ê²ƒì„ ë‹¤ì‹œ ì „ì²´ì •ë ¬í•œë‹¤.
+-- ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ í•© BY JOB
+SELECT ENAME, SAL, SUM(SAL) OVER (PARTITION BY JOB) SUM_SAL_BY_JOB  -- PARTITIONí•˜ë©´ ì •ë ¬ë„ ë¨ë‚˜?
 FROM EMP;
--- À§ Äõ¸®¿Í ¿ÏÀüÈ÷ µ¿ÀÏÇÑ °á°ú.  // USING SUBQUERY
+-- ìœ„ ì¿¼ë¦¬ì™€ ì™„ì „ížˆ ë™ì¼í•œ ê²°ê³¼.  // USING SUBQUERY
 SELECT A.ENAME, A.SAL, 
     (SELECT SUM(B.SAL) FROM EMP B 
         GROUP BY B.JOB HAVING B.JOB=A.JOB) SUM_SAL_BY_JOB
 FROM EMP A
 ORDER BY A.JOB;
 
---ºÎ¼­º° Á÷¿øµéÀÇ ¿¬ºÀÀÌ ³ôÀº ¼ø¼­·Î Á¤·Ä ÈÄ, ºÎ¼­º° ÃÖÃÊ·Î ³ª¿À´Â »ç¿øÀÇ ÀÌ¸§ Ãâ·Â
+--ë¶€ì„œë³„ ì§ì›ë“¤ì˜ ì—°ë´‰ì´ ë†’ì€ ìˆœì„œë¡œ ì •ë ¬ í›„, ë¶€ì„œë³„ ìµœì´ˆë¡œ ë‚˜ì˜¤ëŠ” ì‚¬ì›ì˜ ì´ë¦„ ì¶œë ¥
 SELECT 
 	ENAME, SAL, DEPTNO,
 	MIN(ENAME) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC
@@ -81,7 +81,7 @@ FROM EMP;
 SELECT 
 	ENAME, SAL, DEPTNO,
 	FIRST_VALUE(ENAME) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC) AS FIRST
-	-- PARTITION ³»¿¡¼­ ÃÖÃÊ ÇàÀ» °¡Á®¿À´Â FIRST_VALUE()
+	-- PARTITION ë‚´ì—ì„œ ìµœì´ˆ í–‰ì„ ê°€ì ¸ì˜¤ëŠ” FIRST_VALUE()
 FROM EMP;
 
 SELECT 
@@ -89,15 +89,15 @@ SELECT
 	FIRST_VALUE(ENAME) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC) AS FIRST
 FROM EMP NATURAL JOIN DEPT;
 
---ºÎ¼­º° Á÷¿øµéÀÇ ¿¬ºÀÀÌ ³ôÀº ¼ø¼­·Î Á¤·Ä ÈÄ, ºÎ¼­º° ¸¶Áö¸·À¸·Î ³ª¿À´Â »ç¿øÀÇ ÀÌ¸§ Ãâ·Â
+--ë¶€ì„œë³„ ì§ì›ë“¤ì˜ ì—°ë´‰ì´ ë†’ì€ ìˆœì„œë¡œ ì •ë ¬ í›„, ë¶€ì„œë³„ ë§ˆì§€ë§‰ìœ¼ë¡œ ë‚˜ì˜¤ëŠ” ì‚¬ì›ì˜ ì´ë¦„ ì¶œë ¥
 SELECT 
 	ENAME, SAL, DEPTNO,
 	LAST_VALUE(ENAME) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC
 	ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS LAST
 FROM EMP;
 
--- Á÷¿øµéÀÇ ¹øÈ£ Á¤·Ä
--- ÇØ´ç Á÷¿øÀÇ ±Þ¿©¿Í ÀÌÀü¹øÈ£Áö±¸¾ð ±Þ¿©
+-- ì§ì›ë“¤ì˜ ë²ˆí˜¸ ì •ë ¬
+-- í•´ë‹¹ ì§ì›ì˜ ê¸‰ì—¬ì™€ ì´ì „ë²ˆí˜¸ì§€êµ¬ì–¸ ê¸‰ì—¬
 SELECT
 	EMPNO, ENAME, SAL,
 	LAG(TO_CHAR(SAL, '0,000') || '  - ' || EMPNO) OVER (ORDER BY EMPNO ASC) AS PRECEEDING_SAL_EMPNO
@@ -119,42 +119,42 @@ SELECT [ WINDOW_FUNCTION ] ( [ args ] )
               [ WINDOWING_CLAUSE ]
               )
 WINDOWING_CLAUSE
-	CURRENT ROW :  ÇöÀç Çà
-	[n] PRECEDING : ÀÌÀüÀÇ n Çà
-	[n] FOLLOWING : ´ÙÀ½ÀÇ n Çà
-	[UNBOUNDED] PRECEDING : À©µµ¿ì ÆÄÆ¼¼ÇÀÇ 1¹ø Çà => n = min(n)
-	[UNBOUNDED] FOLLOWING : À©µµ¿ì ÆÄÆ¼¼ÇÀÇ ¸¶Áö¸· Çà => n = max(n)
+	CURRENT ROW :  í˜„ìž¬ í–‰
+	[n] PRECEDING : ì´ì „ì˜ n í–‰
+	[n] FOLLOWING : ë‹¤ìŒì˜ n í–‰
+	[UNBOUNDED] PRECEDING : ìœˆë„ìš° íŒŒí‹°ì…˜ì˜ 1ë²ˆ í–‰ => n = min(n)
+	[UNBOUNDED] FOLLOWING : ìœˆë„ìš° íŒŒí‹°ì…˜ì˜ ë§ˆì§€ë§‰ í–‰ => n = max(n)
 	
 	ROWS BETWEEN  [] AND []
 	
--- EMP Å×ÀÌºí¿¡¼­ Á÷¹«, ÀÌ¸§, ±Þ¿©, ±Þ¿©´©°è¸¦ °¡Á®¿Â´Ù.
--- ÆÄÆ¼¼ÇÀ» Á÷¹«¿¡ µû¶ó ¼³Á¤, À©µµ¿ìÀý »ç¿ë
+-- EMP í…Œì´ë¸”ì—ì„œ ì§ë¬´, ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ëˆ„ê³„ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
+-- íŒŒí‹°ì…˜ì„ ì§ë¬´ì— ë”°ë¼ ì„¤ì •, ìœˆë„ìš°ì ˆ ì‚¬ìš©
 SELECT
 	JOB, ENAME, SAL, 
 	SUM(SAL) OVER (PARTITION BY JOB ORDER BY SAL
 		ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS SAL_ACCU_BY_JOB
 FROM EMP;
 
--- Á÷¹«, ÀÌ¸§, ±Þ¿©, ±Þ¿©´©°è[ÀüÃ¼¿¡ ´ëÇØ 1Çà¾¿ ´©°è]
+-- ì§ë¬´, ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ëˆ„ê³„[ì „ì²´ì— ëŒ€í•´ 1í–‰ì”© ëˆ„ê³„]
 SELECT
 	JOB, ENAME, SAL, 
 	SUM(SAL) OVER (ORDER BY SAL
 		ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS SAL_ACCU
 FROM EMP;
-SELECT --À§¿Í °°Àº °á°ú
+SELECT --ìœ„ì™€ ê°™ì€ ê²°ê³¼
 	JOB, ENAME, SAL, 
 	SUM(SAL) OVER (ORDER BY SAL
 		ROWS UNBOUNDED PRECEDING) AS SAL_ACCU
 FROM EMP;
 
--- EMP Å×ÀÌºí¿¡¼­ Á÷¹«, ÀÌ¸§, ±Þ¿©, ±Þ¿©´©°è¸¦ °¡Á®¿Â´Ù.
--- Á÷Àü 1Çà°ú ÇöÀçÇàÀÇ ÇÕÀ» Ãâ·Â
+-- EMP í…Œì´ë¸”ì—ì„œ ì§ë¬´, ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ëˆ„ê³„ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
+-- ì§ì „ 1í–‰ê³¼ í˜„ìž¬í–‰ì˜ í•©ì„ ì¶œë ¥
 SELECT
 	JOB, ENAME, SAL, 
 	SUM(SAL) OVER (ORDER BY SAL
 		ROWS 1 PRECEDING) AS SAL_CUS -- ROWS BETWEEN 1 PRECEDING AND CURRENT ROW
 FROM EMP;
--- ÇöÀçÇà°ú ´ÙÀ½ 1ÇàÀÇ ÇÕÀ» Ãâ·Â
+-- í˜„ìž¬í–‰ê³¼ ë‹¤ìŒ 1í–‰ì˜ í•©ì„ ì¶œë ¥
 SELECT
 	JOB, ENAME, SAL, 
 	SUM(SAL) OVER (ORDER BY SAL
@@ -163,18 +163,18 @@ FROM EMP;
 
 
 -----------------------------------------------------------------------
--- RANGE ¿Í ROWS Å°¿öµå´Â ¾î¶»°Ô ´Ù¸¥°¡?
+-- RANGE ì™€ ROWS í‚¤ì›Œë“œëŠ” ì–´ë–»ê²Œ ë‹¤ë¥¸ê°€?
 SELECT
 	JOB, ENAME, SAL, 
 	SUM(SAL) OVER (ORDER BY SAL
-		ROWS 1 PRECEDING) AS SAL_CUS -- ROWS´Â ¹°¸®ÀûÀÎ ÇàÀÇ °³¼ö¸¦ ´ë»óÀ¸·Î ÇÏ´Â ¹Ý¸é
+		ROWS 1 PRECEDING) AS SAL_CUS -- ROWSëŠ” ë¬¼ë¦¬ì ì¸ í–‰ì˜ ê°œìˆ˜ë¥¼ ëŒ€ìƒìœ¼ë¡œ í•˜ëŠ” ë°˜ë©´
 FROM EMP;
 
 SELECT
 	JOB, ENAME, SAL, 
 	SUM(SAL) OVER (ORDER BY SAL
-		RANGE 200 PRECEDING) AS SAL_CUS  -- RANGE´Â °ªÀÇ ¹üÀ§¸¦ ÁöÁ¤ÇÑ°ÍÀÌ´Ù. ¹°¸®ÀûÀ¸·Î ¾ÕÀÎÁö µÚÀÎÁö´Â Áß¿äÄ¡¾Ê°í
-FROM EMP;                               -- ±×·¡ÇÁ¿¡¼­ CURRENT ROW °ªÀ» ±âÁØÀ¸·Î, ¼³Á¤ÇÑ XÃà ¹üÀ§ ³»¿¡ ÀÖ´Â °ªÀÌ µé¾îÀÕ´Â ÇàÀ» ´ë»óÀ¸·Î ÇÔ.
+		RANGE 200 PRECEDING) AS SAL_CUS  -- RANGEëŠ” ê°’ì˜ ë²”ìœ„ë¥¼ ì§€ì •í•œê²ƒì´ë‹¤. ë¬¼ë¦¬ì ìœ¼ë¡œ ì•žì¸ì§€ ë’¤ì¸ì§€ëŠ” ì¤‘ìš”ì¹˜ì•Šê³ 
+FROM EMP;                               -- ê·¸ëž˜í”„ì—ì„œ CURRENT ROW ê°’ì„ ê¸°ì¤€ìœ¼ë¡œ, ì„¤ì •í•œ Xì¶• ë²”ìœ„ ë‚´ì— ìžˆëŠ” ê°’ì´ ë“¤ì–´ìž‡ëŠ” í–‰ì„ ëŒ€ìƒìœ¼ë¡œ í•¨.
 
 
 SELECT
@@ -183,15 +183,15 @@ SELECT
 		RANGE BETWEEN 200 PRECEDING AND 200 FOLLOWING) AS SAL_CUS
 FROM EMP;
 -----------------------------------------------------------------------
--- »ç¿ø¹øÈ£, ÀÌ¸§, ±Þ¿©, Áý°è´ë»ó±Þ¿©¸¦ 
---ÇöÀçÇàÆ÷ÇÔÇØ¼­ Á÷Àü 2ÇàÀ¸·Î ÃÑ 3ÇàÀ¸·Î ¼³Á¤ÇÑ ÀÌµ¿Æò±ÕÀ» Ãâ·ÂÇÑ´Ù.
---»ç¿ø¹øÈ£¸¦ ±âÁØÀ¸·Î ¿À¸§Â÷¼ø Á¤·Ä
+-- ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê¸‰ì—¬, ì§‘ê³„ëŒ€ìƒê¸‰ì—¬ë¥¼ 
+--í˜„ìž¬í–‰í¬í•¨í•´ì„œ ì§ì „ 2í–‰ìœ¼ë¡œ ì´ 3í–‰ìœ¼ë¡œ ì„¤ì •í•œ ì´ë™í‰ê· ì„ ì¶œë ¥í•œë‹¤.
+--ì‚¬ì›ë²ˆí˜¸ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
 SELECT
 	EMPNO, ENAME, SAL,
 	ROUND(AVG(SAL) OVER (ORDER BY EMPNO ASC
 			ROWS BETWEEN 2 PRECEDING AND CURRENT ROW), 3) AS MA	
 FROM EMP;
--- ÇöÀçÇ×ÇÏ°í Á÷ÈÄ 2ÇàÀ¸·Î ÃÑ 3Çà ÀÌµ¿Æò±Õ
+-- í˜„ìž¬í•­í•˜ê³  ì§í›„ 2í–‰ìœ¼ë¡œ ì´ 3í–‰ ì´ë™í‰ê· 
 SELECT
 	EMPNO, ENAME, SAL,
 	ROUND(AVG(SAL) OVER (ORDER BY EMPNO ASC
@@ -199,7 +199,7 @@ SELECT
 FROM EMP;
 
 -----------------------------------------------------------------------
---»ç¿øµéÀÇ ±Þ¿©±âÁØÀ¸·Î Á¤·ÄÇÏ°í, º»ÀÎ ±Þ¿©º¸´Ù 50~150¸¸Å­ Â÷ÀÌ³ª´Â »ç¿ø ¼ö¸¦ ±¸ÇÑ´Ù.
+--ì‚¬ì›ë“¤ì˜ ê¸‰ì—¬ê¸°ì¤€ìœ¼ë¡œ ì •ë ¬í•˜ê³ , ë³¸ì¸ ê¸‰ì—¬ë³´ë‹¤ 50~150ë§Œí¼ ì°¨ì´ë‚˜ëŠ” ì‚¬ì› ìˆ˜ë¥¼ êµ¬í•œë‹¤.
 SELECT
 	EMPNO, ENAME, SAL,
 	COUNT(ENAME) OVER (ORDER BY SAL RANGE BETWEEN 50 PRECEDING AND 150 FOLLOWING) AS AROUND_ME
@@ -211,7 +211,7 @@ SELECT
 FROM EMP;
 
 -----------------------------------------------------------------------
---»ç¿øµéÀÇ ±Þ¿©±âÁØÀ¸·Î Á¤·ÄÇÏ°í, º»ÀÎ ±Þ¿©º¸´Ù 50~150¸¸Å­ Â÷ÀÌ³ª´Â »ç¿ø ÀÌ¸§µéÀ» ±¸ÇÑ´Ù.
+--ì‚¬ì›ë“¤ì˜ ê¸‰ì—¬ê¸°ì¤€ìœ¼ë¡œ ì •ë ¬í•˜ê³ , ë³¸ì¸ ê¸‰ì—¬ë³´ë‹¤ 50~150ë§Œí¼ ì°¨ì´ë‚˜ëŠ” ì‚¬ì› ì´ë¦„ë“¤ì„ êµ¬í•œë‹¤.
 SELECT
 	EMPNO, ENAME, SAL,
 	(
@@ -230,37 +230,37 @@ SELECT
 FROM EMP;
 
 -----------------------------------------------------------------------
---»ç¿ø¹øÈ£, ÀÌ¸§, ±Þ¿©, ±Þ¿©±âÁØ¿À¸§Â÷¼øÀ¸·Î ¸Ç¾ÕÀÇ °ªºÎÅÍ ÇöÀçÇ×±îÁö ÃÑÇÕ
+--ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ê¸°ì¤€ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ ë§¨ì•žì˜ ê°’ë¶€í„° í˜„ìž¬í•­ê¹Œì§€ ì´í•©
 SELECT
 	EMPNO, ENAME, SAL,
 	SUM(SAL) OVER(ORDER BY SAL ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS SAL_ACC
 FROM EMP;
 
 /*******************************
-    ºñÀ² °ü·Ã WINDOW_FUNCTION p.204
+    ë¹„ìœ¨ ê´€ë ¨ WINDOW_FUNCTION p.204
     [ WINDOW_FUNCTION ] ( [args] ) OVER ( ... )
-               CUME_DIST           : ÆÄÆ¼¼Ç ÀüÃ¼ °Ç¼ö¿¡¼­ ÇöÀç Çàº¸´Ù ÀÛ°Å³ª °°Àº °Ç¼ö¿¡ ´ëÇÑ ´©Àû ¹éºÐÀ²À» Á¶È¸ÇÑ´Ù.
-               PERCENT_RANK        : ÆÄÆ¼¼Ç¿¡¼­ Á¦ÀÏ ¸ÕÀú ³ª¿Â °ÍÀ» 0À¸·Î, Á¦ÀÏ ´Ê°Ô ³ª¿Â °ÍÀ» 1·Î ÇÏ¿© °ªÀÌ ¾Æ´Ñ ÇàÀÇ ¼ø¼­º° ¹éºÐÀ²À» Á¶È¸ÇÑ´Ù.
-               NTILE               : ÆÄÆ¼¼Çº°·Î ÀüÃ¼ °Ç¼ö¸¦ ARGUMENT °ªÀ¸·Î N µîºÐÇÑ °á°ú¸¦ Á¶È¸ÇÑ´Ù.
-               RATIO_TO_REPORT     : ÆÄÆ¼¼Ç ³»¿¡ ÀüÃ¼ SUM(Ä®·³)¿¡ ´ëÇÑ Çà º° Ä®·³°ªÀÇ ¹éºÐÀ²À» ¼Ò¼öÁ¡±îÁö Á¶È¸ÇÑ´Ù.
+               CUME_DIST           : íŒŒí‹°ì…˜ ì „ì²´ ê±´ìˆ˜ì—ì„œ í˜„ìž¬ í–‰ë³´ë‹¤ ìž‘ê±°ë‚˜ ê°™ì€ ê±´ìˆ˜ì— ëŒ€í•œ ëˆ„ì  ë°±ë¶„ìœ¨ì„ ì¡°íšŒí•œë‹¤.
+               PERCENT_RANK        : íŒŒí‹°ì…˜ì—ì„œ ì œì¼ ë¨¼ì € ë‚˜ì˜¨ ê²ƒì„ 0ìœ¼ë¡œ, ì œì¼ ëŠ¦ê²Œ ë‚˜ì˜¨ ê²ƒì„ 1ë¡œ í•˜ì—¬ ê°’ì´ ì•„ë‹Œ í–‰ì˜ ìˆœì„œë³„ ë°±ë¶„ìœ¨ì„ ì¡°íšŒí•œë‹¤.
+               NTILE               : íŒŒí‹°ì…˜ë³„ë¡œ ì „ì²´ ê±´ìˆ˜ë¥¼ ARGUMENT ê°’ìœ¼ë¡œ N ë“±ë¶„í•œ ê²°ê³¼ë¥¼ ì¡°íšŒí•œë‹¤.
+               RATIO_TO_REPORT     : íŒŒí‹°ì…˜ ë‚´ì— ì „ì²´ SUM(ì¹¼ëŸ¼)ì— ëŒ€í•œ í–‰ ë³„ ì¹¼ëŸ¼ê°’ì˜ ë°±ë¶„ìœ¨ì„ ì†Œìˆ˜ì ê¹Œì§€ ì¡°íšŒí•œë‹¤.
 ********************************/
 
--- JOB ÀÌ MANAGERÀÎ »ç¿øµéÀ» ´ë»óÀ¸·Î ÀüÃ¼ ±Þ¿©¿¡¼­ º»ÀÎÀÌ Â÷ÁöÇÏ´Â ºñÀ² Ãâ·Â
+-- JOB ì´ MANAGERì¸ ì‚¬ì›ë“¤ì„ ëŒ€ìƒìœ¼ë¡œ ì „ì²´ ê¸‰ì—¬ì—ì„œ ë³¸ì¸ì´ ì°¨ì§€í•˜ëŠ” ë¹„ìœ¨ ì¶œë ¥
 SELECT 
     ENAME, JOB,
     ROUND(RATIO_TO_REPORT(SAL) OVER (PARTITION BY JOB), 3) * 100 || '%' RATIO
 FROM EMP
 WHERE JOB = 'MANAGER';
 
--- °°Àº ºÎ¼­ ¼Ò¼Ó»ç¿øµéÀÇ ÁýÇÕ¿¡¼­ 
--- º»ÀÎÀÇ ±Þ¿©°¡ ¼ø¼­»óÀ¸·Î »óÀ§ ¸î% À§Ä¡ÀÎÁö ¼Ò¼öÁ¡ºñÀ²·Î Ãâ·Â
+-- ê°™ì€ ë¶€ì„œ ì†Œì†ì‚¬ì›ë“¤ì˜ ì§‘í•©ì—ì„œ 
+-- ë³¸ì¸ì˜ ê¸‰ì—¬ê°€ ìˆœì„œìƒìœ¼ë¡œ ìƒìœ„ ëª‡% ìœ„ì¹˜ì¸ì§€ ì†Œìˆ˜ì ë¹„ìœ¨ë¡œ ì¶œë ¥
 SELECT
     EMPNO, ENAME, SAL, DEPTNO,
     ROUND(PERCENT_RANK() OVER (PARTITION BY DEPTNO ORDER BY SAL ASC), 5) * 100 || '%' PERCENT_RANK
 FROM EMP
 ;
 
--- ÀüÃ¼ »ç¿øÀ» ±Þ¿© ³»¸²Â÷¼øÀ¸·Î Á¤·ÄÇÏ°í ±Þ¿©¸¦ ±âÁØÀ¸·Î 4°³ÀÇ ±×·ìÀ¸·Î ºÐ·ù.
+-- ì „ì²´ ì‚¬ì›ì„ ê¸‰ì—¬ ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ ì •ë ¬í•˜ê³  ê¸‰ì—¬ë¥¼ ê¸°ì¤€ìœ¼ë¡œ 4ê°œì˜ ê·¸ë£¹ìœ¼ë¡œ ë¶„ë¥˜.
 SELECT EMPNO, ENAME, SAL, DEPTNO,
-    NTILE(4) OVER (ORDER BY SAL DESC) -- 14¸íÀ» 4°³ ±×·ìÀ¸·Î ±Þ¿©¸¦ ±âÁØÀ¸·Î ºÐ·ùÇÑ´Ù. \\ ³ª´©¾î ¶³¾îÁö´Â 12·Î 3¸í¾¿ ±×·ìÁþ°í, ³ª¸ÓÁö 2¸¦ »óÀ§ ±×·ì¿¡ ºÐ¹èÇÑ´Ù.  4/4/3/3    
+    NTILE(4) OVER (ORDER BY SAL DESC) -- 14ëª…ì„ 4ê°œ ê·¸ë£¹ìœ¼ë¡œ ê¸‰ì—¬ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë¶„ë¥˜í•œë‹¤. \\ ë‚˜ëˆ„ì–´ ë–¨ì–´ì§€ëŠ” 12ë¡œ 3ëª…ì”© ê·¸ë£¹ì§“ê³ , ë‚˜ë¨¸ì§€ 2ë¥¼ ìƒìœ„ ê·¸ë£¹ì— ë¶„ë°°í•œë‹¤.  4/4/3/3    
 FROM EMP;
