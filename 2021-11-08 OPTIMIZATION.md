@@ -5,6 +5,21 @@
 
 ## 2. Optimizer 종류
 
+### 옵티마이저의 실행 방법
+
+- 개발자가 SQL을 실행하면 parsing을 실행해서 SQL의 문법 검사 및 구문분석을 수행한다.
+- Once the syntax analyze done, execution plan is set based on:
+    -  규칙 기반, 또는
+    -  비용 기반
+-  [Default] 규칙 기반 || [통계 정보를 활용] 비용 기반
+-  실행 계획 수립이 완료되면 최종적으로 SQL을 실행하고 실행이 완료되면 데이터 Fetch
+
+### 옵티마이저 엔진
+
+- Rule-based Optimizer
+- Cost-based Optimizer
+
+
 ## 3. INDEX
 
 <font color="blue"> RDBMS의 검색 속도를 높이기 위해 사용하는 기술이다. </font>
