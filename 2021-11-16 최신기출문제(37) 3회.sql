@@ -97,9 +97,44 @@ SELECT DECODE(0, 1, 2, NULL) FROM DUAL;
 SELECT DECODE('A', 'B', 'C', NULL) FROM DUAL;
     IF A == B THEN C
     ELSE NULL
-    
+
+/*******************************
+    20. SAVEPOINT SV1;
+        SAVE POINT SV1;
+
+        
+EXEC SAVE POINT SP1;
+실행하면 Live SQL에서는 구문오류 발생합니다만, SQL developer에서는 정상작동합니다.
+이것은 MINUS , EXCEPT 중에 전자만 ORACLE 문법이지만 SQL developer에서는 둘 다 작동하는 것과 유사한 케이스같습니다.
+프로그램에서 문법을 약간 보정하는 듯합니다.
+
+********************************/
+CREATE TABLE TEST20(COL1 NUMBER(10));
+INSERT INTO TEST20 VALUES (1);
+INSERT INTO TEST20 VALUES (4);
 SAVEPOINT SV1;
-SAVE POINT SV1;
+UPDATE TEST20 SET COL1=8 WHERE COL1=2;
+SAVE POINT SV1; -- PL/SQ이나 SQLPLUS에서는 오류가 나지만 DEVELOPER에서는 작동
+DELETE TEST20 WHERE COL1 >= 2; -- 테이블에 2값이 없음
+ROLLBACK TO SV1; -- 어느쪽으로 가도 결과에는 영향을 미치지 않음
+INSERT INTO TEST20 VALUES (3);
+SELECT MAX(COL1) FROM TEST20;
+
+
+SELECT * FROM TEST20;
+
+CREATE TABLE TEST21(COL1 NUMBER(10));
+INSERT INTO TEST21 VALUES (1);
+INSERT INTO TEST21 VALUES (2); -- 4가 아니라 2로 변경
+SAVEPOINT SV1;
+UPDATE TEST21 SET COL1=8 WHERE COL1=2; -- 값이 2가 있기때문에 SP의 위치가 영향을 미침
+SAVEPOINT SV1;
+DELETE TEST21 WHERE COL1 >= 2;
+ROLLBACK TO SV1;
+INSERT INTO TEST21 VALUES (3);
+SELECT MAX(COL1) FROM TEST21;
+
+SELECT * FROM TEST21;
 
 /*******************************
     29. NOT IN NULL p.134
