@@ -158,22 +158,41 @@ SELECT * FROM TT_TEST29_2;
 
 SELECT COUNT(*) FROM TT_TEST29_1 A
 WHERE A.COL NOT IN (SELECT B.COL FROM TT_TEST29_2 B);
+-- 각 행마다 다음의 연산을 수행 (이해를 돕기 위한 PSEUDO QUERY)
+SELECT 1 WHERE 1 NOT IN (2, NULL)
+SELECT 2 WHERE 2 NOT IN (2, NULL)
+SELECT 3 WHERE 3 NOT IN (2, NULL)
+SELECT 4 WHERE 4 NOT IN (2, NULL)
+-- 2를 제외한 나머지가 반환될것으로 기대되나 하나도 SELECT 되지 않으며,
+-- COUNT(*)의 결과값은 0이 된다.
 
-SELECT * FROM TT_TEST29_1 A
-WHERE A.COL IN (SELECT COL FROM TT_TEST29_2);
+SELECT * FROM TT_TEST29_1 A -- IN 으로 조건을 바꿔서 테스트
+WHERE A.COL IN (SELECT COL FROM TT_TEST29_2); -- 2 하나만 반환됨
 
 SELECT 1 FROM DUAL WHERE 1 NOT IN (2, 3); -- 1은 2, 3중에 없으니 TRUE
 SELECT 1 FROM DUAL WHERE 1 NOT IN (2, NULL); -- NOT IN일때는 NULL을 제외하고서 TRUE이지만 결과는 FALSE
 SELECT 1 FROM DUAL WHERE 1 NOT IN (1, NULL); 
 SELECT 1 FROM DUAL WHERE 1 IN (2, 3);
 SELECT 1 FROM DUAL WHERE 1 IN (2, 1);
-SELECT 1 FROM DUAL WHERE 1 IN (1, NULL); -- IN일때는 NULL 무시하고 남은 값중에서 일치하면 TRUE
+SELECT 1 FROM DUAL WHERE 1 IN (1, 2, 3, NULL); -- IN일때는 NULL 무시하고 남은 값중에서 일치하면 TRUE
 
+-- IN 및 NOT IN의 분해 분석. 
+-- ORACLE SQL에는 Boolean이 없으나 편의상 TRUE/FALSE로 중간값 표현함.
+-- NOT IN의 경우에는 AND연산으로 연결되므로, 하나라도 FALSE면 FALSE이다.
+-- 인자가 NULL인지 아닌지를 판별하려면 반드시 `IS NULL | IS NOT NULL`을 사용해야 함.
+-- 엄밀하게는, 1 <> NULL 혹은 1 = NULL은 참도 거짓도 아니지만 편의상 거짓으로 기재.
+      WHERE 1 NOT IN (2, 3, NULL)
+      
+  =   WHERE 1 <> 2 AND 1 <> 3 AND 1 <> NULL
+  =   WHERE  TRUE  &&  TRUE  &&  FALSE
+  =   WHERE FALSE
+  
+-- IN의 경우에는 OR연산으로 연결되므로, 하나라도 TRUE이면 TRUE이다.
+      WHERE 1 IN (1, 3, NULL)
 
-1  - 2, N  => 1
-2  - 2, N
-3  - 2, N
-4  - 2, N
+  =   WHERE 1 = 1 OR 1 = 3 OR 1 = NULL
+  =   WHERE  TRUE || FALSE || FALSE
+  =   WHERE TRUE
 
 /*******************************
     40. ORDER BY 사용 불가 p.365
