@@ -1,0 +1,47 @@
+1. 2
+
+2. 200
+
+3. ROLLUP 
+
+4. 
+   - SELECT A.설비ID, B.에너지코드, SUM(B.사용량) AS 사용량합계
+     FROM 설비 A INNER JOIN 에너지사용량 B
+     ON (A.설비ID = B.설비ID)
+     GROUP BY CUBE (A.설비ID, B.에너지코드)
+     ORDER BY A.설비ID, B.에너지코드;
+
+   - SELECT A.설비ID, B.에너지코드, SUM(B.사용량) AS 사용량합계
+     FROM 설비 A INNER JOIN 에너지사용량 B
+     ON (A.설비ID = B.설비ID)
+     GROUP BY GROUPING SETS( (A.설비ID), (B.에너지코드),(A.설비ID, B.에너지코드), ())
+     ORDER BY A.설비ID, B.에너지코드;
+  
+5. 테이블과 같은 결과
+
+6. 3
+
+7. 2,3,6
+
+8. X
+
+9. 002, 003,  006
+
+10. 비용기반 옵티마이저, COST BASED OPTIMIZER, CBO
+
+11. 3, 4, 2
+  
+12. 3
+
+13. 2
+
+14. 2, 4
+
+15. 1, 2, 3
+
+16. 3
+
+17. 4
+ 
+18. 1
+

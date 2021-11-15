@@ -35,7 +35,7 @@ SELECT * FROM SQLD.TEST1;
     COMMIT       p.162
 ***************************************************************/
 
--- TEST TABLE ¸¸µé±â
+-- TEST TABLE ë§Œë“¤ê¸°
 CREATE TABLE TEST1 (
     DATA1 NUMBER(10) NOT NULL,
     DATA2 NUMBER(10) NOT NULL
@@ -48,16 +48,16 @@ INSERT INTO TEST1 VALUES (1011, 2201);
 SET AUTOCOMMIT ON;
 SET AUTOCOMMIT OFF;
 /*
---------- AUTOCOMMITÀ» ²¨³õ¾Æ¾ß ÇÕ´Ï´Ù -------------
-À§ ±¸¹®À» ½ÇÇàÇÑ µÚ¿¡ CLI - SQLPLUS¿¡¼­ °°Àº »ç¿ëÀÚ·Î Á¢¼ÓÇÑ ¼¼¼ÇÀ» ¶ç¿î´Ù.   
-¿©±â¼­ °°Àº »ç¿ëÀÚ¸íÀ¸·Î µÎ °³ÀÇ ¼¼¼Ç SQL DEVELOPER "A" AND  SQLPLUS "B" »ý¼ºµÈ´Ù.
-B¿¡¼­´Â TEST1À» Á¶È¸ÇØµµ "¼±ÅÃµÈ ·¹ÄÚµå°¡ ¾ø½À´Ï´Ù" ¶ó°í ³ª¿Â´Ù.
-¹Ý¸é A¿¡¼­´Â ÇÏ³ªÀÇ Æ©ÇÃÀÌ Á¶È¸µÈ´Ù.
-ÀÌÁ¦ A¿¡¼­ COMMITÀ» ¼öÇàÇÑ ´ÙÀ½ B¿¡¼­ ´Ù½Ã TEST1 Å×ÀÌºíÀ» Á¶È¸ÇÏ¸é ·¹ÄÚµå°¡ Á¶È¸µÈ´Ù.
+--------- AUTOCOMMITì„ êº¼ë†“ì•„ì•¼ í•©ë‹ˆë‹¤ -------------
+ìœ„ êµ¬ë¬¸ì„ ì‹¤í–‰í•œ ë’¤ì— CLI - SQLPLUSì—ì„œ ê°™ì€ ì‚¬ìš©ìžë¡œ ì ‘ì†í•œ ì„¸ì…˜ì„ ë„ìš´ë‹¤.   
+ì—¬ê¸°ì„œ ê°™ì€ ì‚¬ìš©ìžëª…ìœ¼ë¡œ ë‘ ê°œì˜ ì„¸ì…˜ SQL DEVELOPER "A" AND  SQLPLUS "B" ìƒì„±ëœë‹¤.
+Bì—ì„œëŠ” TEST1ì„ ì¡°íšŒí•´ë„ "ì„ íƒëœ ë ˆì½”ë“œê°€ ì—†ìŠµë‹ˆë‹¤" ë¼ê³  ë‚˜ì˜¨ë‹¤.
+ë°˜ë©´ Aì—ì„œëŠ” í•˜ë‚˜ì˜ íŠœí”Œì´ ì¡°íšŒëœë‹¤.
+ì´ì œ Aì—ì„œ COMMITì„ ìˆ˜í–‰í•œ ë‹¤ìŒ Bì—ì„œ ë‹¤ì‹œ TEST1 í…Œì´ë¸”ì„ ì¡°íšŒí•˜ë©´ ë ˆì½”ë“œê°€ ì¡°íšŒëœë‹¤.
 */
 COMMIT;
 
-CREATE TABLE TEST2 (         -- DDLÀÌ¶ó Áï½Ã ¸ðµç ¼¼¼Ç¿¡ ¹Ý¿µ
+CREATE TABLE TEST2 (         -- DDLì´ë¼ ì¦‰ì‹œ ëª¨ë“  ì„¸ì…˜ì— ë°˜ì˜
     DATA1 NUMBER(10) NOT NULL,
     DATA2 NUMBER(10) NOT NULL
 );
@@ -68,7 +68,7 @@ INSERT INTO TEST2 VALUES (1231, 9631);
 INSERT INTO TEST2 VALUES (1237896, 785242);
 
 COMMIT;
-TRUNCATE TABLE TEST2;  -- DDLÀÌ¶ó Áï½Ã ¸ðµç ¼¼¼Ç¿¡ ¹Ý¿µ
+TRUNCATE TABLE TEST2;  -- DDLì´ë¼ ì¦‰ì‹œ ëª¨ë“  ì„¸ì…˜ì— ë°˜ì˜
 
 
 /*******************************
@@ -92,7 +92,7 @@ COMMIT;
 
 SAVEPOINT T3;
 
-ROLLBACK TO T2; -- COMMIT ÀÌÈÄ¿¡ »ý±ä SAVEPOINT´Â ¹«È¿È­µÈ´Ù.
+ROLLBACK TO T2; -- COMMIT ì´ì „ì— ìƒê¸´ SAVEPOINTëŠ” ë¬´íš¨í™”ëœë‹¤.
 
 SAVEPOINT T1;
 UPDATE TEST1 SET DATA2=1 WHERE DATA1=101;

@@ -1,5 +1,6 @@
 /**************************************************************
     JOIN
+
     EQUI JOIN    p.171
 ***************************************************************/
 SELECT * FROM DEPT;
@@ -19,39 +20,39 @@ WHERE A.ENAME LIKE 'S%'
 ORDER BY A.ENAME;
 
 /*******************************
-    INTERSECT  ±³ÁýÇÕ
+    INTERSECT  êµì§‘í•©
 ********************************/
 SELECT DEPTNO FROM EMP
     INTERSECT
 SELECT DEPTNO FROM DEPT;
 
 /*******************************
-    EQUI JOIN, INNER JOIN °íÂû ¹× ¿¬½À¹®Á¦
+    EQUI JOIN, INNER JOIN ê³ ì°° ë° ì—°ìŠµë¬¸ì œ
 ********************************/
 
--- JOIN ¼¼°¡Áö ¹æ¹ý
+-- JOIN ì„¸ê°€ì§€ ë°©ë²•
 SELECT * FROM EMP, DEPT WHERE EMP.DEPTNO = DEPT.DEPTNO; -- EQUI-JOIN
-SELECT * FROM EMP JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO; -- INNER JOINÀÌÁö¸¸ INNER ¾È½áµµ µÈ´Ù. °á°ú´Â °°´Ù.
+SELECT * FROM EMP JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO; -- INNER JOINì´ì§€ë§Œ INNER ì•ˆì¨ë„ ëœë‹¤. ê²°ê³¼ëŠ” ê°™ë‹¤.
 SELECT * FROM EMP INNER JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO;
-SELECT * FROM EMP JOIN DEPT USING(DEPTNO); --  ÄÃ·³¸íÀÌ °°À» ¶§¸¸ »ç¿ë
+SELECT * FROM EMP JOIN DEPT USING(DEPTNO); --  ì»¬ëŸ¼ëª…ì´ ê°™ì„ ë•Œë§Œ ì‚¬ìš©
 
 
---»ç¿øÀÇ »ç¿ø¹øÈ£, ÀÌ¸§, ±Ù¹«ºÎ¼­¸¦ °¡Á®¿Â´Ù.
+--ì‚¬ì›ì˜ ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê·¼ë¬´ë¶€ì„œë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 SELECT A.EMPNO, A.ENAME, B.DNAME
-FROM EMP A LEFT OUTER JOIN DEPT B USING(DEPTNO); -- ¹®Á¦ ´äÀº LEFT OUTER JOINÀ¸·Î ÇÞ´Ù. ¿Ö³ÄÇÏ¸é ºÎ¼­°¡ ¾øÀ»¼öµµ ÀÖÀ¸´Ï±î.
+FROM EMP A LEFT OUTER JOIN DEPT B USING(DEPTNO); -- ë¬¸ì œ ë‹µì€ LEFT OUTER JOINìœ¼ë¡œ í–‡ë‹¤. ì™œëƒí•˜ë©´ ë¶€ì„œê°€ ì—†ì„ìˆ˜ë„ ìžˆìœ¼ë‹ˆê¹Œ.
 
 SELECT A.EMPNO, A.ENAME, B.DNAME
 FROM EMP A, DEPT B 
 WHERE A.DEPTNO = B.DEPTNO;
 
 SELECT A.EMPNO, A.ENAME, B.DNAME
-FROM EMP A JOIN DEPT B ON A.DEPTNO = B.DEPTNO; -- JOIN / INNER JOIN  °°´Ù.
+FROM EMP A JOIN DEPT B ON A.DEPTNO = B.DEPTNO; -- JOIN / INNER JOIN  ê°™ë‹¤.
 
 SELECT A.EMPNO, A.ENAME, B.DNAME
-FROM EMP A JOIN DEPT B USING(DEPTNO); -- ON, WHERE »ç¿ëÇÏ¸é DEPTNO ÄÃ·³ÀÌ 2°³°¡ µÇÁö¸¸ USINGÀ» »ç¿ëÇÏ¸é ÇÏ³ª¸¸ »ý¼ºµÇ¸ç ¸Ç ¾ÕÀ¸·Î ¿Â´Ù.
+FROM EMP A JOIN DEPT B USING(DEPTNO); -- ON, WHERE ì‚¬ìš©í•˜ë©´ DEPTNO ì»¬ëŸ¼ì´ 2ê°œê°€ ë˜ì§€ë§Œ USINGì„ ì‚¬ìš©í•˜ë©´ í•˜ë‚˜ë§Œ ìƒì„±ë˜ë©° ë§¨ ì•žìœ¼ë¡œ ì˜¨ë‹¤.
 
 
---½ÃÄ«°í¿¡ ±Ù¹«ÇÏ´Â »ç¿øµéÀÇ »ç¿ø¹øÈ£,ÀÌ¸§, Á÷¹«¸¦ FETCH
+--ì‹œì¹´ê³ ì— ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ë“¤ì˜ ì‚¬ì›ë²ˆí˜¸,ì´ë¦„, ì§ë¬´ë¥¼ FETCH
 SELECT A.EMPNO, A.ENAME, A.JOB, B.DNAME, B.LOC
 FROM EMP A INNER JOIN DEPT B USING(DEPTNO)
 WHERE B.LOC LIKE 'CHICAGO';
@@ -62,19 +63,19 @@ WHERE B.LOC LIKE 'CHICAGO';
 SELECT * FROM EMP;
 SELECT * FROM SALGRADE;
 
--- SALGRADE Å×ÀÌºíÀÇ ¿¬ºÀ ¹üÀ§º° µî±ÞÀ» »ç¿øµé¿¡°Ô Àû¿ë½ÃÄÑ¶ó.
+-- SALGRADE í…Œì´ë¸”ì˜ ì—°ë´‰ ë²”ìœ„ë³„ ë“±ê¸‰ì„ ì‚¬ì›ë“¤ì—ê²Œ ì ìš©ì‹œì¼œë¼.
 SELECT A.EMPNO, A.ENAME, A.HIREDATE, B.GRADE, A.SAL, B.LOSAL, B.HISAL
 FROM EMP A, SALGRADE B
 WHERE A.SAL BETWEEN B.LOSAL AND B.HISAL;
 
--- ±Þ¿©µî±ÞÀÌ 4µî±ÞÀÎ »ç¿øµéÀÇ »ç¿ø¹øÈ£, ÀÌ¸§, ±Þ¿©, ºÎ¼­ÀÌ¸§, ±Ù¹«Áö¿ª FETCH
-SELECT A.EMPNO, A.ENAME, A.SAL, C.DNAME, C.LOC, B.GRADE AS "µî±ÞÈ®ÀÎ"
+-- ê¸‰ì—¬ë“±ê¸‰ì´ 4ë“±ê¸‰ì¸ ì‚¬ì›ë“¤ì˜ ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œì´ë¦„, ê·¼ë¬´ì§€ì—­ FETCH
+SELECT A.EMPNO, A.ENAME, A.SAL, C.DNAME, C.LOC, B.GRADE AS "ë“±ê¸‰í™•ì¸"
 FROM EMP A, SALGRADE B, DEPT C
 WHERE A.SAL BETWEEN B.LOSAL AND B.HISAL
     AND A.DEPTNO = C.DEPTNO
     AND B.GRADE = 4;
 
--- °¢ ±Þ¿© µî±Þº°  // ±Þ¿© ÃÑÇÕ°ú Æò±Õ, »ç¿ø ¼ö, ÃÖ´ë ±Þ¿©, ÃÖ¼Ò ±Þ¿© FETCH
+-- ê° ê¸‰ì—¬ ë“±ê¸‰ë³„  // ê¸‰ì—¬ ì´í•©ê³¼ í‰ê· , ì‚¬ì› ìˆ˜, ìµœëŒ€ ê¸‰ì—¬, ìµœì†Œ ê¸‰ì—¬ FETCH
 SELECT B.GRADE, SUM(A.SAL), ROUND(AVG(SAL), 4), COUNT(EMPNO), MAX(A.SAL), MIN(A.SAL)
 FROM EMP A, SALGRADE B
 WHERE A.SAL BETWEEN B.LOSAL AND B.HISAL
@@ -82,7 +83,7 @@ GROUP BY B.GRADE
 ORDER BY B.GRADE;
 
 /*******************************
-    NAURAL JOIN  -- ±³Àç¿¡ ¾øÀ½
+    NAURAL JOIN  -- êµìž¬ì— ì—†ìŒ
 ********************************/
 SELECT *
 FROM EMP A, DEPT B 
@@ -91,34 +92,34 @@ WHERE A.DEPTNO = B.DEPTNO;
 SELECT *
 FROM EMP A INNER JOIN DEPT B 
 ON A.DEPTNO = B.DEPTNO;
---- µÎ Å×ÀÌºíÀÇ DEPTNO, DEPTNO_1 Ä®·³ÀÌ Áßº¹µÇ¾î ³ªÅ¸³ª¸ç Áß¾Ó¿¡¼­ ¸¸³­´Ù.
+--- ë‘ í…Œì´ë¸”ì˜ DEPTNO, DEPTNO_1 ì¹¼ëŸ¼ì´ ì¤‘ë³µë˜ì–´ ë‚˜íƒ€ë‚˜ë©° ì¤‘ì•™ì—ì„œ ë§Œë‚œë‹¤.
 
 SELECT *
 FROM EMP A INNER JOIN DEPT B USING (DEPTNO);
---- ÀÌ¸§ÀÌ °°Àº ¼Ó¼ºÀÎ DEPTNO°¡ Query ResultÀÇ 1¹ø Ä®·³ÀÌ µÈ´Ù.
+--- ì´ë¦„ì´ ê°™ì€ ì†ì„±ì¸ DEPTNOê°€ Query Resultì˜ 1ë²ˆ ì¹¼ëŸ¼ì´ ëœë‹¤.
 
 SELECT *
 FROM EMP A NATURAL JOIN DEPT B; -- NAT JOIN
--- NAT JOIN Àº ÄÃ·³ Á¶°Ç ¸í½Ã°¡ ¾ø¾î¾ßÇÑ´Ù. ÀÌ¸§ÀÌ °°Àº ÄÃ·³À» ÀÚµ¿À¸·Î Ã£´Â´Ù.
---- ???? µÎ Å×ÀÌºí¿¡ ÀÌ¸§ÀÌ °°Àº ¼Ó¼ºÀÌ ¾øÀ¸¸é ¾î¶»°Ô µÇ³ª?
---- ???? µÎ Å×ÀÌºí¿¡ ÀÌ¸§ÀÌ °°Àº ¼Ó¼ºÀÌ ¿©·¯ °³¸é ¾î¶»°Ô µÇ³ª?
+-- NAT JOIN ì€ ì»¬ëŸ¼ ì¡°ê±´ ëª…ì‹œê°€ ì—†ì–´ì•¼í•œë‹¤. ì´ë¦„ì´ ê°™ì€ ì»¬ëŸ¼ì„ ìžë™ìœ¼ë¡œ ì°¾ëŠ”ë‹¤.
+--- ???? ë‘ í…Œì´ë¸”ì— ì´ë¦„ì´ ê°™ì€ ì†ì„±ì´ ì—†ìœ¼ë©´ ì–´ë–»ê²Œ ë˜ë‚˜?
+--- ???? ë‘ í…Œì´ë¸”ì— ì´ë¦„ì´ ê°™ì€ ì†ì„±ì´ ì—¬ëŸ¬ ê°œë©´ ì–´ë–»ê²Œ ë˜ë‚˜?
 
 
 /*******************************
     OUTER JOIN
-        LEFT, RIGHT, FULL Áß ÇÏ³ª¸¦ ¼±ÅÃÇØ¾ßÇÑ´Ù.
+        LEFT, RIGHT, FULL ì¤‘ í•˜ë‚˜ë¥¼ ì„ íƒí•´ì•¼í•œë‹¤.
 ********************************/
 
--- OUTER_TEST_A, OUTER_TEST_B ¸¦ ÀÌ¿ëÇÑ °£´ÜÇÑ Å×½ºÆ®
+-- OUTER_TEST_A, OUTER_TEST_B ë¥¼ ì´ìš©í•œ ê°„ë‹¨í•œ í…ŒìŠ¤íŠ¸
 SELECT * FROM OUTER_TEST_A;
 SELECT * FROM OUTER_TEST_B;
 
--- µÎ ÁýÇÕÀÇ ±³ÁýÇÕ
+-- ë‘ ì§‘í•©ì˜ êµì§‘í•©
 SELECT * FROM OUTER_TEST_A  INTERSECT  SELECT * FROM OUTER_TEST_B;
 ------------------------------------------------------------------
 SELECT *
 FROM OUTER_TEST_A A OUTER JOIN OUTER_TEST_B B
-    ON A.X = B.X;  -- ¿À·ù°¡ ³­´Ù. INVALID IDENTIFIER
+    ON A.X = B.X;  -- ì˜¤ë¥˜ê°€ ë‚œë‹¤. INVALID IDENTIFIER
 ------------------------------------------------------------------
 SELECT *
 FROM OUTER_TEST_A A LEFT OUTER JOIN OUTER_TEST_B B -- LEFT OUTER
@@ -138,19 +139,19 @@ SELECT *
 FROM OUTER_TEST_A A FULL OUTER JOIN OUTER_TEST_B B -- FULL OUTER
     ON A.X = B.X;
 SELECT *
-FROM OUTER_TEST_A A, OUTER_TEST_B B -- FULL OUTER ±âÈ£´Â ºÒ°¡´É. ¾çÂÊ¿¡ ¾²¸é ¿À·ù.
+FROM OUTER_TEST_A A, OUTER_TEST_B B -- FULL OUTER ê¸°í˜¸ëŠ” ë¶ˆê°€ëŠ¥. ì–‘ìª½ì— ì“°ë©´ ì˜¤ë¥˜.
     WHERE A.X(+) = B.X(+);
 ------------------------------------------------------------------
--- CARTESIAN PRODUCT¿ÍÀÇ Â÷ÀÌÁ¡Àº?  ·¹ÄÚµå 4 * 5 = 20
+-- CARTESIAN PRODUCTì™€ì˜ ì°¨ì´ì ì€?  ë ˆì½”ë“œ 4 * 5 = 20
 SELECT * FROM OUTER_TEST_A  CROSS JOIN  OUTER_TEST_B;
 
 ------------------------------------------------------------------
--- ÀÌÇØ¸¦ ¹ÙÅÁÀ¸·Î ¿¹Á¦ ¿¬½À
+-- ì´í•´ë¥¼ ë°”íƒ•ìœ¼ë¡œ ì˜ˆì œ ì—°ìŠµ
 ------------------------------------------------------------------
 
--- ºÎ¼­°¡ ¾ø´Â »ç¿øµéÀÇ »ç¿ø ÀÌ¸§, »ç¿ø¹øÈ£, ºÎ¼­¹øÈ£, ºÎ¼­¸íÀ» Ãâ·Â
+-- ë¶€ì„œê°€ ì—†ëŠ” ì‚¬ì›ë“¤ì˜ ì‚¬ì› ì´ë¦„, ì‚¬ì›ë²ˆí˜¸, ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…ì„ ì¶œë ¥
 
--- ºÎ¼­°¡ ¾ø´Â »ç¿øÀº ¾ø´Ù.  »ç¿øÀÌ ¾ø´Â ºÎ¼­´Â ÀÖ´Ù.
+-- ë¶€ì„œê°€ ì—†ëŠ” ì‚¬ì›ì€ ì—†ë‹¤.  ì‚¬ì›ì´ ì—†ëŠ” ë¶€ì„œëŠ” ìžˆë‹¤.
 
 SELECT EMP.ENAME, EMP.DEPTNO, DEPT.DEPTNO, DEPT.DNAME
 FROM DEPT, EMP
@@ -169,7 +170,7 @@ FROM DEPT RIGHT OUTER JOIN EMP
     ON EMP.DEPTNO = DEPT.DEPTNO;    
 
 
--- °¢ »ç¿øÀÇ ÀÌ¸§, »ç¿ø¹øÈ£, Á÷Àå»ó»çÀÇ ÀÌ¸§À» °¡Á®¿À°í Á÷¼Ó»ó°üÀÌ ¾ø´Â »ç¿øµµ °¡Á®¿Â´Ù.
+-- ê° ì‚¬ì›ì˜ ì´ë¦„, ì‚¬ì›ë²ˆí˜¸, ì§ìž¥ìƒì‚¬ì˜ ì´ë¦„ì„ ê°€ì ¸ì˜¤ê³  ì§ì†ìƒê´€ì´ ì—†ëŠ” ì‚¬ì›ë„ ê°€ì ¸ì˜¨ë‹¤.
 SELECT * 
 FROM EMP A ;
 
@@ -187,25 +188,25 @@ SELECT * FROM EMP CROSS JOIN DEPT;
 ********************************/
 SELECT * FROM OUTER_TEST_A
     UNION 
-SELECT * FROM OUTER_TEST_B; -- UNION Á¤·Ä/Áßº¹Á¦°Å
+SELECT * FROM OUTER_TEST_B; -- UNION ì •ë ¬/ì¤‘ë³µì œê±°
 
 SELECT DEPTNO FROM EMP
     UNION
-SELECT DEPTNO FROM EMP; -- UNION Á¤·Ä/Áßº¹Á¦°Å
+SELECT DEPTNO FROM EMP; -- UNION ì •ë ¬/ì¤‘ë³µì œê±°
 
 SELECT * FROM OUTER_TEST_A
     UNION ALL
-SELECT * FROM OUTER_TEST_B; -- UNION ALL Á¤·Ä/Áßº¹Á¦°Å ¾ÈÇÔ 
+SELECT * FROM OUTER_TEST_B; -- UNION ALL ì •ë ¬/ì¤‘ë³µì œê±° ì•ˆí•¨ 
 
 SELECT DEPTNO FROM EMP
     UNION ALL
-SELECT DEPTNO FROM EMP; -- UNION ALL Á¤·Ä/Áßº¹Á¦°Å ¾ÈÇÔ 
+SELECT DEPTNO FROM EMP; -- UNION ALL ì •ë ¬/ì¤‘ë³µì œê±° ì•ˆí•¨ 
 
 /*******************************
-    MINUS Â÷ÁýÇÕ
+    MINUS ì°¨ì§‘í•©
 ********************************/
 SELECT DEPTNO FROM DEPT
-MINUS -- [[[[[[[[[[[[ MS SQLÀº EXCEPT ]]]]]]]]]]]]]]
+MINUS -- [[[[[[[[[[[[ MS SQLì€ EXCEPT ]]]]]]]]]]]]]]
 SELECT DEPTNO FROM EMP; 
 
 SELECT * FROM OUTER_TEST_A

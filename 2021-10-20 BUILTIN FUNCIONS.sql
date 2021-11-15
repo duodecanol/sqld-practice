@@ -1,6 +1,6 @@
 /*******************************
     BUILT IN FUNCTIONS p.148
-    ¹®ÀÚ¿­ ÇÔ¼ö
+    ë¬¸ìžì—´ í•¨ìˆ˜
 ********************************/
 
 SELECT 
@@ -19,7 +19,7 @@ SELECT LENGTH('AAAAAAAAAAA AAAAAAAAAAAA ') FROM DUAL;
 SELECT SUBSTR('ABCDEFG', 3, 2) FROM DUAL;
 SELECT SUBSTR('123456', 3, 2) FROM DUAL; -- 1-based index!!  NOT zero-based
 
--- »ç¿øÀÌ¸§¿¡¼­ µÎ¹øÂ°¿Í ¼¼¹øÂ° ±ÛÀÚ¸¸ ÃßÃâÇØ¶ó.
+-- ì‚¬ì›ì´ë¦„ì—ì„œ ë‘ë²ˆì§¸ì™€ ì„¸ë²ˆì§¸ ê¸€ìžë§Œ ì¶”ì¶œí•´ë¼.
 SELECT ENAME, SUBSTR(ENAME, 2, 2) FROM EMP;
 
 --DECLARE ??? HOW??
@@ -39,20 +39,20 @@ SELECT
 SELECT TRIM('&DUMMY') FROM DUAL;   -- PROMPT
 
 /*******************************
-    ³¯Â¥Çü ÇÔ¼ö 
+    ë‚ ì§œí˜• í•¨ìˆ˜ 
 ********************************/
 
 SELECT SYSDATE, SYSDATE + 31 FROM DUAL;
 
 
 /*******************************
-    ¼ýÀÚÇü ÇÔ¼ö p.151
+    ìˆ«ìží˜• í•¨ìˆ˜ p.151
 ********************************/
 
 SELECT
     ABS(-1214313),
-    SIGN(0.232321),    SIGN(-0.00003),    SIGN(0),      -- ºÎÈ£ °áÁ¤ -1, 0, 1
-    MOD(10, 2),    MOD(10, 3),    MOD(10, 4)            -- % ¿¬»êÀÚ ¾ÈµÊ
+    SIGN(0.232321),    SIGN(-0.00003),    SIGN(0),      -- ë¶€í˜¸ ê²°ì • -1, 0, 1
+    MOD(10, 2),    MOD(10, 3),    MOD(10, 4)            -- % ì—°ì‚°ìž ì•ˆë¨
 FROM DUAL;
 
 SELECT
@@ -70,7 +70,7 @@ FROM DUAL;
 SELECT TRUNC(16375.375034), TRUNC(16375.375034, 0) FROM DUAL;
 SELECT TRUNC(16375.375034, -1) FROM DUAL;
 
---±Þ¿© 1500 ÀÌ»óÀÎ »ç¿øÀÇ ±Þ¿©¸¦ 15% ÀÎ»óÇÑ ±Ý¾×, ´Ü ¼Ò¼öÁ¡ ÀÌÇÏ´Â ¹ö¸°´Ù.
+--ê¸‰ì—¬ 1500 ì´ìƒì¸ ì‚¬ì›ì˜ ê¸‰ì—¬ë¥¼ 15% ì¸ìƒí•œ ê¸ˆì•¡, ë‹¨ ì†Œìˆ˜ì  ì´í•˜ëŠ” ë²„ë¦°ë‹¤.
 SELECT ENAME, SAL, SAL * 1.15, FLOOR(SAL * 1.15) AS ANS
 FROM EMP 
 WHERE SAL >= 1500;
@@ -79,19 +79,19 @@ SELECT ENAME, SAL, SAL * 1.15, TRUNC(SAL * 1.15) AS ANS
 FROM EMP 
 WHERE SAL >= 1500;
 
---±Þ¿© 2000 ÀÌÇÏÀÎ »ç¿øÀÇ ±Þ¿©¸¦ 20% ÀÎ»óÇÑ ±Ý¾×, 10ÀÇ ÀÚ¸®¸¦ ±âÁØÀ¸·Î ¹Ý¿Ã¸².
+--ê¸‰ì—¬ 2000 ì´í•˜ì¸ ì‚¬ì›ì˜ ê¸‰ì—¬ë¥¼ 20% ì¸ìƒí•œ ê¸ˆì•¡, 10ì˜ ìžë¦¬ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë°˜ì˜¬ë¦¼.
 SELECT ENAME, SAL, SAL*1.2, ROUND(SAL*1.2, -2)
 FROM EMP 
 WHERE SAL <= 2000
 ORDER BY SAL;
 
 /*******************************
-    DECODE ¹® »ç¿ë p.152
+    DECODE ë¬¸ ì‚¬ìš© p.152
 ********************************/
---ºÎ¼­¹øÈ£°¡ 10ÀÌ¸é TRUE, ELSE FALSE
+--ë¶€ì„œë²ˆí˜¸ê°€ 10ì´ë©´ TRUE, ELSE FALSE
 SELECT DECODE(DEPTNO, 10, 'TRUE', 'FALSE') AA FROM EMP ORDER BY AA;
 
-/* Á÷±Þ¿¡ µû¶ó ±Þ¿© ÀÎ»ó
+/* ì§ê¸‰ì— ë”°ë¼ ê¸‰ì—¬ ì¸ìƒ
 CLERK       10
 SALESMAN    20
 MANAGER     30 
@@ -112,13 +112,13 @@ FROM EMP
 ORDER BY RAISED_SAL;
 
 /*******************************
-    CASE ¹® »ç¿ë p.153
+    CASE ë¬¸ ì‚¬ìš© p.153
 ********************************/
 
-»ç¿øµéÀÇ ±Þ¿©º° µî±Þ ºÐ·ù
-1000 ¹Ì¸¸ : C
-1000 ÀÌ»ó 2000 ¹Ì¸¸ B
-2000 ÀÌ»ó A
+ì‚¬ì›ë“¤ì˜ ê¸‰ì—¬ë³„ ë“±ê¸‰ ë¶„ë¥˜
+1000 ë¯¸ë§Œ : C
+1000 ì´ìƒ 2000 ë¯¸ë§Œ B
+2000 ì´ìƒ A
 
 SELECT
     ENAME, JOB, HIREDATE,
@@ -131,10 +131,10 @@ SELECT
 FROM EMP
 ORDER BY CLAS;
 
-»ç¿øµé ±Þ¿© ÀÎ»ó
-1000 ¹Ì¸¸ : 200%
-1000 ÀÌ»ó 2000 ¹Ì¸¸  150%
-2000 ÀÌ»ó 100%
+ì‚¬ì›ë“¤ ê¸‰ì—¬ ì¸ìƒ
+1000 ë¯¸ë§Œ : 200%
+1000 ì´ìƒ 2000 ë¯¸ë§Œ  150%
+2000 ì´ìƒ 100%
 
 SELECT
     ENAME, JOB, HIREDATE, SAL,
@@ -163,14 +163,14 @@ SELECT TOP(4) FROM EMP;         -- SQL SERVER
 SELECT TOP 4 * FROM EMP;        -- MS SQL
 SELECT * FROM EMP LIMIT 4;      -- MySQL
 
-----XXXXXXXXXXÀÇ ¿ìÈ¸ ±¸Çö
+----XXXXXXXXXXì˜ ìš°íšŒ êµ¬í˜„
 SELECT *
 FROM
     (SELECT ROWNUM AS LIST, EMPNO, ENAME, JOB, SAL FROM EMP)
 WHERE LIST BETWEEN 2 AND 6;
 
 /*******************************
-    WITH ±¸¹® »ç¿ë p.159
+    WITH êµ¬ë¬¸ ì‚¬ìš© p.159
 ********************************/
 
 

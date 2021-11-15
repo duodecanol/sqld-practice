@@ -1,3 +1,6 @@
+/*******************************
+    Order Byë¥¼ ì‚¬ìš©í•œ ì •ë ¬ p.128
+********************************/
 --ORDER BY
 SELECT * FROM EMP;
 
@@ -7,23 +10,25 @@ SELECT * FROM EMP ORDER BY DEPTNO, SAL;
 SELECT * FROM EMP ORDER BY DEPTNO, SAL, EMPNO;
 SELECT * FROM EMP ORDER BY DEPTNO, SAL DESC, EMPNO;
 
---WHERE  ----------------------
+/*******************************
+    WHERE ë¬¸ ì‚¬ìš© p.132
+********************************/
 SELECT * FROM EMP WHERE SAL > 2000;
 SELECT ENAME, JOB FROM EMP WHERE SAL > 2000;
 
---ºÎ¼­¹øÈ£°¡ 20¹øÀÌ ¾Æ´Ñ Çà¸¸ º¸°í ½Í´Ù
+--ë¶€ì„œë²ˆí˜¸ê°€ 20ë²ˆì´ ì•„ë‹Œ í–‰ë§Œ ë³´ê³  ì‹¶ë‹¤
 SELECT * FROM EMP WHERE DEPTNO != 20;
 SELECT * FROM EMP WHERE DEPTNO ^= 20;
 SELECT * FROM EMP WHERE NOT DEPTNO = 20; 
 
 SELECT ENAME, JOB, DEPTNO FROM EMP WHERE DEPTNO !=20;
 
---1982³â ÀÌÈÄ ÀÔ»çÀÚ °Ë»ö
+--1982ë…„ ì´í›„ ìž…ì‚¬ìž ê²€ìƒ‰
 SELECT * FROM EMP WHERE HIREDATE >= '1982-01-01';
 SELECT * FROM EMP WHERE HIREDATE >= '1982/01/01';
 SELECT ENAME, HIREDATE FROM EMP WHERE HIREDATE >= '1982-01-01';
 
---ÀÌ¸§ÀÌ SCOTTÀÎ »ç¶÷ Ã£±â
+--ì´ë¦„ì´ SCOTTì¸ ì‚¬ëžŒ ì°¾ê¸°
 SELECT * FROM EMP WHERE ENAME = 'SCOTT';
 SELECT * FROM EMP WHERE ENAME = 'scott'; -- Case sensitive by default
 
@@ -38,7 +43,7 @@ SELECT * FROM EMP WHERE REGEXP_LIKE (ENAME, 'scott', 'im');
 --FETCH INSTANCES JOB ATTR OF WHICH IS NOT MANAGER
 SELECT * FROM EMP WHERE NOT JOB = 'MANAGER';
 
---ÀÔ»ç³âµµ°¡ 1981³âÀÎ °æ¿ì
+--ìž…ì‚¬ë…„ë„ê°€ 1981ë…„ì¸ ê²½ìš°
 SELECT * FROM EMP WHERE HIREDATE >= '1981/01/01' AND HIREDATE <= '1981/12/31';
 SELECT * FROM EMP WHERE HIREDATE BETWEEN '1981/01/01' AND '1981/12/31';
 SELECT * FROM EMP WHERE YEAR(HIREDATE) = 1981; -- MySql style, AN ERROR OCCURS
@@ -57,60 +62,60 @@ FROM DUAL;
 
 SELECT * FROM V$TIMEZONE_NAMES;
 
---±Þ¿©°¡ 3000º¸´Ù Å©°Å³ª 1000º¸´Ù ÀÛÀº »ç¿øÀÇ ÀÌ¸§
+--ê¸‰ì—¬ê°€ 3000ë³´ë‹¤ í¬ê±°ë‚˜ 1000ë³´ë‹¤ ìž‘ì€ ì‚¬ì›ì˜ ì´ë¦„
 SELECT ENAME FROM EMP WHERE SAL > 3000 OR SAL < 1000;
 SELECT ENAME FROM EMP WHERE NOT SAL >= 1000 AND SAL <= 3000;
-SELECT ENAME FROM EMP WHERE NOT (SAL >= 1000) AND (SAL <= 3000); -- À§ Äõ¸®´Â ºÎÁ¤¿¬»êÀÚ°¡ ¾Õ¿¡¸¸ °É·ÁÀÖ´Ù.
-SELECT ENAME FROM EMP WHERE NOT(SAL >= 1000 AND SAL <= 3000); -- ÀÌ·¸°Ô ¹­¾îÁà¾ß ÇÑ´Ù.
-SELECT ENAME FROM EMP WHERE NOT SAL >= 1000 AND NOT SAL <= 3000; -- ¾Æ¹«°Íµµ ¾È³ª¿È 
-SELECT ENAME FROM EMP WHERE NOT SAL >= 1000 OR NOT SAL <= 3000;  --µÑ´Ù °É¾îÁÙ¶§´Â OR¿¬»ê
+SELECT ENAME FROM EMP WHERE NOT (SAL >= 1000) AND (SAL <= 3000); -- ìœ„ ì¿¼ë¦¬ëŠ” ë¶€ì •ì—°ì‚°ìžê°€ ì•žì—ë§Œ ê±¸ë ¤ìžˆë‹¤.
+SELECT ENAME FROM EMP WHERE NOT(SAL >= 1000 AND SAL <= 3000); -- ì´ë ‡ê²Œ ë¬¶ì–´ì¤˜ì•¼ í•œë‹¤.
+SELECT ENAME FROM EMP WHERE NOT SAL >= 1000 AND NOT SAL <= 3000; -- ì•„ë¬´ê²ƒë„ ì•ˆë‚˜ì˜´ 
+SELECT ENAME FROM EMP WHERE NOT SAL >= 1000 OR NOT SAL <= 3000;  --ë‘˜ë‹¤ ê±¸ì–´ì¤„ë•ŒëŠ” ORì—°ì‚°
 
 /*******************************
-    LIKE ¹® »ç¿ë p.134
+    LIKE ë¬¸ ì‚¬ìš© p.134
 ********************************/
---ÀÌ¸§ÀÌ S·Î ³¡³ª´Â »ç¶÷
+--ì´ë¦„ì´ Së¡œ ëë‚˜ëŠ” ì‚¬ëžŒ
 SELECT * FROM EMP WHERE ENAME LIKE '%S';
---ÀÌ¸§ÀÌ J·Î ½ÃÀÛÇÏ´Â »ç¶÷
+--ì´ë¦„ì´ Jë¡œ ì‹œìž‘í•˜ëŠ” ì‚¬ëžŒ
 SELECT * FROM EMP WHERE ENAME LIKE 'J%';
---ÀÌ¸§ÀÌ J·Î ½ÃÀÛÇØ¼­ S·Î ³¡³ª´Â »ç¶÷
+--ì´ë¦„ì´ Jë¡œ ì‹œìž‘í•´ì„œ Së¡œ ëë‚˜ëŠ” ì‚¬ëžŒ
 SELECT * FROM EMP WHERE ENAME LIKE 'J%S';
---ÀÌ¸§¿¡ O°¡ µé¾î°¡´Â »ç¶÷
+--ì´ë¦„ì— Oê°€ ë“¤ì–´ê°€ëŠ” ì‚¬ëžŒ
 SELECT * FROM EMP WHERE ENAME LIKE '%O%';
---ÀÌ¸§ÀÇ µÎ¹øÂ° ±ÛÂ¥°¡ OÀÎ »ç¶÷
+--ì´ë¦„ì˜ ë‘ë²ˆì§¸ ê¸€ì§œê°€ Oì¸ ì‚¬ëžŒ
 SELECT * FROM EMP WHERE ENAME LIKE '_O%';
---ÀÌ¸§ÀÌ 5 ±ÛÀÚÀÎ »ç¶÷
+--ì´ë¦„ì´ 5 ê¸€ìžì¸ ì‚¬ëžŒ
 SELECT ENAME FROM EMP WHERE ENAME LIKE '_____';
 
 /*******************************
-    BETWEEN ¹® »ç¿ë p.136
+    BETWEEN ë¬¸ ì‚¬ìš© p.136
 ********************************/
 SELECT * FROM EMP WHERE SAL BETWEEN 1000 AND 2000;  -- INCLUSIVE BY DEFAULT (CANNOT CHANGE)
 SELECT * FROM EMP WHERE SAL NOT BETWEEN 1000 AND 2000;
 
 /*******************************
-    IN ¹® »ç¿ë p.138
+    IN ë¬¸ ì‚¬ìš© p.138
 ********************************/
 SELECT * FROM EMP WHERE JOB IN ('CLERK', 'MANAGER');
 SELECT * FROM EMP
-WHERE (JOB, DEPTNO) -- ¿©·¯ Ä®·³À» ¹­¾î¼­ °°ÀÌ ºñ±³ÇÒ ¼öµµ ÀÖ´Ù.
+WHERE (JOB, DEPTNO) -- ì—¬ëŸ¬ ì¹¼ëŸ¼ì„ ë¬¶ì–´ì„œ ê°™ì´ ë¹„êµí•  ìˆ˜ë„ ìžˆë‹¤.
     IN (('CLERK', 20), ('MANAGER', 30));
 
 
 /*******************************
-    NULL °ª Á¶È¸ p.139
+    NULL ê°’ ì¡°íšŒ p.139
 ********************************/
---NULLÀÇ Æ¯Â¡:
---1. NULL Àº ¸ð¸£´Â °ªÀ» ÀÇ¹ÌÇÑ´Ù.
---2. °ªÀÇ ºÎÀç¸¦ ÀÇ¹ÌÇÑ´Ù.
---3. ¼ýÀÚ/³¯Â¥¿Í ´õÇÏ¸é NULLÀÌ µÈ´Ù.
---4. NULL°ú ¾î¶² °ªÀ» ºñ±³ÇÏ¸é '¾Ë ¼ö ¾øÀ½'ÀÌ ¹ÝÈ¯µÈ´Ù.
+--NULLì˜ íŠ¹ì§•:
+--1. NULL ì€ ëª¨ë¥´ëŠ” ê°’ì„ ì˜ë¯¸í•œë‹¤.
+--2. ê°’ì˜ ë¶€ìž¬ë¥¼ ì˜ë¯¸í•œë‹¤.
+--3. ìˆ«ìž/ë‚ ì§œì™€ ë”í•˜ë©´ NULLì´ ëœë‹¤.
+--4. NULLê³¼ ì–´ë–¤ ê°’ì„ ë¹„êµí•˜ë©´ 'ì•Œ ìˆ˜ ì—†ìŒ'ì´ ë°˜í™˜ëœë‹¤.
 
 SELECT * FROM EMP WHERE MGR IS NULL;
 SELECT * FROM EMP WHERE MGR = NULL; -- RETURNS NOTHING !!!!
 SELECT * FROM EMP WHERE COMM IS NOT NULL;
 
-SELECT (NULL * 2) + 3 FROM DUAL; -- NULL °ªÀº ¸ðµç ¿¬»ê¿¡ ´ëÇØ IDEMPOTENTÇÏ´Ù.
-SELECT NULL - 200000 FROM DUAL;  -- : NULL¿¡´Â ¾î¶² ´ë¼ö¿¬»êÀ» ÇØµµ NULLÀÌ µÈ´Ù.
+SELECT (NULL * 2) + 3 FROM DUAL; -- NULL ê°’ì€ ëª¨ë“  ì—°ì‚°ì— ëŒ€í•´ IDEMPOTENTí•˜ë‹¤.
+SELECT NULL - 200000 FROM DUAL;  -- : NULLì—ëŠ” ì–´ë–¤ ëŒ€ìˆ˜ì—°ì‚°ì„ í•´ë„ NULLì´ ëœë‹¤.
 SELECT NULL || 'WOW' FROM DUAL;  -- RESULT: 'WOW'
 SELECT TO_CHAR(NULL) FROM DUAL;
 SELECT DECODE(TO_CHAR(NULL), NULL, 'EQUAL', 'NOT EQUAL') DD FROM DUAL;
@@ -120,7 +125,7 @@ SELECT MGR, NVL(MGR, 100000) FROM EMP; -- NVL > IFNULL (MySQL)
 SELECT COMM, NVL(COMM, 0) FROM EMP;
 -- FUNCTION NVL2
 SELECT NVL2  (COMM,        1000, 0), COMM FROM EMP; -- NVL2
-SELECT DECODE(COMM, NULL, 0, 1000), COMM FROM EMP;  -- DECODE¿Í´Â ARG ¹Ý´ëÀÓÀ» ÁÖÀÇ!
+SELECT DECODE(COMM, NULL, 0, 1000), COMM FROM EMP;  -- DECODEì™€ëŠ” ARG ë°˜ëŒ€ìž„ì„ ì£¼ì˜!
 -- FUNCTION NULLIF
 CREATE TABLE TEST (
     NUM1 NUMBER(10),
@@ -140,7 +145,7 @@ SELECT NUM1, NUM2, NULLIF(NUM1, NUM2) FROM TEST;
            
 -- FUNCTION COALESCE
 SELECT COMM, MGR, COALESCE(COMM, MGR) FROM EMP;
--- NULL ÀÌ ¾Æ´Ñ ÃÖÃÊ ÀÎÀÚ°ª ¹ÝÈ¯
+-- NULL ì´ ì•„ë‹Œ ìµœì´ˆ ì¸ìžê°’ ë°˜í™˜
 SELECT COMM, MGR, SAL, COALESCE(COMM, MGR, SAL) FROM EMP;
 
 /*******************************
@@ -157,50 +162,50 @@ SELECT SUM(SAL) FROM EMP GROUP BY DEPTNO;
 SELECT ENAME, SUM(SAL) FROM EMP;
 SELECT SUM(COMM) FROM EMP;
 SELECT SUM(COMM) / COUNT(COMM) AS AVERAGE FROM EMP;
-SELECT AVG(COMM) FROM EMP; -- À§ÀÇ ½Ä°ú °°Àº °á°ú. COUNT´Â NULLÀ» Á¦¿ÜÇÏ°í ¿¬»ê
+SELECT AVG(COMM) FROM EMP; -- ìœ„ì˜ ì‹ê³¼ ê°™ì€ ê²°ê³¼. COUNTëŠ” NULLì„ ì œì™¸í•˜ê³  ì—°ì‚°
 
 
--- Ãâ·Â °á°ú ¼ö¸¦ Á¦ÇÑÇÏ±â ROWNUM
+-- ì¶œë ¥ ê²°ê³¼ ìˆ˜ë¥¼ ì œí•œí•˜ê¸° ROWNUM
 SELECT ENAME, SAL FROM EMP WHERE ROWNUM < 4 ORDER BY SAL DESC;
 SELECT ENAME, SAL FROM EMP ORDER BY SAL DESC LIMIT 3;    -- MySQL STYLE
 
 /*******************************
-    GROUP BY »ç¿ë¿¹Á¦ p.144
+    GROUP BY ì‚¬ìš©ì˜ˆì œ p.144
 ********************************/
 
 SELECT JOB, AVG(SAL) FROM EMP GROUP BY JOB;
 SELECT DEPTNO, SUM(SAL) FROM EMP GROUP BY DEPTNO;
 SELECT DEPTNO, SUM(SAL) FROM EMP GROUP BY DEPTNO HAVING SUM(SAL) < 10000;
 
---ºÎ¼­º°, °ü¸®ÀÚº° ±Þ¿©Æò±Õ °è»ê 
+--ë¶€ì„œë³„, ê´€ë¦¬ìžë³„ ê¸‰ì—¬í‰ê·  ê³„ì‚° 
 SELECT DEPTNO, MGR, AVG(SAL) FROM EMP GROUP BY DEPTNO, MGR;
 
---°¢ ºÎ¼­º°·Î ±×·ìÈ­, ºÎ¼­¿øÀÇ ÃÖ´ë ±Þ¿©°¡ 3000 ÀÌÇÏÀÎ ºÎ¼­ÀÇ SALÀÇ ÃÑÇÕ
+--ê° ë¶€ì„œë³„ë¡œ ê·¸ë£¹í™”, ë¶€ì„œì›ì˜ ìµœëŒ€ ê¸‰ì—¬ê°€ 3000 ì´í•˜ì¸ ë¶€ì„œì˜ SALì˜ ì´í•©
 SELECT DEPTNO, SUM(SAL), MAX(SAL) FROM EMP
 GROUP BY DEPTNO HAVING MAX(SAL) <= 3000;
 
---JOBÀÌ CLERKÀÎ Á÷¿øµé¿¡ ´ëÇØ¼­ °¢ ºÎ¼­º°·Î ±×·ìÈ­, ºÎ¼­¿øÀÇ ÃÖ¼Ò ±Þ¿©°¡ 1000 ÀÌÇÏÀÎ ºÎ¼­¿¡¼­ Á÷¿øµéÀÇ ±Þ¿© ÃÑÇÕ
--- ºÎ¼­¹øÈ£ ¿À¸§Â÷¼ø Á¤·Ä
+--JOBì´ CLERKì¸ ì§ì›ë“¤ì— ëŒ€í•´ì„œ ê° ë¶€ì„œë³„ë¡œ ê·¸ë£¹í™”, ë¶€ì„œì›ì˜ ìµœì†Œ ê¸‰ì—¬ê°€ 1000 ì´í•˜ì¸ ë¶€ì„œì—ì„œ ì§ì›ë“¤ì˜ ê¸‰ì—¬ ì´í•©
+-- ë¶€ì„œë²ˆí˜¸ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
 SELECT DEPTNO, SUM(SAL) FROM EMP
 WHERE JOB = 'CLERK'
 GROUP BY DEPTNO
     HAVING MIN(SAL) < 1000
 ORDER BY DEPTNO ASC;
     
---±Þ¿©°¡ 1500 ÀÌ»óÀÎ Á÷¿øµé¿¡ ´ëÇØ¼­ ºÎ¼­º°·Î ±×·ìÈ­
---ºÎ¼­¿øÀÇ ÃÖ¼Ò ±Þ¿©°¡ 1000 ÀÌ»ó, ÃÖ´ë ±Þ¿©°¡ 5000 ÀÌÇÏÀÎ ºÎ¼­¿¡¼­ Á÷¿øµéÀÇ Æò±Õ ±Þ¿©
---ºÎ¼­·Î ³»¸²Â÷¼ø Á¤·Ä
+--ê¸‰ì—¬ê°€ 1500 ì´ìƒì¸ ì§ì›ë“¤ì— ëŒ€í•´ì„œ ë¶€ì„œë³„ë¡œ ê·¸ë£¹í™”
+--ë¶€ì„œì›ì˜ ìµœì†Œ ê¸‰ì—¬ê°€ 1000 ì´ìƒ, ìµœëŒ€ ê¸‰ì—¬ê°€ 5000 ì´í•˜ì¸ ë¶€ì„œì—ì„œ ì§ì›ë“¤ì˜ í‰ê·  ê¸‰ì—¬
+--ë¶€ì„œë¡œ ë‚´ë¦¼ì°¨ìˆœ ì •ë ¬
 
 SELECT DEPTNO, AVG(SAL)             -- 5
-FROM EMP                            -- 1 ¼ýÀÚ´Â ½ÇÇà ¼ø¼­¸¦ ³ªÅ¸³¿
+FROM EMP                            -- 1 ìˆ«ìžëŠ” ì‹¤í–‰ ìˆœì„œë¥¼ ë‚˜íƒ€ëƒ„
 WHERE SAL >= 1500                   -- 2
 GROUP BY DEPTNO                     -- 3
     HAVING                          -- 4            
-        MIN(SAL) >= 1000 AND -- OR/AND µÑ´Ù °á°ú°¡ °°³×?
+        MIN(SAL) >= 1000 AND -- OR/AND ë‘˜ë‹¤ ê²°ê³¼ê°€ ê°™ë„¤?
         MAX(SAL) <= 5000
 ORDER BY DEPTNO DESC;               -- 6
 
--- Á÷¿ø¹øÈ£º°·Î ºÎÇÏÁ÷¿øÀÇ ¼ö¿Í ºÎÇÏÁ÷¿ø ¹øÈ£ÀÇ ³ª¿­, ºÎÇÏÁ÷¿ø ¹øÈ£ÀÇ ³ª¿­À» Ãâ·Â
+-- ì§ì›ë²ˆí˜¸ë³„ë¡œ ë¶€í•˜ì§ì›ì˜ ìˆ˜ì™€ ë¶€í•˜ì§ì› ë²ˆí˜¸ì˜ ë‚˜ì—´, ë¶€í•˜ì§ì› ë²ˆí˜¸ì˜ ë‚˜ì—´ì„ ì¶œë ¥
 
 SELECT * FROM EMP ORDER BY MGR;
 
@@ -217,8 +222,8 @@ INNER JOIN
 ON A.EMPNO = B.MGR
 ORDER BY A.EMPNO;
 
--- Á÷¿ø¹øÈ£º°·Î ºÎÇÏÁ÷¿øÀÇ ¼ö¿Í ºÎÇÏÁ÷¿ø ¹øÈ£ÀÇ ³ª¿­, 
--- CONNECT BY ±¸Á¶¿¡ ÀÇÇÑ °èÃþÇü QUERY - p.184
+-- ì§ì›ë²ˆí˜¸ë³„ë¡œ ë¶€í•˜ì§ì›ì˜ ìˆ˜ì™€ ë¶€í•˜ì§ì› ë²ˆí˜¸ì˜ ë‚˜ì—´, 
+-- CONNECT BY êµ¬ì¡°ì— ì˜í•œ ê³„ì¸µí˜• QUERY - p.184
 
 SELECT * FROM EMP;
 

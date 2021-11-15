@@ -4,7 +4,7 @@ SELECT * FROM EMP WHERE ENAME = 'MILLER';
 SELECT * FROM EMP WHERE ENAME LIKE '_I%';
 SELECT * FROM EMP WHERE UPPER(ENAME) LIKE2 '%R';
 
--- 1981³â ÀÌÈÄ ÀÔ»çÀÚ °Ë»ö
+-- 1981ë…„ ì´í›„ ìž…ì‚¬ìž ê²€ìƒ‰
 SELECT * FROM EMP WHERE EXTRACT(YEAR FROM HIREDATE) >= 1981;
 
 SELECT * FROM EMP WHERE DEPTNO != 20;
@@ -13,9 +13,9 @@ SELECT * FROM EMP WHERE REGEXP_LIKE(ENAME, '^.+?TT$', 'i');
 
 SELECT COMM, NVL2(COMM, COMM, -9999) FROM EMP;
 
---°¢ ºÎ¼­º°·Î ±×·ìÈ­, ºÎ¼­¿øÀÇ ÃÖ´ë ±Þ¿©°¡ 3000 ÀÌÇÏÀÎ ºÎ¼­ÀÇ SALÀÇ ÃÑÇÕ
---JOBÀÌ CLERKÀÎ Á÷¿øµé¿¡ ´ëÇØ¼­ °¢ ºÎ¼­º°·Î ±×·ìÈ­, ºÎ¼­¿øÀÇ ÃÖ¼Ò ±Þ¿©°¡ 1000 ÀÌÇÏÀÎ ºÎ¼­¿¡¼­ Á÷¿øµéÀÇ ±Þ¿© ÃÑÇÕ
--- ºÎ¼­¹øÈ£ ¿À¸§Â÷¼ø Á¤·Ä
+--ê° ë¶€ì„œë³„ë¡œ ê·¸ë£¹í™”, ë¶€ì„œì›ì˜ ìµœëŒ€ ê¸‰ì—¬ê°€ 3000 ì´í•˜ì¸ ë¶€ì„œì˜ SALì˜ ì´í•©
+--JOBì´ CLERKì¸ ì§ì›ë“¤ì— ëŒ€í•´ì„œ ê° ë¶€ì„œë³„ë¡œ ê·¸ë£¹í™”, ë¶€ì„œì›ì˜ ìµœì†Œ ê¸‰ì—¬ê°€ 1000 ì´í•˜ì¸ ë¶€ì„œì—ì„œ ì§ì›ë“¤ì˜ ê¸‰ì—¬ ì´í•©
+-- ë¶€ì„œë²ˆí˜¸ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
 SELECT DEPTNO, SUM(SAL) FROM EMP GROUP BY DEPTNO HAVING MAX(SAL) <= 3000
 ORDER BY DEPTNO ASC;
 
@@ -25,25 +25,25 @@ SELECT
     INITCAP('Apple KOREA')
 FROM DUAL;
 
-  -- »ç¿øÀÌ¸§¿¡¼­ µÎ¹øÂ°¿Í ¼¼¹øÂ° ±ÛÀÚ¸¸ ÃßÃâÇØ¶ó.
+  -- ì‚¬ì›ì´ë¦„ì—ì„œ ë‘ë²ˆì§¸ì™€ ì„¸ë²ˆì§¸ ê¸€ìžë§Œ ì¶”ì¶œí•´ë¼.
 SELECT SUBSTR(ENAME, 2, 2), ENAME FROM EMP;
 
---±Þ¿© 1500 ÀÌ»óÀÎ »ç¿øÀÇ ±Þ¿©¸¦ 15% ÀÎ»óÇÑ ±Ý¾×, ´Ü ¼Ò¼öÁ¡ ÀÌÇÏ´Â ¹ö¸°´Ù.
+--ê¸‰ì—¬ 1500 ì´ìƒì¸ ì‚¬ì›ì˜ ê¸‰ì—¬ë¥¼ 15% ì¸ìƒí•œ ê¸ˆì•¡, ë‹¨ ì†Œìˆ˜ì  ì´í•˜ëŠ” ë²„ë¦°ë‹¤.
 
 SELECT ENAME, JOB, SAL, FLOOR(SAL * 1.15) FROM EMP WHERE SAL >= 1500;
 SELECT ENAME, JOB, SAL, TRUNC(SAL * 1.15, -1) FROM EMP WHERE SAL >= 1500;
 
 
---±Þ¿©°¡ 1500 ÀÌ»óÀÎ Á÷¿øµé¿¡ ´ëÇØ¼­ ºÎ¼­º°·Î ±×·ìÈ­
+--ê¸‰ì—¬ê°€ 1500 ì´ìƒì¸ ì§ì›ë“¤ì— ëŒ€í•´ì„œ ë¶€ì„œë³„ë¡œ ê·¸ë£¹í™”
 
---ºÎ¼­¿øÀÇ ÃÖ¼Ò ±Þ¿©°¡ 1000 ÀÌ»ó, ÃÖ´ë ±Þ¿©°¡ 5000 ÀÌÇÏÀÎ ºÎ¼­¿¡¼­ Á÷¿øµéÀÇ Æò±Õ ±Þ¿©
---ºÎ¼­·Î ³»¸²Â÷¼ø Á¤·Ä
+--ë¶€ì„œì›ì˜ ìµœì†Œ ê¸‰ì—¬ê°€ 1000 ì´ìƒ, ìµœëŒ€ ê¸‰ì—¬ê°€ 5000 ì´í•˜ì¸ ë¶€ì„œì—ì„œ ì§ì›ë“¤ì˜ í‰ê·  ê¸‰ì—¬
+--ë¶€ì„œë¡œ ë‚´ë¦¼ì°¨ìˆœ ì •ë ¬
 SELECT DEPTNO, ROUND(AVG(SAL), 2) FROM EMP WHERE SAL >= 1500
 GROUP BY DEPTNO
     HAVING MIN(SAL) >= 1000 AND MAX(SAL) <= 5000
 ORDER BY DEPTNO DESC;
 
--- JOIN ¼¼°¡Áö ¹æ¹ý
+-- JOIN ì„¸ê°€ì§€ ë°©ë²•
 SELECT * FROM EMP;
 SELECT * FROM DEPT;
 
@@ -60,24 +60,24 @@ SELECT * FROM EMP A JOIN DEPT B
 USING (DEPTNO); 
 
 
---»ç¿øÀÇ »ç¿ø¹øÈ£, ÀÌ¸§, ±Ù¹«ºÎ¼­¸¦ °¡Á®¿Â´Ù.
+--ì‚¬ì›ì˜ ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê·¼ë¬´ë¶€ì„œë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 
-SELECT A.EMPNO »ç¿ø¹øÈ£, A.ENAME »ç¿øÀÌ¸§, B.DNAME ±Ù¹«ºÎ¼­
+SELECT A.EMPNO ì‚¬ì›ë²ˆí˜¸, A.ENAME ì‚¬ì›ì´ë¦„, B.DNAME ê·¼ë¬´ë¶€ì„œ
 FROM EMP A JOIN DEPT B
 ON A.DEPTNO = B.DEPTNO;
 
---½ÃÄ«°í¿¡ ±Ù¹«ÇÏ´Â »ç¿øµéÀÇ »ç¿ø¹øÈ£,ÀÌ¸§, Á÷¹«¸¦ FETCH
-SELECT A.EMPNO »ç¿ø¹øÈ£, A.ENAME »ç¿øÀÌ¸§, A.JOB Á÷¹«, B.LOC ±Ù¹«Áö
+--ì‹œì¹´ê³ ì— ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ë“¤ì˜ ì‚¬ì›ë²ˆí˜¸,ì´ë¦„, ì§ë¬´ë¥¼ FETCH
+SELECT A.EMPNO ì‚¬ì›ë²ˆí˜¸, A.ENAME ì‚¬ì›ì´ë¦„, A.JOB ì§ë¬´, B.LOC ê·¼ë¬´ì§€
 FROM EMP A JOIN DEPT B USING (DEPTNO)
 WHERE B.LOC = 'CHICAGO';
 
--- SALGRADE Å×ÀÌºíÀÇ ¿¬ºÀ ¹üÀ§º° µî±ÞÀ» »ç¿øµé¿¡°Ô Àû¿ë½ÃÄÑ¶ó.
+-- SALGRADE í…Œì´ë¸”ì˜ ì—°ë´‰ ë²”ìœ„ë³„ ë“±ê¸‰ì„ ì‚¬ì›ë“¤ì—ê²Œ ì ìš©ì‹œì¼œë¼.
 
 SELECT A.EMPNO, A.ENAME, A.JOB, A.SAL, B.GRADE, B.LOSAL, B.HISAL
 FROM EMP A JOIN SALGRADE B
 ON A.SAL BETWEEN B.LOSAL AND B.HISAL;
 
--- ±Þ¿©µî±ÞÀÌ 4µî±ÞÀÎ »ç¿øµéÀÇ »ç¿ø¹øÈ£, ÀÌ¸§, ±Þ¿©, ºÎ¼­ÀÌ¸§, ±Ù¹«Áö¿ª FETCH
+-- ê¸‰ì—¬ë“±ê¸‰ì´ 4ë“±ê¸‰ì¸ ì‚¬ì›ë“¤ì˜ ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œì´ë¦„, ê·¼ë¬´ì§€ì—­ FETCH
 
 SELECT A.EMPNO, A.ENAME, A.SAL, B.GRADE, C.DNAME, C.LOC
 FROM EMP A, SALGRADE B, DEPT C
@@ -85,14 +85,14 @@ WHERE A.SAL BETWEEN B.LOSAL AND B.HISAL
     AND A.DEPTNO = C.DEPTNO
     AND B.GRADE = 4;
 
--- °¢ ±Þ¿© µî±Þº°  // ±Þ¿© ÃÑÇÕ°ú Æò±Õ, »ç¿ø ¼ö, ÃÖ´ë ±Þ¿©, ÃÖ¼Ò ±Þ¿© FETCH
+-- ê° ê¸‰ì—¬ ë“±ê¸‰ë³„  // ê¸‰ì—¬ ì´í•©ê³¼ í‰ê· , ì‚¬ì› ìˆ˜, ìµœëŒ€ ê¸‰ì—¬, ìµœì†Œ ê¸‰ì—¬ FETCH
 
 SELECT 
-    SUM(A.SAL) AS µî±Þ±Þ¿©ÃÑÇÕ,
-    ROUND(AVG(A.SAL), 0) AS µî±Þ±Þ¿©Æò±Õ,
-    COUNT(*) AS »ç¿ø¼ö,
-    MAX(A.SAL) AS µî±Þ±ºÃÖ´ë±Þ¿©,
-    MIN(A.SAL) AS µî±Þ±ºÃÖ¼Ò±Þ¿©
+    SUM(A.SAL) AS ë“±ê¸‰ê¸‰ì—¬ì´í•©,
+    ROUND(AVG(A.SAL), 0) AS ë“±ê¸‰ê¸‰ì—¬í‰ê· ,
+    COUNT(*) AS ì‚¬ì›ìˆ˜,
+    MAX(A.SAL) AS ë“±ê¸‰êµ°ìµœëŒ€ê¸‰ì—¬,
+    MIN(A.SAL) AS ë“±ê¸‰êµ°ìµœì†Œê¸‰ì—¬
 FROM EMP A JOIN SALGRADE B
 ON A.SAL BETWEEN B.LOSAL AND B.HISAL
 GROUP BY B.GRADE;

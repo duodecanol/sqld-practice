@@ -1,24 +1,24 @@
 /*******************************
     HIERARCHCIAL QUERY - CONNECT BY p.182
 ********************************/
-SELECT * FROM EMP; -- °¢ EMP´Â MGR ¸Å´ÏÀú¸¦ ÇÏ³ª °®°Å³ª °®Áö ¾Ê´Â´Ù.
+SELECT * FROM EMP; -- ê° EMPëŠ” MGR ë§¤ë‹ˆì €ë¥¼ í•˜ë‚˜ ê°–ê±°ë‚˜ ê°–ì§€ ì•ŠëŠ”ë‹¤.
 
 SELECT MAX(LEVEL) FROM EMP
 START WITH MGR IS NULL
-CONNECT BY PRIOR EMPNO = MGR; --MGR¿¡ ÀÇÇØ Çü¼ºµÇ´Â Æ®¸®ÀÇ ÃÖ´ë ±íÀÌ
+CONNECT BY PRIOR EMPNO = MGR; --MGRì— ì˜í•´ í˜•ì„±ë˜ëŠ” íŠ¸ë¦¬ì˜ ìµœëŒ€ ê¹Šì´
 
 SELECT LEVEL, EMPNO, MGR, ENAME
 FROM EMP
-START WITH MGR IS NULL -- MGRÀÌ NULLÀÎ ÀÚ´Â ÀÚ½ÅÀÇ °ü¸®ÀÚ°¡ ¾øÀ¸¹Ç·Î Æ®¸®ÀÇ ÃÖ»óÀ§ (·çÆ®³ëµå)·Î ¼³Á¤.
-CONNECT BY PRIOR EMPNO = MGR; --¼ø¹æÇâ
+START WITH MGR IS NULL -- MGRì´ NULLì¸ ìžëŠ” ìžì‹ ì˜ ê´€ë¦¬ìžê°€ ì—†ìœ¼ë¯€ë¡œ íŠ¸ë¦¬ì˜ ìµœìƒìœ„ (ë£¨íŠ¸ë…¸ë“œ)ë¡œ ì„¤ì •.
+CONNECT BY PRIOR EMPNO = MGR; --ìˆœë°©í–¥
 
 SELECT LEVEL, EMPNO, MGR, ENAME
 FROM EMP
-START WITH MGR IS NULL -- MGRÀÌ NULLÀÎ ÀÚ´Â ÀÚ½ÅÀÇ °ü¸®ÀÚ°¡ ¾øÀ¸¹Ç·Î Æ®¸®ÀÇ ÃÖ»óÀ§ (·çÆ®³ëµå)·Î ¼³Á¤.
-CONNECT BY EMPNO = PRIOR MGR; --¿ª¹æÇâ // ¿ª¹æÇâÀ¸·Î ÇÏ¸é ºÎ¸ðÀÇ ºÎ¸ð¸¦ ÀÚ½ÄÀ¸·Î ¼³Á¤ÇÏ´Â ¼ÀÀÌ¶ó ¿¬°áµÇÁö ¾ÊÀ½.
-     -- PRIOR Å°¿öµåÀÇ ÁÂ/¿ì À§Ä¡°¡ Áß¿äÇÑ °ÍÀÌ ¾Æ´Ï¶ó ¼Ó¼ºÀÇ »óÇÏ°ü°è¸¦ µûÁ®¾ß ÇÑ´Ù.
-     -- ¼ø¹æÇâ PRIOR EMPNO = MGR
-     -- ¼ø¹æÇâ EMPNOÀÇ »ó»ç´Â MGR ÀÌ´Ù.
+START WITH MGR IS NULL -- MGRì´ NULLì¸ ìžëŠ” ìžì‹ ì˜ ê´€ë¦¬ìžê°€ ì—†ìœ¼ë¯€ë¡œ íŠ¸ë¦¬ì˜ ìµœìƒìœ„ (ë£¨íŠ¸ë…¸ë“œ)ë¡œ ì„¤ì •.
+CONNECT BY EMPNO = PRIOR MGR; --ì—­ë°©í–¥ // ì—­ë°©í–¥ìœ¼ë¡œ í•˜ë©´ ë¶€ëª¨ì˜ ë¶€ëª¨ë¥¼ ìžì‹ìœ¼ë¡œ ì„¤ì •í•˜ëŠ” ì…ˆì´ë¼ ì—°ê²°ë˜ì§€ ì•ŠìŒ.
+     -- PRIOR í‚¤ì›Œë“œì˜ ì¢Œ/ìš° ìœ„ì¹˜ê°€ ì¤‘ìš”í•œ ê²ƒì´ ì•„ë‹ˆë¼ ì†ì„±ì˜ ìƒí•˜ê´€ê³„ë¥¼ ë”°ì ¸ì•¼ í•œë‹¤.
+     -- ìˆœë°©í–¥ PRIOR EMPNO = MGR
+     -- ìˆœë°©í–¥ EMPNOì˜ ìƒì‚¬ëŠ” MGR ì´ë‹¤.
 
 SELECT
     LEVEL,
@@ -38,12 +38,12 @@ FROM EMP
 START WITH MGR IS NULL
 CONNECT BY PRIOR EMPNO = MGR;
 
-LEVEL                   °Ë»ö Ç×¸ñÀÇ ±íÀÌ. ÃÖ»óÀ§ 1
-CONNECT_BY_ROOT         °¡Àå ÃÖ»óÀ§ °ª
-CONNECT_BY_ISLEAF       ¸®ÇÁ ³ëµåÀÎ°¡ ¾Æ´Ñ°¡
-SYS_CONNECT_BY_PATH     ÇØ´ç ·Î¿ìÀÇ °ªÀÇ °æ·Î Ç¥½Ã
-NOCYCLE                 ¼øÈ¯±¸Á¶ ¹ß»ýÁöÁ¡±îÁö¸¸ Ç¥½Ã
-CONNECT_BY_ISCYCLE      ¼øÈ¯±¸Á¶ ¹ß»ýÁöÁ¡ Ç¥½Ã
+LEVEL                   ê²€ìƒ‰ í•­ëª©ì˜ ê¹Šì´. ìµœìƒìœ„ 1
+CONNECT_BY_ROOT         ê°€ìž¥ ìµœìƒìœ„ ê°’
+CONNECT_BY_ISLEAF       ë¦¬í”„ ë…¸ë“œì¸ê°€ ì•„ë‹Œê°€
+SYS_CONNECT_BY_PATH     í•´ë‹¹ ë¡œìš°ì˜ ê°’ì˜ ê²½ë¡œ í‘œì‹œ
+NOCYCLE                 ìˆœí™˜êµ¬ì¡° ë°œìƒì§€ì ê¹Œì§€ë§Œ í‘œì‹œ
+CONNECT_BY_ISCYCLE      ìˆœí™˜êµ¬ì¡° ë°œìƒì§€ì  í‘œì‹œ
 
 SELECT
     EMPNO,    ENAME,    LEVEL,
@@ -54,7 +54,7 @@ FROM EMP
 START WITH MGR IS NULL
 CONNECT BY PRIOR EMPNO = MGR;
 
--- EMP Å×ÀÌºí¿¡¼­ ÃÖ»óÀ§ °ü¸®ÀÚºÎÅÍ »óÀ§ Á÷¿øµé ¼øÀ¸·Î Á÷¿ø¹øÈ£, Á÷¿øÀÌ¸§, Á÷¼Ó»ó°ü¹øÈ£, ·¹º§ Ãâ·Â, ´Ü ±Þ¿©°¡ 2000 ÀÌÇÏÀÎ »ç¿øµé¸¸.
+-- EMP í…Œì´ë¸”ì—ì„œ ìµœìƒìœ„ ê´€ë¦¬ìžë¶€í„° ìƒìœ„ ì§ì›ë“¤ ìˆœìœ¼ë¡œ ì§ì›ë²ˆí˜¸, ì§ì›ì´ë¦„, ì§ì†ìƒê´€ë²ˆí˜¸, ë ˆë²¨ ì¶œë ¥, ë‹¨ ê¸‰ì—¬ê°€ 2000 ì´í•˜ì¸ ì‚¬ì›ë“¤ë§Œ.
 SELECT EMPNO, ENAME, MGR, LEVEL
 FROM EMP
 WHERE SAL <= 2000
@@ -86,11 +86,11 @@ SELECT *
     WHERE NUM < 5;
     
     
---////////////////////// ½ºÄ±ÀÌ ±Ù¹«ÇÏ´Â ºÎ¼­¸íÀ» °¡Á®¿Í. //////////////////////////////
+--////////////////////// ìŠ¤ìº‡ì´ ê·¼ë¬´í•˜ëŠ” ë¶€ì„œëª…ì„ ê°€ì ¸ì™€. //////////////////////////////
 SELECT DEPTNO FROM EMP WHERE ENAME = 'SCOTT'; -- FETCH SCOTT'S INFO
 SELECT DNAME FROM DEPT 
     WHERE DEPTNO = (
-        SELECT DEPTNO FROM EMP WHERE ENAME = 'SCOTT'  -- WHERE CLAUSE ÀÇ SUBQUERY·Î °¡Á®¿È.
+        SELECT DEPTNO FROM EMP WHERE ENAME = 'SCOTT'  -- WHERE CLAUSE ì˜ SUBQUERYë¡œ ê°€ì ¸ì˜´.
     );
     
 SELECT DNAME, ENAME FROM EMP NATURAL JOIN DEPT WHERE ENAME = 'SCOTT'; -- APPROACH USING JOIN
@@ -133,32 +133,32 @@ SELECT EMPNO, ENAME, SAL, DEPTNO
 FROM EMP
 WHERE EXISTS (SELECT DEPTNO FROM EMP WHERE SAL >= 99999999);
 
--- Á÷¹«°¡ CLERKÀÎ »ç¿ø°ú µ¿ÀÏºÎ¼­¿¡¼­ ±Ù¹«ÇÏ´Â »ç¹ø, ÀÌ¸§, ÀÔ»çÀÏ
+-- ì§ë¬´ê°€ CLERKì¸ ì‚¬ì›ê³¼ ë™ì¼ë¶€ì„œì—ì„œ ê·¼ë¬´í•˜ëŠ” ì‚¬ë²ˆ, ì´ë¦„, ìž…ì‚¬ì¼
 SELECT EMPNO, ENAME, HIREDATE
 FROM EMP WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE JOB='CLERK'); --10 20 30
 
---¸ðµç ºÎ¼­º° ±Þ¿© Æò±Õº¸´Ù ´õ ¸¹ÀÌ ¹Þ´Â »ç¶÷ÀÇ || »ç¹ø ÀÌ¸§ ±Þ¿©
+--ëª¨ë“  ë¶€ì„œë³„ ê¸‰ì—¬ í‰ê· ë³´ë‹¤ ë” ë§Žì´ ë°›ëŠ” ì‚¬ëžŒì˜ || ì‚¬ë²ˆ ì´ë¦„ ê¸‰ì—¬
 SELECT EMPNO, ENAME, SAL FROM EMP
 WHERE SAL >= ALL (SELECT AVG(SAL) FROM EMP GROUP BY DEPTNO);
 
--- ¾î´À ºÎ¼­º° ÃÖÀú ±Þ¿©º¸´Ù ´õ ¸¹ÀÌ ¹Þ´Â »ç¶÷ÀÇ || »ç¹ø ÀÌ¸§ ±Þ¿©
+-- ì–´ëŠ ë¶€ì„œë³„ ìµœì € ê¸‰ì—¬ë³´ë‹¤ ë” ë§Žì´ ë°›ëŠ” ì‚¬ëžŒì˜ || ì‚¬ë²ˆ ì´ë¦„ ê¸‰ì—¬
 SELECT EMPNO, ENAME, SAL FROM EMP
 WHERE SAL > ANY (SELECT MIN(SAL) FROM EMP GROUP BY DEPTNO);
 
---- DALAS ±Ù¹«ÇÏ´Â ¾î¶² »ç¶÷µé¿¡ ÀÔ»çÀÏº¸´Ù ¤¿»¡¸® ÀÔ»çÇÑ »ç¿ø¤§¤©ÀÇ
+--- DALAS ê·¼ë¬´í•˜ëŠ” ì–´ë–¤ ì‚¬ëžŒë“¤ì— ìž…ì‚¬ì¼ë³´ë‹¤ ã…ë¹¨ë¦¬ ìž…ì‚¬í•œ ì‚¬ì›ã„·ã„¹ì˜
 
 SELECT EMPNO, ENAME, SAL FROM EMP
 WHERE HIREDATE < ANY (SELECT HIREDATE FROM EMP NATURAL JOIN  DEPT WHERE LOC = 'DALLAS');
 
---- »ç¿ø¹øÈ£¿ø »ê¿øÀÌ¸§. ´Ü , =±Þ¿© 3000 ÀÌ»óÀÎ »ç¿øÁ¸ÀçÇÏ´Â °Ü¿õ¿¡¸¸
+--- ì‚¬ì›ë²ˆí˜¸ì› ì‚°ì›ì´ë¦„. ë‹¨ , =ê¸‰ì—¬ 3000 ì´ìƒì¸ ì‚¬ì›ì¡´ìž¬í•˜ëŠ” ê²¨ì›…ì—ë§Œ
 SELECT *
 FROM EMP
 WHERE EXISTS (SELECT * FROM EMP WHERE SAL >= 3000);
 
 /*******************************
-    ¿¬°ü ¼­ºêÄõ¸®
+    ì—°ê´€ ì„œë¸Œì¿¼ë¦¬
 ********************************/
---ÀÚ½ÅÀÌ ¼ÓÇÑ ºÎ¼­ÀÇ Æò±Õ ±Þ¿©º¸´Ù ´õ ¸¹Àº ±Þ¿©¸¦ ¹Þ´Â »ç¿øÀÇ »ç¹ø ÀÌ¸§ ±Þ¿©
+--ìžì‹ ì´ ì†í•œ ë¶€ì„œì˜ í‰ê·  ê¸‰ì—¬ë³´ë‹¤ ë” ë§Žì€ ê¸‰ì—¬ë¥¼ ë°›ëŠ” ì‚¬ì›ì˜ ì‚¬ë²ˆ ì´ë¦„ ê¸‰ì—¬
 
 SELECT A.EMPNO, A.ENAME, A.SAL FROM EMP A
 WHERE A.SAL > ( SELECT AVG(B.SAL) FROM EMP B WHERE B.DEPTNO = A.DEPTNO GROUP BY B.DEPTNO );
@@ -181,24 +181,24 @@ GROUP BY DEPTNO;
 
 SELECT DEPTNO, SUM(SAL)
 FROM EMP
-GROUP BY (SELECT DEPTNO FROM EMP); ---!!!!!! GROUP BY ¿¡´Â SUBQUERY »ç¿ë ºÒ°¡ !!!!!!!!!!!!
+GROUP BY (SELECT DEPTNO FROM EMP); ---!!!!!! GROUP BY ì—ëŠ” SUBQUERY ì‚¬ìš© ë¶ˆê°€ !!!!!!!!!!!!
 
 
 SELECT *
 FROM (SELECT ROWNUM, EMPNO, ENAME, DEPTNO FROM EMP ORDER BY DEPTNO); -- INLINE VIEW <--- [ FROM ] 
--- ¤Ð¤Ð¤Ð ORDER BY¿Í ROWNUMÀ» °°ÀÌ ÇÏ°í ½Í´Ù!
+-- ã… ã… ã…  ORDER BYì™€ ROWNUMì„ ê°™ì´ í•˜ê³  ì‹¶ë‹¤!
 
--- ////////////  ¹æ¹ý 1.
+-- ////////////  ë°©ë²• 1.
 SELECT ROWNUM, A.*
 FROM (SELECT EMPNO, ENAME, DEPTNO FROM EMP ORDER BY DEPTNO) A;
 
--- ////////////  ¹æ¹ý 2.
+-- ////////////  ë°©ë²• 2.
 SELECT ROW_NUMBER() OVER (ORDER BY DEPTNO) RNUM, EMPNO, ENAME, DEPTNO
 FROM EMP
 ORDER BY DEPTNO;
 
 SELECT ROW_NUMBER() OVER (ORDER BY EMPNO) RNUM, 
-    EMPNO, ENAME, DEPTNO -- ROW_NUMBER ÇÔ¼ö´Â ROW Á¤·Ä°ú µ¥ÀÌÅÍÁ¤·ÄÀ» ´Þ¸® ÇÒ ¼ö ÀÖ´Ù.
+    EMPNO, ENAME, DEPTNO -- ROW_NUMBER í•¨ìˆ˜ëŠ” ROW ì •ë ¬ê³¼ ë°ì´í„°ì •ë ¬ì„ ë‹¬ë¦¬ í•  ìˆ˜ ìžˆë‹¤.
 FROM EMP
 ORDER BY DEPTNO;  -- https://gent.tistory.com/170
 
@@ -212,29 +212,29 @@ SELECT ROW_NUMBER() OVER (PARTITION BY MGR ORDER BY MGR) RNUM,
 FROM EMP NATURAL JOIN DEPT
 ORDER BY MGR, EMPNO;
 
--- ////////////////  ½ÇÇè. ORDER BY ¹®¿¡µµ SUBQUERY°¡ °¡´ÉÇÑ°¡?
--- ////////////////  °¡´ÉÇÏ´Ù. ´Ù¸¸ Á¤·ÄÀÌ ÀÌ»óÇØÁø´Ù? ·£´ý?
+-- ////////////////  ì‹¤í—˜. ORDER BY ë¬¸ì—ë„ SUBQUERYê°€ ê°€ëŠ¥í•œê°€?
+-- ////////////////  ê°€ëŠ¥í•˜ë‹¤. ë‹¤ë§Œ ì •ë ¬ì´ ì´ìƒí•´ì§„ë‹¤? ëžœë¤?
 
 SELECT * FROM EMP;
 
 SELECT * FROM EMP
-ORDER BY (SELECT EMPNO FROM EMP WHERE ENAME='SCOTT'); -- ½ºÄ®¶ó °ª  77881
+ORDER BY (SELECT EMPNO FROM EMP WHERE ENAME='SCOTT'); -- ìŠ¤ì¹¼ë¼ ê°’  77881
 
 -- ////////////////  -- ////////////////  -- ////////////////  -- ////////////////  
--- FORD¿Í °°Àº ºÎ¼­¿¡ ±Ù¹«ÇÏ´Â »ç¿øµéÀÇ »ç¹ø, ÀÌ¸§, ±Þ¿© , ºÎ¼­¹øÈ£¸¦ FETCH.
+-- FORDì™€ ê°™ì€ ë¶€ì„œì— ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ë“¤ì˜ ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬ , ë¶€ì„œë²ˆí˜¸ë¥¼ FETCH.
 -- SUBQUERY MUST BE USED.
 SELECT EMPNO, ENAME, SAL, DEPTNO
 FROM EMP
 WHERE DEPTNO = (SELECT DEPTNO FROM EMP WHERE ENAME = 'FORD');
 
--- ALLEN°ú °°Àº Á÷¼Ó»ó°üÀ» °¡Áø »ç¿øµéÀÇ »ç¹ø, ÀÌ¸§, Á÷¼Ó»ó°ü¹øÈ£ 
+-- ALLENê³¼ ê°™ì€ ì§ì†ìƒê´€ì„ ê°€ì§„ ì‚¬ì›ë“¤ì˜ ì‚¬ë²ˆ, ì´ë¦„, ì§ì†ìƒê´€ë²ˆí˜¸ 
 SELECT EMPNO, ENAME, MGR
 FROM EMP
 WHERE MGR = (SELECT MGR FROM EMP WHERE ENAME = 'ALLEN');
 
--- ½ÃÄ«°í Áö¿ª¿¡¼­ ±Ù¹«ÇÏ´Â »ç¿øµéÁß ºí·¹ÀÌÅ©°¡ Á÷¼Ó»ó°üÀÎ »ç¿øµé -=> »ç¹ø, ÀÌ¸§, Á÷¹«
+-- ì‹œì¹´ê³  ì§€ì—­ì—ì„œ ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ë“¤ì¤‘ ë¸”ë ˆì´í¬ê°€ ì§ì†ìƒê´€ì¸ ì‚¬ì›ë“¤ -=> ì‚¬ë²ˆ, ì´ë¦„, ì§ë¬´
 SELECT EMPNO, ENAME, JOB,                                               -- CORRELATED QUERY
-    (SELECT ENAME FROM EMP WHERE EMPNO = A.MGR) AS SUPERVISOR, --===={{{{  SUBQUERY ³»¿¡¼­ MAIN QUERY ³»ÀÇ Ä®·³À» »ç¿ëÇÏ´Â °Í
+    (SELECT ENAME FROM EMP WHERE EMPNO = A.MGR) AS SUPERVISOR, --===={{{{  SUBQUERY ë‚´ì—ì„œ MAIN QUERY ë‚´ì˜ ì¹¼ëŸ¼ì„ ì‚¬ìš©í•˜ëŠ” ê²ƒ
     B.LOC
 FROM EMP A JOIN DEPT B ON (A.DEPTNO = B.DEPTNO)
 WHERE 
@@ -242,7 +242,7 @@ WHERE
     AND MGR = (SELECT EMPNO FROM EMP WHERE ENAME = 'BLAKE')
 ORDER BY EMPNO    ;
 
--- µÎ Äõ¸®ÀÇ Â÷ÀÌ´Â ¹«¾ùÀÎ°¡?
+-- ë‘ ì¿¼ë¦¬ì˜ ì°¨ì´ëŠ” ë¬´ì—‡ì¸ê°€?
 select sal, (select avg(sal) from emp) from emp;
 
 select sal, avg(sal) from emp;
@@ -250,10 +250,10 @@ select sal, avg(sal) from emp;
 select sal, (select avg(sal) from emp where 1=0) from emp;
 select sal, (select avg(sal) from emp where 1=1) from emp;
 
--- ±Þ¿©°¡ Àü Á÷¿ø Æò±Õ±Þ¿©º¸´Ù ³ôÀº »ç¿ø <- »ç¹ø, ÀÌ¸§, ±Þ¿©
+-- ê¸‰ì—¬ê°€ ì „ ì§ì› í‰ê· ê¸‰ì—¬ë³´ë‹¤ ë†’ì€ ì‚¬ì› <- ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬
 SELECT EMPNO, ENAME, SAL FROM EMP WHERE SAL > (SELECT AVG(SAL) FROM EMP);
 
--- °¡»óÀÇ Å×ÀÌºíÀ» ¼³Á¤ÇÏ¿© »ç¿øÁ¤º¸ Å×ÀÌºíÀÇ 4¹øÂ° »ç¿øÀÌ¸§ Á¶È¸
+-- ê°€ìƒì˜ í…Œì´ë¸”ì„ ì„¤ì •í•˜ì—¬ ì‚¬ì›ì •ë³´ í…Œì´ë¸”ì˜ 4ë²ˆì§¸ ì‚¬ì›ì´ë¦„ ì¡°íšŒ
 SELECT
     * 
 FROM (
@@ -267,7 +267,7 @@ ORDER BY ENAME
 FETCH FIRST 5 ROWS ONLY;
 OFFSET 2 ROWS FETCH FIRST 5 ROWS ONLY;
 
--- »ç¿øÀÇ Æí±Õ ±Þ¿©¿¡¼­ ±Þ¿©°¡ °¡±î¿î ¼ø¼­´ë·Î ¿À¸§Â÷¼øÀ¸·Î Á¤·ÄÇÏ¿© »ç¿øÀÇ ÀÌ¸§ ±Þ¿© Àü»ç¿øÆò±Õ±Þ¿©, ±Þ¿©Â÷ÀÌ°ª
+-- ì‚¬ì›ì˜ íŽ¸ê·  ê¸‰ì—¬ì—ì„œ ê¸‰ì—¬ê°€ ê°€ê¹Œìš´ ìˆœì„œëŒ€ë¡œ ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ ì •ë ¬í•˜ì—¬ ì‚¬ì›ì˜ ì´ë¦„ ê¸‰ì—¬ ì „ì‚¬ì›í‰ê· ê¸‰ì—¬, ê¸‰ì—¬ì°¨ì´ê°’
 SELECT 
     ABS((SELECT ROUND(AVG(SAL), 3) FROM EMP) - E.SAL) DIST_FROM_AVG_SAL, 
     (SELECT ROUND(AVG(SAL), 3) FROM EMP) AVG_SAL, 

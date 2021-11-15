@@ -1,15 +1,15 @@
 /*******************************
     HIERARCHCIAL QUERY - CONNECT BY p.182
 ********************************/
-SELECT * FROM EMP; -- °¢ EMP´Â MGR ¸Å´ÏÀú¸¦ ÇÏ³ª °®°Å³ª °®Áö ¾Ê´Â´Ù.
+SELECT * FROM EMP; -- ê° EMPëŠ” MGR ë§¤ë‹ˆì €ë¥¼ í•˜ë‚˜ ê°–ê±°ë‚˜ ê°–ì§€ ì•ŠëŠ”ë‹¤.
 
 SELECT MAX(LEVEL) FROM EMP
 START WITH MGR IS NULL
-CONNECT BY PRIOR EMPNO = MGR; --MGR¿¡ ÀÇÇØ Çü¼ºµÇ´Â Æ®¸®ÀÇ ÃÖ´ë ±íÀÌ
+CONNECT BY PRIOR EMPNO = MGR; --MGRì— ì˜í•´ í˜•ì„±ë˜ëŠ” íŠ¸ë¦¬ì˜ ìµœëŒ€ ê¹Šì´
 
 SELECT LEVEL, EMPNO, MGR, ENAME
 FROM EMP
-START WITH MGR IS NULL -- MGRÀÌ NULLÀÎ ÀÚ´Â ÀÚ½ÅÀÇ °ü¸®ÀÚ°¡ ¾øÀ¸¹Ç·Î Æ®¸®ÀÇ ÃÖ»óÀ§ (·çÆ®³ëµå)·Î ¼³Á¤.
+START WITH MGR IS NULL -- MGRì´ NULLì¸ ìžëŠ” ìžì‹ ì˜ ê´€ë¦¬ìžê°€ ì—†ìœ¼ë¯€ë¡œ íŠ¸ë¦¬ì˜ ìµœìƒìœ„ (ë£¨íŠ¸ë…¸ë“œ)ë¡œ ì„¤ì •.
 CONNECT BY PRIOR EMPNO = MGR;
 
 SELECT
@@ -29,12 +29,12 @@ FROM EMP
 START WITH MGR IS NULL
 CONNECT BY PRIOR EMPNO = MGR;
 
-LEVEL                   °Ë»ö Ç×¸ñÀÇ ±íÀÌ. ÃÖ»óÀ§ 1
-CONNECT_BY_ROOT         °¡Àå ÃÖ»óÀ§ °ª
-CONNECT_BY_ISLEAF       ¸®ÇÁ ³ëµåÀÎ°¡ ¾Æ´Ñ°¡
-SYS_CONNECT_BY_PATH     ÇØ´ç ·Î¿ìÀÇ °ªÀÇ °æ·Î Ç¥½Ã
-NOCYCLE                 ¼øÈ¯±¸Á¶ ¹ß»ýÁöÁ¡±îÁö¸¸ Ç¥½Ã
-CONNECT_BY_ISCYCLE      ¼øÈ¯±¸Á¶ ¹ß»ýÁöÁ¡ Ç¥½Ã
+LEVEL                   ê²€ìƒ‰ í•­ëª©ì˜ ê¹Šì´. ìµœìƒìœ„ 1
+CONNECT_BY_ROOT         ê°€ìž¥ ìµœìƒìœ„ ê°’
+CONNECT_BY_ISLEAF       ë¦¬í”„ ë…¸ë“œì¸ê°€ ì•„ë‹Œê°€
+SYS_CONNECT_BY_PATH     í•´ë‹¹ ë¡œìš°ì˜ ê°’ì˜ ê²½ë¡œ í‘œì‹œ
+NOCYCLE                 ìˆœí™˜êµ¬ì¡° ë°œìƒì§€ì ê¹Œì§€ë§Œ í‘œì‹œ
+CONNECT_BY_ISCYCLE      ìˆœí™˜êµ¬ì¡° ë°œìƒì§€ì  í‘œì‹œ
 
 
 /*******************************

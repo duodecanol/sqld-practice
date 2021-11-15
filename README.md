@@ -1,4 +1,7 @@
 # sqld-practice
 
+### 실습용 테이블 생성 스크립트는 `/ETC`에 있습니다.
 
-https://www.one-tab.com/page/3OpjUTqIQiOrkUT0FwluFg
+### 인코딩
+ - 모든 sql 파일 텍스트 인코딩은 'UTF-8'로 되어있습니다.
+ - 응용 프로그램의 인코딩 기본 설정을 맞춰주어야 할 수 있습니다.

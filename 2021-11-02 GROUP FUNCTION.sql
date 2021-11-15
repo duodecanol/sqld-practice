@@ -1,8 +1,8 @@
 /*******************************
     GROUP FUNCTION      p.190
 -------------------------------
-        1 ROLLUP : ÇÕ°è/¼Ò°è¸¦ ÇÑ²¨¹ø¿¡ ±¸ÇÑ´Ù. SUM/ SUM TOTAL
-        2 GROUPING : ÇÕ°è°ªÀ» ±¸ºÐÇÑ´Ù.
+        1 ROLLUP : í•©ê³„/ì†Œê³„ë¥¼ í•œêº¼ë²ˆì— êµ¬í•œë‹¤. SUM/ SUM TOTAL
+        2 GROUPING : í•©ê³„ê°’ì„ êµ¬ë¶„í•œë‹¤.
         3 GROUPING SETS : 
         4 CUBE : 
 ********************************/
@@ -11,11 +11,11 @@
 -- ROLLUP 1
 SELECT JOB, SUM(SAL)
 FROM EMP
-GROUP BY JOB; -- ´Ü¼øÈ÷ GB¸¦ ÇÏ¸é DISTINCTº° ¼Ò°è¸¦ º¸¿©ÁØ´Ù.
+GROUP BY JOB; -- ë‹¨ìˆœížˆ GBë¥¼ í•˜ë©´ DISTINCTë³„ ì†Œê³„ë¥¼ ë³´ì—¬ì¤€ë‹¤.
 
 SELECT JOB, SUM(SAL)
 FROM EMP
-GROUP BY ROLLUP(JOB); -- ROLLUPÀ» ÇÔÀ¸·Î½á ±×·ìº° ¼Ò°è¿Í, ÀüÃ¼ ÃÑÇÕÀ» °°ÀÌ º¼ ¼ö ÀÖ´Ù.
+GROUP BY ROLLUP(JOB); -- ROLLUPì„ í•¨ìœ¼ë¡œì¨ ê·¸ë£¹ë³„ ì†Œê³„ì™€, ì „ì²´ ì´í•©ì„ ê°™ì´ ë³¼ ìˆ˜ ìžˆë‹¤.
 
 -------------------------------------------------------
 -- ROLLUP 2 
@@ -23,15 +23,15 @@ SELECT
     DEPTNO,
     SUM(SAL)
 FROM EMP
-GROUP BY ROLLUP(DEPTNO); -- °ªÀÌ ÇÏ³ª¸¸ ÀÖÀ» °æ¿ì¿¡´Â ¼Ò°è¸¸ ³ª¿Â´Ù.
+GROUP BY ROLLUP(DEPTNO); -- ê°’ì´ í•˜ë‚˜ë§Œ ìžˆì„ ê²½ìš°ì—ëŠ” ì†Œê³„ë§Œ ë‚˜ì˜¨ë‹¤.
 
 SELECT 
     DEPTNO, 
-    COALESCE(JOB, 'ÀÇ ÇÕ°è'), -- DEPTNO.LEN = 3, JOB.LEN = 5
+    COALESCE(JOB, 'ì˜ í•©ê³„'), -- DEPTNO.LEN = 3, JOB.LEN = 5
     SUM(SAL)
 FROM EMP
 GROUP BY ROLLUP(DEPTNO, JOB)
-ORDER BY DEPTNO; -- °ªÀÌ µÎ °³ ÀÌ»óÀÎ °æ¿ì¿¡´Â, ¿ÞÂÊ °ªÀ» ±âÁØÀ¸·Î ¿À¸¥ÂÊÀÇ Á¶ÇÕÀ» Áß Ç¥½Ã¤Ó
+ORDER BY DEPTNO; -- ê°’ì´ ë‘ ê°œ ì´ìƒì¸ ê²½ìš°ì—ëŠ”, ì™¼ìª½ ê°’ì„ ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¥¸ìª½ì˜ ì¡°í•©ì„ ì¤‘ í‘œì‹œã…£
 
 -------------------------------------------------------
 -- CUBE
@@ -39,14 +39,14 @@ SELECT
     DEPTNO,
     SUM(SAL)
 FROM EMP
-GROUP BY CUBE(DEPTNO); -- °ªÀÌ ÇÏ³ª¸¸ ÀÖÀ» °æ¿ì¿¡´Â ¼Ò°è¸¸ ³ª¿Â´Ù.
+GROUP BY CUBE(DEPTNO); -- ê°’ì´ í•˜ë‚˜ë§Œ ìžˆì„ ê²½ìš°ì—ëŠ” ì†Œê³„ë§Œ ë‚˜ì˜¨ë‹¤.
 
 SELECT 
     DEPTNO,
-    COALESCE(JOB, 'ÀÇ ÇÕ°è'), -- DEPTNO.LEN = 3, JOB.LEN = 5
+    COALESCE(JOB, 'ì˜ í•©ê³„'), -- DEPTNO.LEN = 3, JOB.LEN = 5
     SUM(SAL)
 FROM EMP
-GROUP BY CUBE(DEPTNO, JOB) -- ¼­·Î ¼ÓÇÏ´Â °æ¿ìÀÇ ¼ö¸¦ ´Ù ±¸ÇÑ´Ù.
+GROUP BY CUBE(DEPTNO, JOB) -- ì„œë¡œ ì†í•˜ëŠ” ê²½ìš°ì˜ ìˆ˜ë¥¼ ë‹¤ êµ¬í•œë‹¤.
 ORDER BY DEPTNO;
 
 -------------------------------------------------------
@@ -56,7 +56,7 @@ SELECT
     JOB, -- DEPTNO.LEN = 3, JOB.LEN = 5
     SUM(SAL)
 FROM EMP
-GROUP BY GROUPING SETS(DEPTNO, JOB) -- GROUP BY A // B¸¦ µû·Î ±¸ÇØ¼­ UNION ÇÑ´Ù.
+GROUP BY GROUPING SETS(DEPTNO, JOB) -- GROUP BY A // Bë¥¼ ë”°ë¡œ êµ¬í•´ì„œ UNION í•œë‹¤.
 ORDER BY DEPTNO;
 
 -------------------------------------------------------
@@ -70,11 +70,25 @@ GROUP BY JOB;
 ---------------------------------------------------------------
 --      COMPARISON OF ROLLUP / CUBE / GROUPING SETS         --
 
-|   ROLLUP(A,B)   |      CUBE(A,B)       |  GROUPING SETS(A,B)   
+|   ROLLUP(A,B)     |      CUBE(A,B)       |  GROUPING SETS(A,B)   
 ---------------------------------------------------------------
-| GROUP BY A, B   |     GROUP BY A,B     |      
-| GROUP BY A      |     GROUP BY A       |    GROUP BY A
-|                 |     GROUP BY B       |    GROUP BY B
-| GROUP BY NULL   |     GROUP BY NULL    |       
+| GROUP BY A, B     |     GROUP BY A,B     |      
+| GROUP BY A        |     GROUP BY A       |    GROUP BY A
+|                   |     GROUP BY B       |    GROUP BY B
+| GROUP BY NULL     |     GROUP BY NULL    |       
 ---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+--         YIELD SAME RESULT WITH GROUPING SETS()            --
+
+|   ROLLUP(A,B)     |      CUBE(A,B)       |  GROUPING SETS(A,B)   
+---------------------------------------------------------------
+| GROUPING SETS(    | GROUPING SETS(       | GROUPING SETS(      
+|     (A, B)        |     (A, B)           |     
+|     , A           |     , A, B           |    A, B
+|     , NULL )      |     , NULL )         |    )   
+---------------------------------------------------------------
+-- *Note: 'NULL's in each case are interchangeable with '()'
+
 
