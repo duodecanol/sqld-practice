@@ -1,19 +1,19 @@
 /**********************************************************************
- * 	6.8		ÀýÂ÷Çü SQL
+ * 	6.8		ì ˆì°¨í˜• SQL
  * 
- * SQL DEVELOPER¿¡¼­ ½ÇÇàÇÒ°Í. DBEAVER´Â PL/SQL ½ÇÇà Áö¿øÇÏÁö ¾ÊÀ½.
+ * SQL DEVELOPERì—ì„œ ì‹¤í–‰í• ê²ƒ. DBEAVERëŠ” PL/SQL ì‹¤í–‰ ì§€ì›í•˜ì§€ ì•ŠìŒ.
  * 
  **********************************************************************/
 
 
-CREATE TABLE TB_POPLTN_CTPRVN -- ÀÎ±¸½Ãµµ Å×ÀÌºí 
+CREATE TABLE TB_POPLTN_CTPRVN -- ì¸êµ¬ì‹œë„ í…Œì´ë¸” 
 (
-	  CTPRVN_CD CHAR(2)				-- ½ÃµµÄÚµå
-	, CTPRVN_NM VARCHAR2(50) 		-- ½ÃµµÀÌ¸§
+	  CTPRVN_CD CHAR(2)				-- ì‹œë„ì½”ë“œ
+	, CTPRVN_NM VARCHAR2(50) 		-- ì‹œë„ì´ë¦„
 	, STD_YM CHAR(6)				
-	, POPLTN_SE_CD VARCHAR2(6)		-- ÀÎ±¸±¸ºÐÄÚµå
-	, AGRDE_SE_CD CHAR(3)			-- ¿¬·É´ë±¸ºÐÄÚµå
-	, POPLTN_CNT NUMBER(10) NOT NULL -- ÀÎ±¸¼ö
+	, POPLTN_SE_CD VARCHAR2(6)		-- ì¸êµ¬êµ¬ë¶„ì½”ë“œ
+	, AGRDE_SE_CD CHAR(3)			-- ì—°ë ¹ëŒ€êµ¬ë¶„ì½”ë“œ
+	, POPLTN_CNT NUMBER(10) NOT NULL -- ì¸êµ¬ìˆ˜
 	, CONSTRAINT TB_POPLTN_CTPRVN_PK
 		PRIMARY KEY (CTPRVN_CD, STD_YM, POPLTN_SE_CD, AGRDE_SE_CD)
 );
@@ -35,20 +35,20 @@ V_AGRDE_SE_CD TB_POPLTN_CTPRVN.AGRDE_SE_CD%TYPE;
 V_POPLTN_CNT TB_POPLTN_CTPRVN.POPLTN_CNT%TYPE;
 -- END DECLARATION
 
--- CURSOR DECLARATION
--- ÀÎ±¸Å×ÀÌºíÀ» ½Ãµµ±âÁØ, ±âÁØ³â¿ù, ÀÎ±¸±¸ºÐÄÚµå, ¿¬·É±¸ºÐÄÚµåº°·Î ÀÎ±¸ÇÕ°Ô¸¦ Á¶È¸
+-- /////////////// CURSOR DECLARATION ///////////////
+-- ì¸êµ¬í…Œì´ë¸”ì„ ì‹œë„ê¸°ì¤€, ê¸°ì¤€ë…„ì›”, ì¸êµ¬êµ¬ë¶„ì½”ë“œ, ì—°ë ¹êµ¬ë¶„ì½”ë“œë³„ë¡œ ì¸êµ¬í•©ê²Œë¥¼ ì¡°íšŒ
 CURSOR SELECT_TB_POPLTN IS
 SELECT SUBSTR(A.ADSTRD_CD, 1, 2) AS CTPRVN_CD
 	, (SELECT L.ADRES_CL_NM
-		FROM TB_ADRES_CL L -- ÁÖ¼ÒºÐ·ù Å×ÀÌºí¿¡¼­ ½Ãµµ¸íÀ» °¡Á®¿È
+		FROM TB_ADRES_CL L -- ì£¼ì†Œë¶„ë¥˜ í…Œì´ë¸”ì—ì„œ ì‹œë„ëª…ì„ ê°€ì ¸ì˜´
 		WHERE L.ADRES_CL_CD = SUBSTR(A.ADSTRD_CD, 1, 2)
-			AND L.ADRES_CL_SE_CD = 'ACS001' -- ½Ãµµ
-	  ) AS CTPRVN_NM --½Ãµµ¸í
+			AND L.ADRES_CL_SE_CD = 'ACS001' -- ì‹œë„
+	  ) AS CTPRVN_NM --ì‹œë„ëª…
     , A.STD_YM
     , A.POPLTN_SE_CD
     , A.AGRDE_SE_CD
     , SUM(A.POPLTN_CNT) AS POPLTN_CNT
-FROM TB_POPLTN A -- ÀÎ±¸Å×ÀÌºí
+FROM TB_POPLTN A -- ì¸êµ¬í…Œì´ë¸”
 WHERE 1 = 1
 GROUP BY SUBSTR(A.ADSTRD_CD, 1, 2), A.STD_YM
 		, A.POPLTN_SE_CD
@@ -58,15 +58,15 @@ ORDER BY SUBSTR(A.ADSTRD_CD, 1, 2)
 		, A.POPLTN_SE_CD
 		, A.AGRDE_SE_CD
 ;
--- END CURSOR DECLARATION
+-- /////////////// END CURSOR DECLARATION ///////////////
 
-BEGIN -- ½ÇÇàºÎ ½ÃÀÛ
-	OPEN SELECT_TB_POPLTN; -- Ä¿¼­ ¿­±â
+BEGIN -- ì‹¤í–‰ë¶€ ì‹œìž‘
+	OPEN SELECT_TB_POPLTN; -- ì»¤ì„œ ì—´ê¸°
 	
-	-- ¹Ýº¹¹® ½ÃÀÛ Àü ·Î±× Ãâ·Â
+	-- ë°˜ë³µë¬¸ ì‹œìž‘ ì „ ë¡œê·¸ ì¶œë ¥
 	DBMS_OUTPUT.PUT_LINE('-----------------------------');
-	LOOP -- ¹Ýº¹¹® ½ÃÀÛ
-		-- Ä¿¼­¿¡¼­ ÇÑ Çà¾¿ °¡Á®¿È
+	LOOP -- ë°˜ë³µë¬¸ ì‹œìž‘
+		-- ì»¤ì„œì—ì„œ í•œ í–‰ì”© ê°€ì ¸ì˜´
 		FETCH SELECT_TB_POPLTN INTO
 			V_CTPRVN_CD,
 			V_CTPRVN_NM,
@@ -74,20 +74,20 @@ BEGIN -- ½ÇÇàºÎ ½ÃÀÛ
 			V_POPLTN_SE_CD,
 			V_AGRDE_SE_CD,
 			V_POPLTN_CNT;
-		-- ´õÀÌ»ó °¡Á®¿Ã ÇàÀÌ ¾øÀ¸¸é ¹Ýº¹¹® Á¾·á
+		-- ë”ì´ìƒ ê°€ì ¸ì˜¬ í–‰ì´ ì—†ìœ¼ë©´ ë°˜ë³µë¬¸ ì¢…ë£Œ
 		EXIT WHEN SELECT_TB_POPLTN%NOTFOUND;
 	
-		--·Î±×Ãâ·Â ½ÃÀÛ
+		--ë¡œê·¸ì¶œë ¥ ì‹œìž‘
 		DBMS_OUTPUT.PUT_LINE('V_CTPRVN_CD       :' || '[' || V_CTPRVN_CD	|| ']');
 		DBMS_OUTPUT.PUT_LINE('V_CTPRVN_NM       :' || '[' || V_CTPRVN_NM	|| ']');
 		DBMS_OUTPUT.PUT_LINE('V_STD_YM          :' || '[' || V_STD_YM	    || ']');
 		DBMS_OUTPUT.PUT_LINE('V_POPLTN_SE_CD    :' || '[' || V_POPLTN_SE_CD || ']');
 		DBMS_OUTPUT.PUT_LINE('V_AGRDE_SE_CD     :' || '[' || V_AGRDE_SE_CD	|| ']');
 		DBMS_OUTPUT.PUT_LINE('V_POPLTN_CNT      :' || '[' || V_POPLTN_CNT	|| ']');
-		-- ·Î±×Ãâ·Â Á¾·á
+		-- ë¡œê·¸ì¶œë ¥ ì¢…ë£Œ
 	
-		IF V_STD_YM = IN_STD_YM THEN -- ±âÁØ¿¬¿ùÀÌ ÀÔ·Â³â¿ù°ú °°Àº °æ¿ì
-			-- TB_POPLTN_CTPRVN Å×ÀÌºí¿¡ INSERT
+		IF V_STD_YM = IN_STD_YM THEN -- ê¸°ì¤€ì—°ì›”ì´ ìž…ë ¥ë…„ì›”ê³¼ ê°™ì€ ê²½ìš°
+			-- TB_POPLTN_CTPRVN í…Œì´ë¸”ì— INSERT
 			INSERT INTO TB_POPLTN_CTPRVN
 				VALUES(V_CTPRVN_CD	,
 						V_CTPRVN_NM	,
@@ -99,12 +99,12 @@ BEGIN -- ½ÇÇàºÎ ½ÃÀÛ
 		END IF;
 	END LOOP;
 	
-	CLOSE SELECT_TB_POPLTN; -- Ä¿¼­ Á¾·á
+	CLOSE SELECT_TB_POPLTN; -- ì»¤ì„œ ì¢…ë£Œ
 	
 	COMMIT;
 
 	DBMS_OUTPUT.PUT_LINE('-----------------------------');
-END SP_INSERT_TB_POPLTN_CTPRVN; -- ½ÇÇàºÎ Á¾·á
+END SP_INSERT_TB_POPLTN_CTPRVN; -- ì‹¤í–‰ë¶€ ì¢…ë£Œ
 /
 /*************************************************************************/
 
@@ -116,16 +116,16 @@ SELECT * FROM TB_POPLTN_CTPRVN;
 
 
 -----------------------------------------------------------------------
--- 6.8.5 »ç¿ëÀÚ Á¤ÀÇ ÇÔ¼ö¶õ?  p.394
+-- 6.8.5 ì‚¬ìš©ìž ì •ì˜ í•¨ìˆ˜ëž€?  p.394
 -- KEYWORD : FUNCTION
---  ¹Ýµå½Ã 1°ÇÀ» ¹ÝÈ¯ÇÑ´Ù.
+--  ë°˜ë“œì‹œ 1ê±´ì„ ë°˜í™˜í•œë‹¤.
 -----------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION F_GET_TK_GFF_CNT
 (
-    IN_SUBWAY_STATN_NO IN TB_SUBWAY_STATN.SUBWAY_STATN_NO%TYPE  -- arg 1: ÁöÇÏÃ¶ ¹øÈ£
-,   IN_STD_YM IN TB_SUBWAY_STATN_TK_GFF.STD_YM%TYPE				-- arg 2: ¿¬¿ù '202010'
+    IN_SUBWAY_STATN_NO IN TB_SUBWAY_STATN.SUBWAY_STATN_NO%TYPE  -- arg 1: ì§€í•˜ì²  ë²ˆí˜¸
+,   IN_STD_YM IN TB_SUBWAY_STATN_TK_GFF.STD_YM%TYPE				-- arg 2: ì—°ì›” '202010'
 )
-RETURN NUMBER IS V_TK_GFF_CNT NUMBER; -- ¸®ÅÏ°ª ¼±¾ð // ½ÂÇÏÂ÷ÀÎ¿ø¼ö ÇÕ°è
+RETURN NUMBER IS V_TK_GFF_CNT NUMBER; -- ë¦¬í„´ê°’ ì„ ì–¸ // ìŠ¹í•˜ì°¨ì¸ì›ìˆ˜ í•©ê³„
 
 BEGIN
 SELECT 
@@ -143,37 +143,37 @@ SELECT *
 FROM
     (
         SELECT A.SUBWAY_STATN_NO, A.LN_NM, A.STATN_NM
-              , F_GET_TK_GFF_CNT(A.SUBWAY_STATN_NO, '202010') AS TK_GFF_CNT -- ½ÂÇÏÂ÷ ÀÎ¿ø¼ö ÇÕ°è
+              , F_GET_TK_GFF_CNT(A.SUBWAY_STATN_NO, '202010') AS TK_GFF_CNT -- ìŠ¹í•˜ì°¨ ì¸ì›ìˆ˜ í•©ê³„
         FROM TB_SUBWAY_STATN A
         WHERE 1=1
-            AND A.LN_NM = '2È£¼±'
+            AND A.LN_NM = '2í˜¸ì„ '
         ORDER BY TK_GFF_CNT DESC    
     )
 WHERE ROWNUM <= 10
 ;
 -----------------------------------------------------------------------
--- 6.8.7	Æ®¸®°Å »ý¼º
+-- 6.8.7	íŠ¸ë¦¬ê±° ìƒì„± p.396
 -- 
--- Æ¯Á¤ Å×ÀÌºí¿¡ INSERT, UPDATE, DELETE¸¦ ¼öÇàÇÒ ¶§ ÀÚµ¿À¸·Î µ¿ÀÛ
--- ÀÎ±¸ Å×ÀÌºí (TB_POPLTN)¿¡ Æ¯Á¤ µ¥ÀÌÅÍ¸¦ »ðÀÔÇÏ¸é ÀÎ±¸½Ãµµ (TB_POPLTN_CTPRVN)¿¡ µ¥ÀÌÅÍ°¡ ÀÔ·ÂµÇµµ·Ï Æ®¸®°Å »ý¼º.
+-- íŠ¹ì • í…Œì´ë¸”ì— INSERT, UPDATE, DELETEë¥¼ ìˆ˜í–‰í•  ë•Œ ìžë™ìœ¼ë¡œ ë™ìž‘
+-- ì¸êµ¬ í…Œì´ë¸” (TB_POPLTN)ì— íŠ¹ì • ë°ì´í„°ë¥¼ ì‚½ìž…í•˜ë©´ ì¸êµ¬ì‹œë„ (TB_POPLTN_CTPRVN)ì— ë°ì´í„°ê°€ ìž…ë ¥ë˜ë„ë¡ íŠ¸ë¦¬ê±° ìƒì„±.
 -----------------------------------------------------------------------
 CREATE OR REPLACE TRIGGER TRIG_TB_POPLTN_CTPRVN_INSERT
-    AFTER INSERT -- INSERT ÈÄ¿¡ ½ÇÇà
-    ON TB_POPLTN -- ÇØ´ç Å×ÀÌºí¿¡
-    FOR EACH ROW -- °¢°¢ÀÇ ÇàÀ» ÀÔ·Â¸¶´Ù
-DECLARE -- º¯¼ö¼±¾ð ½ÃÀÛ
+    AFTER INSERT -- INSERT í›„ì— ì‹¤í–‰
+    ON TB_POPLTN -- í•´ë‹¹ í…Œì´ë¸”ì—
+    FOR EACH ROW -- ê°ê°ì˜ í–‰ì„ ìž…ë ¥ë§ˆë‹¤
+DECLARE -- ë³€ìˆ˜ì„ ì–¸ ì‹œìž‘
     V_ADSTRD_CD       TB_POPLTN.ADSTRD_CD%TYPE;    
     V_STD_YM          TB_POPLTN.STD_YM%TYPE;
     V_POPLTN_SE_CD    TB_POPLTN.POPLTN_SE_CD%TYPE;
     V_AGRDE_SE_CD     TB_POPLTN.AGRDE_SE_CD%TYPE;
--- º¯¼ö¼±¾ð Á¾·á
+-- ë³€ìˆ˜ì„ ì–¸ ì¢…ë£Œ
 BEGIN
-    V_ADSTRD_CD := :NEW.ADSTRD_CD; -- TB_POPLTN¿¡ »õ·ÎÀÌ INSERTµÈ ADSTRD_CD °ª
+    V_ADSTRD_CD := :NEW.ADSTRD_CD; -- TB_POPLTNì— ìƒˆë¡œì´ INSERTëœ ADSTRD_CD ê°’
     V_STD_YM := :NEW.STD_YM;
     V_POPLTN_SE_CD := :NEW.POPLTN_SE_CD;
     V_AGRDE_SE_CD := :NEW.AGRDE_SE_CD;
     
-    -- TB_POPLTN_CTPRVN Å×ÀÌºí¿¡ ÀÎ±¸¼ö¸¦ ´©Àû ¾÷µ¥ÀÌÆ®ÇÔ.
+    -- TB_POPLTN_CTPRVN í…Œì´ë¸”ì— ì¸êµ¬ìˆ˜ë¥¼ ëˆ„ì  ì—…ë°ì´íŠ¸í•¨.
     UPDATE TB_POPLTN_CTPRVN A
         SET A.POPLTN_CNT = A.POPLTN_CNT + :NEW.POPLTN_CNT
     WHERE A.CTPRVN_CD = SUBSTR(V_ADSTRD_CD, 1, 2)
@@ -182,7 +182,7 @@ BEGIN
         AND A.AGRDE_SE_CD = V_AGRDE_SE_CD
     ;
     
-    -- TB_POPLTN_CTPRVN Å×ÀÌºí¿¡ ÇØ´ç ÇàÀÌ ¾ø´Ù¸é ½Å±Ô·Î INSERTÇÔ.
+    -- TB_POPLTN_CTPRVN í…Œì´ë¸”ì— í•´ë‹¹ í–‰ì´ ì—†ë‹¤ë©´ ì‹ ê·œë¡œ INSERTí•¨.
     IF SQL%NOTFOUND THEN
         INSERT INTO TB_POPLTN_CTPRVN
         ( CTPRVN_CD
@@ -193,10 +193,10 @@ BEGIN
         , POPLTN_CNT )
         VALUES
         ( SUBSTR(V_ADSTRD_CD, 1, 2)
-        , (SELECT L.ADRES_CL_NM -- ÁÖ¼ÒºÐ·ù Å×ÀÌºí¿¡¼­ ½Ãµµ¸íÀ» °¡Á®¿È
+        , (SELECT L.ADRES_CL_NM -- ì£¼ì†Œë¶„ë¥˜ í…Œì´ë¸”ì—ì„œ ì‹œë„ëª…ì„ ê°€ì ¸ì˜´
             FROM TB_ADRES_CL L
             WHERE L.ADRES_CL_CD = SUBSTR(V_ADSTRD_CD, 1,2)
-                AND L.ADRES_CL_SE_CD = 'ACS001') -- ½Ãµµ
+                AND L.ADRES_CL_SE_CD = 'ACS001') -- ì‹œë„
         , V_STD_YM
         , V_POPLTN_SE_CD
         , V_AGRDE_SE_CD
@@ -206,42 +206,71 @@ BEGIN
 END;
 /
 
--- »õ·Î¿î ÀÚ·á Çà ÀÔ·Â // Æ®¸®°Å È£Ãâ
+-- ìƒˆë¡œìš´ ìžë£Œ í–‰ ìž…ë ¥ // íŠ¸ë¦¬ê±° í˜¸ì¶œ
 INSERT INTO TB_POPLTN (ADSTRD_CD, STD_YM, POPLTN_SE_CD, AGRDE_SE_CD, POPLTN_CNT)
     VALUES 
-    ( '4128157500' -- °æ±âµµ °í¾ç½Ã »ï¼Ûµ¿
-    , '202009' -- 2020³â 09¿ù ±âÁØ
+    ( '4128157500' -- ê²½ê¸°ë„ ê³ ì–‘ì‹œ ì‚¼ì†¡ë™
+    , '202009' -- 2020ë…„ 09ì›” ê¸°ì¤€
     , 'F'
     , '030'
     , 2000
     );
--- COMMIT Àü¿¡ ÀÔ·ÂµÈ ÀÚ·á Ã¼Å©
+-- COMMIT ì „ì— ìž…ë ¥ëœ ìžë£Œ ì²´í¬
 SELECT *
 FROM TB_POPLTN_CTPRVN
 WHERE CTPRVN_CD = '41'
     AND STD_YM = '202009';
     
-ROLLBACK; -- ·Ñ¹éÇÏ°í³ª¸é ÀÎ±¸Å×ÀÌºí¿¡ ÀÚ·á°¡ »èÁ¦µÇ¸é¼­   ÀÎ±¸½Ãµµ Å×ÀÌºí¿¡ Æ®¸®°Å¸µÀ¸·Î µé¾î°£ ÀÚ·áµµ °°ÀÌ »èÁ¦µÊ.
+ROLLBACK; -- ë¡¤ë°±í•˜ê³ ë‚˜ë©´ ì¸êµ¬í…Œì´ë¸”ì— ìžë£Œê°€ ì‚­ì œë˜ë©´ì„œ   ì¸êµ¬ì‹œë„ í…Œì´ë¸”ì— íŠ¸ë¦¬ê±°ë§ìœ¼ë¡œ ë“¤ì–´ê°„ ìžë£Œë„ ê°™ì´ ì‚­ì œë¨.
 
-COMMIT; -- ÀÌ¹ø¿¡´Â Ä¿¹Ô ÈÄ¿¡ ÀÚ·á¸¦ Ã¼Å©ÇØº»´Ù.
+COMMIT; -- ì´ë²ˆì—ëŠ” ì»¤ë°‹ í›„ì— ìžë£Œë¥¼ ì²´í¬í•´ë³¸ë‹¤.
 
--- »õ·Î¿î ÀÚ·á Çà ÀÔ·Â // Æ®¸®°Å È£Ãâ
+-- ìƒˆë¡œìš´ ìžë£Œ í–‰ ìž…ë ¥ // íŠ¸ë¦¬ê±° í˜¸ì¶œ
 INSERT INTO TB_POPLTN (ADSTRD_CD, STD_YM, POPLTN_SE_CD, AGRDE_SE_CD, POPLTN_CNT)
     VALUES 
-    ( '4128158000' -- °æ±âµµ °í¾ç½Ã Ã¢¸ªµ¿
-    , '202009' -- 2020³â 09¿ù ±âÁØ
+    ( '4128158000' -- ê²½ê¸°ë„ ê³ ì–‘ì‹œ ì°½ë¦‰ë™
+    , '202009' -- 2020ë…„ 09ì›” ê¸°ì¤€
     , 'F'
     , '030'
     , 2100
     );
 COMMIT;
 
--- ÀÚ·áÃ¼Å©. 2000 + 2100ÇØ¼­ 4100¸íÀÌ µÊ.
+-- ìžë£Œì²´í¬. 2000 + 2100í•´ì„œ 4100ëª…ì´ ë¨.
 SELECT *
 FROM TB_POPLTN_CTPRVN
 WHERE CTPRVN_CD = '41'
     AND STD_YM = '202009';
     
-/**********************************************************************
- *  PROCEDURE ¿Í TRIGGERÀÇ Â÷ÀÌÁ¡
- **********************************************************************/
+/****************************************************************************************
+ *  PROCEDURE ì™€ TRIGGERì˜ ì°¨ì´ì 
+ * 
+ * í”„ë¡œì‹œì €ëŠ” ë‚´ë¶€ì—ì„œ COMMIT í˜¹ì€ ROLLBACKì„ ìˆ˜í–‰í•œë‹¤.
+ * íŠ¸ë¦¬ê±°ëŠ” íŠ¸ë¦¬ê±°ë¥¼ ë°œìƒì‹œí‚¨ SQLë¬¸ì´ COMMIT í˜¹ì€ ROLLBACKë˜ëŠ”ì§€ì— ë”°ë¼ì„œ ê²°ì •ë¨.
+ * 
+ * --------------------------------------------------------------------------------------
+ *                  PROCEDURE                 |              TRIGGER
+ * --------------------------------------------------------------------------------------
+ *   ìƒì„± |   CREATE PROCEDURE                |   CREATE TRIGGER
+ *   ì‹¤í–‰ |   EXECUTE (EXEC) 				  |   EVENT DRIVEN
+ *   ë°˜ì˜ |   ë‚´ë¶€ì—ì„œ COMMIT / ROLLBACK ìˆ˜í–‰ |   ë‚´ë¶€ì—ì„œ ê²°ì •ë˜ì§€ ì•ŠìŒ. CALLERê°€ ê²°ì •.
+ * --------------------------------------------------------------------------------------
+ ****************************************************************************************/
+
+ 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
