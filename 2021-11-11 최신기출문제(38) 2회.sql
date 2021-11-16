@@ -68,7 +68,3 @@ DBMS_OUTPUT.PUT_LINE(V_NAME);
 DBMS_OUTPUT.PUT_LINE('============');
 END;
 /
-
-
-
-
