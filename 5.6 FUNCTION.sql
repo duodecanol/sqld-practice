@@ -75,37 +75,37 @@ SELECT TO_BINARY_DOUBLE('10') FROM DUAL;
 SELECT TO_NUMBER('100') + TO_NUMBER('100') FROM DUAL;
 SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD') AS RESULT FROM DUAL;
 
---5.6.9 ´ÜÀÏÇà CASE Ç¥ÇöÀÇ Á¾·ù
+--5.6.9 ë‹¨ì¼í–‰ CASE í‘œí˜„ì˜ ì¢…ë¥˜
 
 SELECT
 	CASE WHEN A.INDUTY_CL_SE_CD = 'ICS001'
-		THEN '´ë'
+		THEN 'ëŒ€'
 		WHEN A.INDUTY_CL_SE_CD = 'ICS002'
-		THEN 'Áß'
+		THEN 'ì¤‘'
 		WHEN A.INDUTY_CL_SE_CD = 'ICS003'
-		THEN '¼Ò'
+		THEN 'ì†Œ'
 		ELSE '_'
-	END AS "¾÷Á¾ºÐ·ù±¸ºÐ"
+	END AS "ì—…ì¢…ë¶„ë¥˜êµ¬ë¶„"
 FROM TB_INDUTY_CL_SE A;
 
 SELECT
 	DECODE(
 		A.INDUTY_CL_SE_CD,
 		'ICS001',
-		'´ë',
+		'ëŒ€',
 		'ICS002',
-		'Áß',
+		'ì¤‘',
 		'ICS003',
-		'¼Ò',
+		'ì†Œ',
 		'_'
-	) AS "Å©±âºÐ·ù±¸ºÐ"
+	) AS "í¬ê¸°ë¶„ë¥˜êµ¬ë¶„"
 FROM TB_INDUTY_CL_SE A;
 
 
---NULL °ü·Ã ÇÐ½À
+--NULL ê´€ë ¨ í•™ìŠµ
 SELECT COALESCE(NULL, 4, 2, 5) FROM DUAL;
 
---NULL°ú ¾î¶² ¿¬»êÀ» ÇØµµ NULLÀÌ µÈ´Ù.
+--NULLê³¼ ì–´ë–¤ ì—°ì‚°ì„ í•´ë„ NULLì´ ëœë‹¤.
 SELECT
 	NULL + 2,
 	NULL - 2,
@@ -121,13 +121,13 @@ SELECT
 	A.INDUTY_CL_CD,
 	A.INDUTY_CL_NM,
 	A.INDUTY_CL_SE_CD,
-	NVL(UPPER_INDUTY_CL_CD, 'ÃÖ»óÀ§') AS UPPER_INDUTY_CL_CD
+	NVL(UPPER_INDUTY_CL_CD, 'ìµœìƒìœ„') AS UPPER_INDUTY_CL_CD
 FROM TB_INDUTY_CL A
 WHERE A.UPPER_INDUTY_CL_CD IS NULL;
 
 SELECT
-	NULLIF('SQLD', 'SQLP'), -- µÎ ÀÎÀÚ°¡ ´Ù¸£¸é ¾ÕÀÇ °Í 
-	NULLIF('SQLD', 'SQLD'), -- µÎ ÀÎÀÚ°¡ °°À¸¸é NULL
+	NULLIF('SQLD', 'SQLP'), -- ë‘ ì¸ìžê°€ ë‹¤ë¥´ë©´ ì•žì˜ ê²ƒ 
+	NULLIF('SQLD', 'SQLD'), -- ë‘ ì¸ìžê°€ ê°™ìœ¼ë©´ NULL
 	NULLIF(1, 1),
 	NULLIF(55, 1)
 FROM DUAL;
@@ -136,8 +136,8 @@ SELECT
 	NVL(NULL, 3),
 	NVL(1, 3),
 	NVL(NULL, NULL),
-	NVL2(NULL, 10, 0), -- ÀÎÀÚ 1ÀÌ NULLÀÌ¸é ¸¶Áö¸· ÀÎÀÚ
-	NVL2(0, 10, 0),		-- ÀÎÀÚ 1ÀÌ NULL ¾Æ´Ï¸é µÎ¹øÂ° ÀÎÀÚ
+	NVL2(NULL, 10, 0), -- ì¸ìž 1ì´ NULLì´ë©´ ë§ˆì§€ë§‰ ì¸ìž
+	NVL2(0, 10, 0),		-- ì¸ìž 1ì´ NULL ì•„ë‹ˆë©´ ë‘ë²ˆì§¸ ì¸ìž
 	NVL2(NULL, 10, NULL)	
 FROM DUAL;
 

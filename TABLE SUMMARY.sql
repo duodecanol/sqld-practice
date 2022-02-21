@@ -1,11 +1,11 @@
-SELECT ROWNUM AS ผ๘น๘
-		, TABLE_NAME AS ลืภฬบํธํ
+SELECT ROWNUM AS ์๋ฒ
+		, TABLE_NAME AS ํ…์ด๋ธ”๋ช…
 		, (SELECT L.COMMENTS FROM DBA_TAB_COMMENTS L
 			WHERE L.OWNER = 'SQLD'
-			AND L.TABLE_NAME = A.TABLE_NAME) AS ลืภฬบํวัฑÛธํ
-		, DATA_CNT AS ลืภฬบํวเผ๖
-		, COUNT(*) OVER() AS รัลืภฬบํผ๖
-		, SUM(DATA_CNT) OVER() AS รัวเผ๖
+			AND L.TABLE_NAME = A.TABLE_NAME) AS ํ…์ด๋ธ”ํ•๊ธ€๋ช…
+		, DATA_CNT AS ํ…์ด๋ธ”ํ–์
+		, COUNT(*) OVER() AS ์ดํ…์ด๋ธ”์
+		, SUM(DATA_CNT) OVER() AS ์ดํ–์
 FROM
 	(
 	SELECT TRIM('TB_ADRES_CL') AS TABLE_NAME, COUNT(*) AS DATA_CNT FROM SQLD.TB_ADRES_CL

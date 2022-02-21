@@ -1,37 +1,37 @@
 /**********************************************************************
- * 5.9.2	2°³ Å×ÀÌºí Á¶ÀÎ
+ * 5.9.2	2ê°œ í…Œì´ë¸” ì¡°ì¸
  **********************************************************************/
 
-SELECT * FROM TB_SUBWAY_STATN;			--ÁöÇÏÃ¶ ¿ª
+SELECT * FROM TB_SUBWAY_STATN;			--ì§€í•˜ì²  ì—­
 
-SELECT * FROM TB_SUBWAY_STATN_TK_GFF;   -- ÁöÇÏÃ¶¿ª ½ÂÇÏÂ÷Á¤º¸
-
-
---°­³²¿ªÀ» ±âÁØÀ¸·Î 2020³â 10¿ù ÇÑ´Þ µ¿¾È Ãâ±Ù½Ã°£´ë 8½Ã ~9½Ã ÀÌ ¿ª¿¡¼­ ½ÂÇÏÂ÷ÇÑ ÀÎ¿ø ¼ö 
+SELECT * FROM TB_SUBWAY_STATN_TK_GFF;   -- ì§€í•˜ì² ì—­ ìŠ¹í•˜ì°¨ì •ë³´
 
 
-SELECT SUBWAY_STATN_NO, STATN_NM FROM TB_SUBWAY_STATN WHERE STATN_NM LIKE '°­³²%';
+--ê°•ë‚¨ì—­ì„ ê¸°ì¤€ìœ¼ë¡œ 2020ë…„ 10ì›” í•œë‹¬ ë™ì•ˆ ì¶œê·¼ì‹œê°„ëŒ€ 8ì‹œ ~9ì‹œ ì´ ì—­ì—ì„œ ìŠ¹í•˜ì°¨í•œ ì¸ì› ìˆ˜ 
+
+
+SELECT SUBWAY_STATN_NO, STATN_NM FROM TB_SUBWAY_STATN WHERE STATN_NM LIKE 'ê°•ë‚¨%';
 
 SELECT 
 	A.SUBWAY_STATN_NO,
 	A.LN_NM,
 	A.STATN_NM,
 	B.BEGIN_TIME, B.END_TIME,
-	CASE WHEN B.TK_GFF_SE_CD = 'TGS001' THEN '½ÂÂ÷'
-		 WHEN B.TK_GFF_SE_CD = 'TGS002' THEN 'ÇÏÂ÷'
+	CASE WHEN B.TK_GFF_SE_CD = 'TGS001' THEN 'ìŠ¹ì°¨'
+		 WHEN B.TK_GFF_SE_CD = 'TGS002' THEN 'í•˜ì°¨'
 	 END TK_GFF_SE_NM,
 	B.TK_GFF_CNT
 FROM TB_SUBWAY_STATN A, TB_SUBWAY_STATN_TK_GFF B
 WHERE A.SUBWAY_STATN_NO = B.SUBWAY_STATN_NO
-	AND A.SUBWAY_STATN_NO = '000032' -- 2È£¼± °­³²
+	AND A.SUBWAY_STATN_NO = '000032' -- 2í˜¸ì„  ê°•ë‚¨
 	AND B.STD_YM = '202010'
 	AND B.BEGIN_TIME = '0800'
 	AND B.END_TIME = '0900';
 	
 /**********************************************************************
- * 5.9.3	3°³ Å×ÀÌºí Á¶ÀÎ
+ * 5.9.3	3ê°œ í…Œì´ë¸” ì¡°ì¸
  **********************************************************************/
-SELECT * FROM TB_TK_GFF_SE; --½ÂÇÏÂ÷±¸ºÐÄÚµå
+SELECT * FROM TB_TK_GFF_SE; --ìŠ¹í•˜ì°¨êµ¬ë¶„ì½”ë“œ
 
 SELECT
 	A.SUBWAY_STATN_NO,
@@ -52,7 +52,7 @@ WHERE
 	B.TK_GFF_SE_CD = C.TK_GFF_SE_CD;
 
 /**********************************************************************
- * 5.9.4	4°³ Å×ÀÌºí Á¶ÀÎ
+ * 5.9.4	4ê°œ í…Œì´ë¸” ì¡°ì¸
  **********************************************************************/
 
 SELECT * FROM TB_POPLTN;
@@ -78,16 +78,16 @@ WHERE A.ADSTRD_CD = D.ADSTRD_CD
 	AND A.POPLTN_SE_CD IN ('M', 'F')
 	AND A.STD_YM = '202010'
 	AND C.AGRDE_SE_CD IN ('020', '030', '040')
-	AND D.ADSTRD_NM LIKE '%°æ±âµµ%°í¾ç½Ã%´ö¾ç±¸%»ï¼Û%'
+	AND D.ADSTRD_NM LIKE '%ê²½ê¸°ë„%ê³ ì–‘ì‹œ%ë•ì–‘êµ¬%ì‚¼ì†¡%'
 ORDER BY A.POPLTN_CNT DESC;
 
 /**********************************************************************
- * 5.10.1 °¢ Áö¿ªº° (½Ã/µµ) ½ºÅ¸¹÷½º Ä¿ÇÇ ¸ÅÀå ¼ö ±¸ÇÏ±â
+ * 5.10.1 ê° ì§€ì—­ë³„ (ì‹œ/ë„) ìŠ¤íƒ€ë²…ìŠ¤ ì»¤í”¼ ë§¤ìž¥ ìˆ˜ êµ¬í•˜ê¸°
  **********************************************************************/
 SELECT
 	CTPRVN_CD, CMPNM_NM, BHF_NM, LNM_ADRES, ADSTRD_CD
 FROM TB_BSSH
-WHERE (CMPNM_NM LIKE '%½ºÅ¸¹÷½º%'
+WHERE (CMPNM_NM LIKE '%ìŠ¤íƒ€ë²…ìŠ¤%'
 		OR 
 		UPPER(CMPNM_NM) LIKE '%STAR%BUCKS%');
 
@@ -98,26 +98,26 @@ SELECT
 	B.ADRES_CL_NM,
 	COUNT(*) AS CNT
 FROM TB_BSSH A, TB_ADRES_CL B
-WHERE (CMPNM_NM LIKE '%½ºÅ¸¹÷½º%'
+WHERE (CMPNM_NM LIKE '%ìŠ¤íƒ€ë²…ìŠ¤%'
 		OR 
 		UPPER(CMPNM_NM) LIKE '%STAR%BUCKS%')
 	AND A.CTPRVN_CD = B.ADRES_CL_CD
-	AND B.ADRES_CL_SE_CD = 'ACS001' -- ½Ãµµ ±âÁØ
+	AND B.ADRES_CL_SE_CD = 'ACS001' -- ì‹œë„ ê¸°ì¤€
 GROUP BY A.CTPRVN_CD, B.ADRES_CL_NM
 ORDER BY CNT DESC
 ;
 
 /**********************************************************************
- * 5.10.2	Ãâ±Ù½Ã°£´ë ÇÏÂ÷ÀÎ¿øÀÌ °¡Àå ¸¹Àº ¼øÀ¸·Î Á¶È¸ÇÏ±â    p.
+ * 5.10.2	ì¶œê·¼ì‹œê°„ëŒ€ í•˜ì°¨ì¸ì›ì´ ê°€ìž¥ ë§Žì€ ìˆœìœ¼ë¡œ ì¡°íšŒí•˜ê¸°    p.
  **********************************************************************/
 
 WITH RES AS (
 	SELECT
-		A.SUBWAY_STATN_NO AS ¿ª¹øÈ£,
+		A.SUBWAY_STATN_NO AS ì—­ë²ˆí˜¸,
 		B.LN_NM,
 		B.STATN_NM,
-		A.BEGIN_TIME || ' ~ ' || A.END_TIME AS "Å¾½Â½Ã°£",
-		C.TK_GFF_SE_NM AS "½ÂÇÏÂ÷",
+		A.BEGIN_TIME || ' ~ ' || A.END_TIME AS "íƒ‘ìŠ¹ì‹œê°„",
+		C.TK_GFF_SE_NM AS "ìŠ¹í•˜ì°¨",
 		A.TK_GFF_CNT
 	FROM TB_SUBWAY_STATN_TK_GFF A, TB_SUBWAY_STATN B, TB_TK_GFF_SE C
 	WHERE A.SUBWAY_STATN_NO = B.SUBWAY_STATN_NO
@@ -131,7 +131,7 @@ WITH RES AS (
 SELECT * FROM RES WHERE ROWNUM <= 20;
 
 /**********************************************************************
- * 5.10.3	¿¬·É´ëº° ³²¼º/¿©¼º ÀÎ±¸¼ö ±¸ÇÏ±â	p.
+ * 5.10.3	ì—°ë ¹ëŒ€ë³„ ë‚¨ì„±/ì—¬ì„± ì¸êµ¬ìˆ˜ êµ¬í•˜ê¸°	p.
  **********************************************************************/
 
 SELECT *  FROM TB_POPLTN A;
@@ -139,7 +139,7 @@ SELECT *  FROM TB_POPLTN A;
 WITH SDL AS (
 	SELECT AGRDE_SE_CD, AGRDE_SE_NM FROM TB_AGRDE_SE
 )
-SELECT A.AGRDE_SE_CD, (SELECT SDL.AGRDE_SE_NM FROM SDL WHERE SDL.AGRDE_SE_CD = A.AGRDE_SE_CD) AS ¿¬·É´ë¼³¸í,
+SELECT A.AGRDE_SE_CD, (SELECT SDL.AGRDE_SE_NM FROM SDL WHERE SDL.AGRDE_SE_CD = A.AGRDE_SE_CD) AS ì—°ë ¹ëŒ€ì„¤ëª…,
 	SUM(DECODE(A.POPLTN_SE_CD, 'M', A.POPLTN_CNT, 0)) AS MALE_POPLTN_CNT,
 	SUM(DECODE(A.POPLTN_SE_CD, 'F', A.POPLTN_CNT, 0)) AS FEMALE_POPLTN_CNT,
 	SUM(A.POPLTN_CNT) AS TOTAL
@@ -151,36 +151,36 @@ ORDER BY A.AGRDE_SE_CD;
  * 6.1.5	INNER JOIN	p.290
  **********************************************************************/
 
--- ÇÏ³ªÀÇ ÁöÇÏÃ¶¿ªÀº ¿©·¯ °³ÀÇ ½ÂÇÏÂ÷ Á¤º¸¸¦ °¡Áø´Ù.
--- ÁöÇÏÃ¶¿ª 1È£¼± ¼­¿ï¿ª ±âÁØ 08½Ã ~ 09½Ã ½ÂÇÏÂ÷ÀÎ¿ø Á¶È¸
+-- í•˜ë‚˜ì˜ ì§€í•˜ì² ì—­ì€ ì—¬ëŸ¬ ê°œì˜ ìŠ¹í•˜ì°¨ ì •ë³´ë¥¼ ê°€ì§„ë‹¤.
+-- ì§€í•˜ì² ì—­ 1í˜¸ì„  ì„œìš¸ì—­ ê¸°ì¤€ 08ì‹œ ~ 09ì‹œ ìŠ¹í•˜ì°¨ì¸ì› ì¡°íšŒ
 
 SELECT A.SUBWAY_STATN_NO,
 	   A.LN_NM,
 	   A.STATN_NM,
 	   B.BEGIN_TIME,
 	   B.END_TIME,
-	   CASE WHEN B.TK_GFF_SE_CD = 'TGS001' THEN '½ÂÂ÷'
-	   		WHEN B.TK_GFF_SE_CD = 'TGS002' THEN 'ÇÏÂ÷'
+	   CASE WHEN B.TK_GFF_SE_CD = 'TGS001' THEN 'ìŠ¹ì°¨'
+	   		WHEN B.TK_GFF_SE_CD = 'TGS002' THEN 'í•˜ì°¨'
 	   		END AS TK_GFF_SE_NM,
 	   B.TK_GFF_CNT	
 FROM TB_SUBWAY_STATN A, TB_SUBWAY_STATN_TK_GFF B
 WHERE   A.SUBWAY_STATN_NO = B.SUBWAY_STATN_NO
-	AND A.SUBWAY_STATN_NO = '000001' -- 1È£¼± ¼­¿ï¿ª
+	AND A.SUBWAY_STATN_NO = '000001' -- 1í˜¸ì„  ì„œìš¸ì—­
 	AND B.STD_YM = '202010'
 	AND B.BEGIN_TIME = '0800'
 	AND B.END_TIME = '0900'
 ORDER BY B.TK_GFF_CNT DESC;
--- 1È£¼± ¼­¿ï¿ªÀº Ãâ±Ù½Ã°£´ë¿¡ ½ÂÂ÷ÀÎ¿øº¸´Ù ÇÏÂ÷ÀÎ¿øÀÌ ¾à 3¹è ¸¹´Ù.
+-- 1í˜¸ì„  ì„œìš¸ì—­ì€ ì¶œê·¼ì‹œê°„ëŒ€ì— ìŠ¹ì°¨ì¸ì›ë³´ë‹¤ í•˜ì°¨ì¸ì›ì´ ì•½ 3ë°° ë§Žë‹¤.
 
 /**********************************************************************
  * 6.1.6    NATURAL JOIN    p.291
  **********************************************************************/
 
--- NATURAL JOINÀº µÎ Å×ÀÌºí¿¡¼­ ÄÃ·³¸íÀÌ °°Àº ¼Ó¼ºÀ» ÇÏ³ª ÀÌ»ó ÀÌ¿ëÇØ ¿¬°áÇÑ´Ù.
--- Á¶°ÇÀý ¾øÀÌ ÀÚµ¿À¸·Î °°ÀºÀÌ¸§ÀÇ ¼Ó¼ºÀ» ¸ðµÎ Ã£¾Æ¼­ ¿¬°áÇØ¹ö¸°´Ù.
+-- NATURAL JOINì€ ë‘ í…Œì´ë¸”ì—ì„œ ì»¬ëŸ¼ëª…ì´ ê°™ì€ ì†ì„±ì„ í•˜ë‚˜ ì´ìƒ ì´ìš©í•´ ì—°ê²°í•œë‹¤.
+-- ì¡°ê±´ì ˆ ì—†ì´ ìžë™ìœ¼ë¡œ ê°™ì€ì´ë¦„ì˜ ì†ì„±ì„ ëª¨ë‘ ì°¾ì•„ì„œ ì—°ê²°í•´ë²„ë¦°ë‹¤.
 -----------------------------------------------------------------------
 
--- ½Ç½À¿ë Å×ÀÌºí »ý¼º
+-- ì‹¤ìŠµìš© í…Œì´ë¸” ìƒì„±
 CREATE TABLE TT_DEPT_616
 (
 	  DEPT_CD CHAR(4)
@@ -201,12 +201,12 @@ CREATE TABLE TT_EMP_616
 	, CONSTRAINT PK_TT_EMP_616 PRIMARY KEY(EMP_NO)
 );
 
-INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E001', 'ÀÌ°æ¿À', 'D001');
-INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E002', 'ÀÌ¼öÁö', 'D001');
-INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E003', '±è¿µ¾÷', 'D002');
-INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E004', '¹Ú¿µ¾÷', 'D002');
-INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E005', 'ÃÖ°³¹ß', 'D003');
-INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E006', 'Á¤°³¹ß', 'D003');
+INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E001', 'ì´ê²½ì˜¤', 'D001');
+INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E002', 'ì´ìˆ˜ì§€', 'D001');
+INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E003', 'ê¹€ì˜ì—…', 'D002');
+INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E004', 'ë°•ì˜ì—…', 'D002');
+INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E005', 'ìµœê°œë°œ', 'D003');
+INSERT INTO TT_EMP_616 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E006', 'ì •ê°œë°œ', 'D003');
 
 ALTER TABLE TT_EMP_616
 ADD CONSTRAINT FK_TT_EMP_616 FOREIGN KEY (DEPT_CD)
@@ -218,13 +218,13 @@ SELECT * FROM TT_DEPT_616;
 SELECT * FROM TT_EMP_616;
 
 -----------------------------------------------------------------------
--- NATURAL JOIN ½Ç½À
+-- NATURAL JOIN ì‹¤ìŠµ
 
 SELECT *
 FROM TT_DEPT_616 A NATURAL JOIN TT_EMP_616 B
 ;
 
-SELECT DEPT_CD -- ÀÚµ¿À¸·Î Ã£Àº Á¶ÀÎ ´ë»ó Ä®·³¿¡´Â TABLE ALIAS »ç¿ë ¾ÈµÈ´Ù.
+SELECT DEPT_CD -- ìžë™ìœ¼ë¡œ ì°¾ì€ ì¡°ì¸ ëŒ€ìƒ ì¹¼ëŸ¼ì—ëŠ” TABLE ALIAS ì‚¬ìš© ì•ˆëœë‹¤.
 	, A.DEPT_NM
 	, B.EMP_NO
 	, B.EMP_NM
@@ -245,10 +245,10 @@ ALTER TABLE TB_EMP_616 RENAME TO TT_EMP_616;
 ALTER TABLE TB_DEPT_616 RENAME TO TT_DEPT_616;
 
 -----------------------------------------------------------------------
--- USING Àý
+-- USING ì ˆ
 
-/*NATURAL JOINÀ» ÇÏ¸é º¹¼öÀÇ Á¶ÀÎÄ®·³ÀÌ ÀÚµ¿À¸·Î ¸ÅÄªµÇ¹Ç·Î
-Á¶ÀÎ Ä®·³À» ÁöÁ¤ÇÏ°í ½ÍÀº °æ¿ì¿¡´Â USING CLAUS ¸¦ »ç¿ë*/
+/*NATURAL JOINì„ í•˜ë©´ ë³µìˆ˜ì˜ ì¡°ì¸ì¹¼ëŸ¼ì´ ìžë™ìœ¼ë¡œ ë§¤ì¹­ë˜ë¯€ë¡œ
+ì¡°ì¸ ì¹¼ëŸ¼ì„ ì§€ì •í•˜ê³  ì‹¶ì€ ê²½ìš°ì—ëŠ” USING CLAUS ë¥¼ ì‚¬ìš©*/
 
 SELECT MAX(A.LN_NM)
 	 , A.STATN_NM
@@ -261,7 +261,7 @@ FROM TB_SUBWAY_STATN A JOIN TB_SUBWAY_STATN_TK_GFF B
 WHERE A.STATN_NM IS NOT NULL
 	AND B.STD_YM = '202010'
 	AND B.BEGIN_TIME > '0600' AND B.END_TIME < '1100'
-GROUP BY A.STATN_NM, C.TK_GFF_SE_NM HAVING MAX(A.LN_NM) IN ('°æÀÇ¼±', 'Áß¾Ó¼±')
+GROUP BY A.STATN_NM, C.TK_GFF_SE_NM HAVING MAX(A.LN_NM) IN ('ê²½ì˜ì„ ', 'ì¤‘ì•™ì„ ')
 ORDER BY A.STATN_NM, POPULATION
 ;
 
@@ -270,28 +270,28 @@ SELECT * FROM TB_SUBWAY_STATN;
 SELECT * FROM TB_TK_GFF_SE;
 
 -----------------------------------------------------------------------
--- ON Àý
+-- ON ì ˆ
 
 SELECT A.SUBWAY_STATN_NO,
 	   A.LN_NM,
 	   A.STATN_NM,
 	   B.BEGIN_TIME,
 	   B.END_TIME,
-	   CASE WHEN B.TK_GFF_SE_CD = 'TGS001' THEN '½ÂÂ÷'
-	   		WHEN B.TK_GFF_SE_CD = 'TGS002' THEN 'ÇÏÂ÷'
+	   CASE WHEN B.TK_GFF_SE_CD = 'TGS001' THEN 'ìŠ¹ì°¨'
+	   		WHEN B.TK_GFF_SE_CD = 'TGS002' THEN 'í•˜ì°¨'
 	   		END AS TK_GFF_SE_NM,
 	   B.TK_GFF_CNT	
 FROM TB_SUBWAY_STATN A INNER JOIN TB_SUBWAY_STATN_TK_GFF B
 	ON A.SUBWAY_STATN_NO = B.SUBWAY_STATN_NO
-WHERE   A.SUBWAY_STATN_NO = '000001' -- 1È£¼± ¼­¿ï¿ª
+WHERE   A.SUBWAY_STATN_NO = '000001' -- 1í˜¸ì„  ì„œìš¸ì—­
 	AND B.STD_YM = '202010'
 	AND B.BEGIN_TIME = '0800'
 	AND B.END_TIME = '0900'
 ORDER BY B.TK_GFF_CNT DESC;
 
 -----------------------------------------------------------------------
--- 3°³ Å×ÀÌºí Á¶ÀÎ 
--- Ãâ±Ù½Ã°£ °­³²¿ª ½ÂÇÏÂ÷ ÀÎ¿ø¼ö
+-- 3ê°œ í…Œì´ë¸” ì¡°ì¸ 
+-- ì¶œê·¼ì‹œê°„ ê°•ë‚¨ì—­ ìŠ¹í•˜ì°¨ ì¸ì›ìˆ˜
 SELECT A.SUBWAY_STATN_NO
 	 , A.LN_NM
 	 , A.STATN_NM
@@ -300,15 +300,15 @@ SELECT A.SUBWAY_STATN_NO
 	 , C.TK_GFF_SE_NM
 	 , B.TK_GFF_CNT
 FROM TB_SUBWAY_STATN A, TB_SUBWAY_STATN_TK_GFF B, TB_TK_GFF_SE C
-WHERE   A.SUBWAY_STATN_NO = B.SUBWAY_STATN_NO -- AB Á¶ÀÎÁ¶°Ç
-	AND B.TK_GFF_SE_CD = C.TK_GFF_SE_CD       -- BC Á¶ÀÎÁ¶°Ç
+WHERE   A.SUBWAY_STATN_NO = B.SUBWAY_STATN_NO -- AB ì¡°ì¸ì¡°ê±´
+	AND B.TK_GFF_SE_CD = C.TK_GFF_SE_CD       -- BC ì¡°ì¸ì¡°ê±´
 	AND A.SUBWAY_STATN_NO = '000032'
 	AND B.STD_YM = '202010'
 	AND B.BEGIN_TIME = '0800'
 	AND B.END_TIME = '0900'
 ;
 
--- ANSI Ç¥ÁØ ¹æ½ÄÀ» ÀÌ¿ëÇÑ Á¶ÀÎ
+-- ANSI í‘œì¤€ ë°©ì‹ì„ ì´ìš©í•œ ì¡°ì¸
 SELECT A.SUBWAY_STATN_NO 
 	 , A.LN_NM
 	 , A.STATN_NM
@@ -316,9 +316,9 @@ SELECT A.SUBWAY_STATN_NO
 	 , B.END_TIME
 	 , C.TK_GFF_SE_NM
 	 , B.TK_GFF_CNT
-FROM TB_SUBWAY_STATN A INNER JOIN -- ANSI Ç¥ÁØ ¹æ½ÄÀ» ÀÌ¿ëÇÑ Á¶ÀÎ
-	 TB_SUBWAY_STATN_TK_GFF B ON (A.SUBWAY_STATN_NO = B.SUBWAY_STATN_NO) INNER JOIN -- AB Á¶ÀÎÁ¶°Ç
-	 TB_TK_GFF_SE C           ON (B.TK_GFF_SE_CD = C.TK_GFF_SE_CD) -- BC Á¶ÀÎÁ¶°Ç
+FROM TB_SUBWAY_STATN A INNER JOIN -- ANSI í‘œì¤€ ë°©ì‹ì„ ì´ìš©í•œ ì¡°ì¸
+	 TB_SUBWAY_STATN_TK_GFF B ON (A.SUBWAY_STATN_NO = B.SUBWAY_STATN_NO) INNER JOIN -- AB ì¡°ì¸ì¡°ê±´
+	 TB_TK_GFF_SE C           ON (B.TK_GFF_SE_CD = C.TK_GFF_SE_CD) -- BC ì¡°ì¸ì¡°ê±´
 WHERE   A.SUBWAY_STATN_NO = '000032'
 	AND B.STD_YM = '202010'
 	AND B.BEGIN_TIME = '0800'
@@ -328,7 +328,7 @@ WHERE   A.SUBWAY_STATN_NO = '000032'
 -----------------------------------------------------------------------
 -- OUTER JOIN
 
--- ½Ç½À¿ë Å×ÀÌºí »ý¼º
+-- ì‹¤ìŠµìš© í…Œì´ë¸” ìƒì„±
 CREATE TABLE TT_DEPT_6110
 (
 	  DEPT_CD CHAR(4)
@@ -352,15 +352,15 @@ CREATE TABLE TT_EMP_6110
 	, CONSTRAINT PK_TT_EMP_6110 PRIMARY KEY(EMP_NO)
 );
 
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E001', 'ÀÌ°æ¿À', 'D001');
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E002', 'ÀÌ¼öÁö', 'D001');
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E003', '±è¿µ¾÷', 'D002');
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E004', '¹Ú¿µ¾÷', 'D002');
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E005', 'ÃÖ°³¹ß', 'D003');
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E006', 'Á¤°³¹ß', 'D003');
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E007', '¼®½ÅÀÔ', NULL);
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E008', 'Â÷ÀÎÅÏ', NULL);
-INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E009', '°­È¸Àå', 'D000');
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E001', 'ì´ê²½ì˜¤', 'D001');
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E002', 'ì´ìˆ˜ì§€', 'D001');
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E003', 'ê¹€ì˜ì—…', 'D002');
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E004', 'ë°•ì˜ì—…', 'D002');
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E005', 'ìµœê°œë°œ', 'D003');
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E006', 'ì •ê°œë°œ', 'D003');
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E007', 'ì„ì‹ ìž…', NULL);
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E008', 'ì°¨ì¸í„´', NULL);
+INSERT INTO TT_EMP_6110 (EMP_NO, EMP_NM, DEPT_CD) VALUES ('E009', 'ê°•íšŒìž¥', 'D000');
 
 ALTER TABLE TT_EMP_6110
 ADD CONSTRAINT FK_TT_EMP_6110 FOREIGN KEY (DEPT_CD)
@@ -370,7 +370,7 @@ ALTER TABLE TT_EMP_6110
 DROP CONSTRAINT FK_TT_EMP_6110;
 
 SELECT * FROM TT_EMP_6110;
-UPDATE TT_EMP_6110 SET DEPT_CD = 'D000' WHERE EMP_NM = '°­È¸Àå';
+UPDATE TT_EMP_6110 SET DEPT_CD = 'D000' WHERE EMP_NM = 'ê°•íšŒìž¥';
 
 -----------------------------------------------------------------------
 -- 6.1.11    LEFT OUTER JOIN    p.301
@@ -380,12 +380,12 @@ SELECT * FROM TT_EMP_6110;
 
 SELECT *
 FROM TT_DEPT_6110 A, TT_EMP_6110 B
-WHERE A.DEPT_CD = B.DEPT_CD (+)   --- ORACLE ¹æ½Ä LEFT OUTER JOIN
+WHERE A.DEPT_CD = B.DEPT_CD (+)   --- ORACLE ë°©ì‹ LEFT OUTER JOIN
 ORDER BY A.DEPT_CD;
 
 SELECT *
 FROM TT_DEPT_6110 A LEFT OUTER JOIN TT_EMP_6110 B
-	ON (A.DEPT_CD = B.DEPT_CD)     --- ANSI ¹æ½Ä LEFT OUTER JOIN
+	ON (A.DEPT_CD = B.DEPT_CD)     --- ANSI ë°©ì‹ LEFT OUTER JOIN
 ORDER BY A.DEPT_CD;
 
 -----------------------------------------------------------------------
@@ -393,35 +393,35 @@ ORDER BY A.DEPT_CD;
 
 SELECT *
 FROM TT_DEPT_6110 A, TT_EMP_6110 B
-WHERE A.DEPT_CD (+) = B.DEPT_CD    --- ORACLE ¹æ½Ä RIGHT OUTER JOIN
+WHERE A.DEPT_CD (+) = B.DEPT_CD    --- ORACLE ë°©ì‹ RIGHT OUTER JOIN
 ORDER BY A.DEPT_CD;
 
 SELECT *
 FROM TT_DEPT_6110 A RIGHT OUTER JOIN TT_EMP_6110 B
-	ON (A.DEPT_CD = B.DEPT_CD)     --- ANSI ¹æ½Ä RIGHT OUTER JOIN
+	ON (A.DEPT_CD = B.DEPT_CD)     --- ANSI ë°©ì‹ RIGHT OUTER JOIN
 ORDER BY A.DEPT_CD;
 
 -----------------------------------------------------------------------
 -- 6.1.13    FULL OUTER JOIN    p.305
 
 FULL OUTER JOIN = INNER JOIN + LEFT AND RIGHT OUTER JOIN
-½Ç¹«¿¡¼­ µ¥ÀÌÅÍ °ËÁõ ÀÛ¾÷¿¡ ÀÚÁÖ ¾²ÀÓ
-¿À¶óÅ¬ ¹æ½Ä ¾øÀ½.  ANSI Ç¥ÁØ ¹æ½Ä¸¸ Á¸Àç.
+ì‹¤ë¬´ì—ì„œ ë°ì´í„° ê²€ì¦ ìž‘ì—…ì— ìžì£¼ ì“°ìž„
+ì˜¤ë¼í´ ë°©ì‹ ì—†ìŒ.  ANSI í‘œì¤€ ë°©ì‹ë§Œ ì¡´ìž¬.
 
 SELECT *
 FROM TT_DEPT_6110 A FULL OUTER JOIN TT_EMP_6110 B
-	ON (A.DEPT_CD = B.DEPT_CD)     --- ANSI ¹æ½Ä FULL OUTER JOIN
+	ON (A.DEPT_CD = B.DEPT_CD)     --- ANSI ë°©ì‹ FULL OUTER JOIN
 ORDER BY A.DEPT_CD;
 
 -----------------------------------------------------------------------
 -- 6.1.14    CROSS JOIN    p.306
 
-2°³ÀÇ Å×ÀÌºíÀ» FROM Àý¿¡ ±âÀçÇÏ°í ¾Æ¹«·± Á¶ÀÎ Á¶°Çµµ °ÉÁö ¾ÊÀ¸¸é CROSS JOIN µÈ´Ù.
-CROSS JOIN == CARTESIAN PRODUCT  ·¹ÄÚµå °³¼ö  n * m 
+2ê°œì˜ í…Œì´ë¸”ì„ FROM ì ˆì— ê¸°ìž¬í•˜ê³  ì•„ë¬´ëŸ° ì¡°ì¸ ì¡°ê±´ë„ ê±¸ì§€ ì•Šìœ¼ë©´ CROSS JOIN ëœë‹¤.
+CROSS JOIN == CARTESIAN PRODUCT  ë ˆì½”ë“œ ê°œìˆ˜  n * m 
 
 SELECT ROWNUM AS RNUM, A.*, B.*
-FROM TT_DEPT_6110 A, TT_EMP_6110 B -- DEPT°¡ 5 Æ©ÇÃ, EMP°¡ 9 Æ©ÇÃ
--- Á¶ÀÎ Á¶°ÇÀÌ ¾øÀÌ Å×ÀÌºí º¹¼ö¸¸ ³ª¿­ÇÏ¸é CROSS JOIN
+FROM TT_DEPT_6110 A, TT_EMP_6110 B -- DEPTê°€ 5 íŠœí”Œ, EMPê°€ 9 íŠœí”Œ
+-- ì¡°ì¸ ì¡°ê±´ì´ ì—†ì´ í…Œì´ë¸” ë³µìˆ˜ë§Œ ë‚˜ì—´í•˜ë©´ CROSS JOIN
 ORDER BY RNUM;
 
 SELECT ROWNUM AS RNUM, A.*, B.*
@@ -430,11 +430,11 @@ ORDER BY RNUM;
 
 -----------------------------------------------------------------------
 --
--- CROSS JOINÀº Æ¯Á¤ Å×ÀÌºíÀÇ µ¥ÀÌÅÍ¸¦ º¹Á¦ÇÒ ¶§ ¸¹ÀÌ »ç¿ëÇÑ´Ù.
+-- CROSS JOINì€ íŠ¹ì • í…Œì´ë¸”ì˜ ë°ì´í„°ë¥¼ ë³µì œí•  ë•Œ ë§Žì´ ì‚¬ìš©í•œë‹¤.
 -----------------------------------------------------------------------
-SELECT * FROM TB_INDUTY_CL_SE; -- ´ëÁß¼Ò
+SELECT * FROM TB_INDUTY_CL_SE; -- ëŒ€ì¤‘ì†Œ
 
--- º¹Á¦¿ë ÀÓ½ÃÅ×ÀÌºí »ý¼º
+-- ë³µì œìš© ìž„ì‹œí…Œì´ë¸” ìƒì„±
 CREATE TABLE TT_COPY_3
 (
   COPY_NUM NUMBER PRIMARY KEY  
@@ -444,80 +444,82 @@ INSERT INTO TT_COPY_3 (COPY_NUM) VALUES (2);
 INSERT INTO TT_COPY_3 (COPY_NUM) VALUES (3);
 SELECT * FROM TT_COPY_3;
 
---CROSS JOINÀ» ÀÌ¿ëÇÑ µ¥ÀÌÅÍ º¹Á¦
+--CROSS JOINì„ ì´ìš©í•œ ë°ì´í„° ë³µì œ
 SELECT *
-FROM TB_INDUTY_CL_SE A CROSS JOIN TT_COPY_3 B -- ´ëÁß¼Ò / ´ëÁß¼Ò / ´ëÁß¼Ò
+FROM TB_INDUTY_CL_SE A CROSS JOIN TT_COPY_3 B -- ëŒ€ì¤‘ì†Œ / ëŒ€ì¤‘ì†Œ / ëŒ€ì¤‘ì†Œ
 ORDER BY B.COPY_NUM;
 
 
 
 /**********************************************************************
- * 6.2    ÁýÇÕ¿¬»êÀÚ    p.310
+ * 6.2    ì§‘í•©ì—°ì‚°ìž    p.310
  **********************************************************************/
 
 UNION, UNION ALL, INTERSECT, MINUS
 
-UNION - ¿©·¯°³ Äõ¸®¹® °á°ú ÇÕÁýÇÕ
-	  - Áßº¹ÀÌ Á¦°ÅµÊ
-	  - Á¤·ÄÀÌ ¹ß»ýÇÒ ¼ö ÀÖÀ½
-UNION ALL - ¿©·¯°³ Äõ¸®¹® °á°ú ÇÕÁýÇÕ
-		  - Áßº¹Çàµµ ±×´ë·Î Ãâ·Â
-		  - Á¤·ÄÇÏÁö ¾ÊÀ½
-INTERSECT - ¿©·¯°³ Äõ¸®¹® °á°ú ±³ÁýÇÕ
-		  - Áßº¹ÀÌ Á¦°ÅµÊ
-MINUS     - À§ Äõ¸® °á°ú¿¡¼­ ¾Æ·¡ Äõ¸® °á°ú¸¦ »­
+UNION - ì—¬ëŸ¬ê°œ ì¿¼ë¦¬ë¬¸ ê²°ê³¼ í•©ì§‘í•©
+	  - ì¤‘ë³µì´ ì œê±°ë¨
+	  - ì •ë ¬ì´ ë°œìƒí•  ìˆ˜ ìžˆìŒ
+UNION ALL - ì—¬ëŸ¬ê°œ ì¿¼ë¦¬ë¬¸ ê²°ê³¼ í•©ì§‘í•©
+		  - ì¤‘ë³µí–‰ë„ ê·¸ëŒ€ë¡œ ì¶œë ¥
+		  - ì •ë ¬í•˜ì§€ ì•ŠìŒ
+INTERSECT - ì—¬ëŸ¬ê°œ ì¿¼ë¦¬ë¬¸ ê²°ê³¼ êµì§‘í•©
+		  - ì¤‘ë³µì´ ì œê±°ë¨
+MINUS     - ìœ„ ì¿¼ë¦¬ ê²°ê³¼ì—ì„œ ì•„ëž˜ ì¿¼ë¦¬ ê²°ê³¼ë¥¼ ëºŒ
 
 -----------------------------------------------------------------------
 -- 6.2.2    UNION, UNION ALL
 
 SELECT INDUTY_CL_CD AS INDST_CODE
 FROM TB_INDUTY_CL A
-WHERE   INDUTY_CL_SE_CD = 'ICS001' -- ´ëºÐ·ù¸¸
-	AND INDUTY_CL_CD = 'Q'   -- ¿ä½Ä¾÷   // ´ëºÐ·ù¶ó¼­ ÇÏ³ª¸¸ ³ª¿È
+WHERE   INDUTY_CL_SE_CD = 'ICS001' -- ëŒ€ë¶„ë¥˜ë§Œ
+	AND INDUTY_CL_CD = 'Q'   -- ìš”ì‹ì—…   // ëŒ€ë¶„ë¥˜ë¼ì„œ í•˜ë‚˜ë§Œ ë‚˜ì˜´
 UNION
 SELECT UPPER_INDUTY_CL_CD AS UPPER_INDST_CODE
 FROM TB_INDUTY_CL
-WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ÁßºÐ·ù¸¸
-	AND INDUTY_CL_CD LIKE 'Q%'    -- Ä¿ÇÇÁ¡/Ä«Æä      // ÁßºÐ·ù¶ó º¹¼ö°³ 14°³ ³ª¿È.
-; -- Áßº¹ÀÌ ¸ðµÎ Á¦°ÅµÇ°í 1°³¸¸ ³ª¿È.
+WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ì¤‘ë¶„ë¥˜ë§Œ
+	AND INDUTY_CL_CD LIKE 'Q%'    -- ì»¤í”¼ì /ì¹´íŽ˜      // ì¤‘ë¶„ë¥˜ë¼ ë³µìˆ˜ê°œ 14ê°œ ë‚˜ì˜´.
+; -- ì¤‘ë³µì´ ëª¨ë‘ ì œê±°ë˜ê³  1ê°œë§Œ ë‚˜ì˜´.
 
 SELECT INDUTY_CL_CD AS INDST_CODE
 FROM TB_INDUTY_CL A
-WHERE   INDUTY_CL_SE_CD = 'ICS001' -- ´ëºÐ·ù¸¸
-	AND INDUTY_CL_CD = 'Q'   -- ¿ä½Ä¾÷   // ´ëºÐ·ù¶ó¼­ ÇÏ³ª¸¸ ³ª¿È
+WHERE   INDUTY_CL_SE_CD = 'ICS001' -- ëŒ€ë¶„ë¥˜ë§Œ
+	AND INDUTY_CL_CD = 'Q'   -- ìš”ì‹ì—…   // ëŒ€ë¶„ë¥˜ë¼ì„œ í•˜ë‚˜ë§Œ ë‚˜ì˜´
 UNION ALL
 SELECT UPPER_INDUTY_CL_CD AS UPPER_INDST_CODE
 FROM TB_INDUTY_CL
-WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ÁßºÐ·ù¸¸
-	AND INDUTY_CL_CD LIKE 'Q%'    -- Ä¿ÇÇÁ¡/Ä«Æä      // ÁßºÐ·ù¶ó º¹¼ö°³ 14°³ ³ª¿È.
-; -- Áßº¹ÀÌ ±×´ë·Î À¯ÁöµÇ°í ÇÕÃÄÁ®¼­ 15°³ ³ª¿È.
+WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ì¤‘ë¶„ë¥˜ë§Œ
+	AND INDUTY_CL_CD LIKE 'Q%'    -- ì»¤í”¼ì /ì¹´íŽ˜      // ì¤‘ë¶„ë¥˜ë¼ ë³µìˆ˜ê°œ 14ê°œ ë‚˜ì˜´.
+; -- ì¤‘ë³µì´ ê·¸ëŒ€ë¡œ ìœ ì§€ë˜ê³  í•©ì³ì ¸ì„œ 15ê°œ ë‚˜ì˜´.
 
 -----------------------------------------------------------------------
--- 6.2.4    UNION, UNION ALL ÀÇ °á°úÁýÇÕ
+-- 6.2.4    UNION, UNION ALL ì˜ ê²°ê³¼ì§‘í•©
 
-UNION ¿¡¼­ Á¤·Ä ¼öÇàÀÇ °¡´É¼ºÀÌ ÀÖÀ¸³ª,  Á¤·ÄÀ» º¸ÀåÇÏ±â À§ÇØ¼­´Â ¹Ýµå½Ã ORDER BY ÀýÀ» »ç¿ëÇØ¾ß ÇÑ´Ù.
-UNION/UNION ALL ¿¬»ê½Ã ORDER BY Àý¿¡ Ä®·³¿¡´Â ALIAS »ç¿ëÇÒ ¼ö ¾ø´Ù.
+UNION ì—ì„œ ì •ë ¬ ìˆ˜í–‰ì˜ ê°€ëŠ¥ì„±ì´ ìžˆìœ¼ë‚˜,  ì •ë ¬ì„ ë³´ìž¥í•˜ê¸° ìœ„í•´ì„œëŠ” ë°˜ë“œì‹œ ORDER BY ì ˆì„ ì‚¬ìš©í•´ì•¼ í•œë‹¤.
+UNION/UNION ALL ì—°ì‚°ì‹œ ORDER BY ì ˆì— ì¹¼ëŸ¼ì—ëŠ” ALIAS ì‚¬ìš©í•  ìˆ˜ ì—†ë‹¤.
 
 SELECT INDUTY_CL_CD, INDUTY_CL_NM
 FROM TB_INDUTY_CL A
-WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ÁßºÐ·ù¸¸
-	AND INDUTY_CL_CD LIKE 'N%'   ---°ü±¤/¿©°¡/¿À¶ô
+WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ì¤‘ë¶„ë¥˜ë§Œ
+	AND INDUTY_CL_CD LIKE 'N%'   ---ê´€ê´‘/ì—¬ê°€/ì˜¤ë½
 UNION ALL 
-SELECT INDUTY_CL_CD AS ¾÷Á¾ºÐ·ùÄÚµå, INDUTY_CL_NM AS ¾÷Á¾ºÐ·ù¸í
+SELECT INDUTY_CL_CD AS ì—…ì¢…ë¶„ë¥˜ì½”ë“œ, INDUTY_CL_NM AS ì—…ì¢…ë¶„ë¥˜ëª…
 FROM TB_INDUTY_CL B
-WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ÁßºÐ·ù¸¸
-	AND INDUTY_CL_CD LIKE 'O%'   ---¼÷¹Ú
+WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ì¤‘ë¶„ë¥˜ë§Œ
+	AND INDUTY_CL_CD LIKE 'O%'   ---ìˆ™ë°•
 ORDER BY INDUTY_CL_CD
 ;
 
-SELECT INDUTY_CL_CD AS ¾÷Á¾ºÐ·ùÄÚµå, INDUTY_CL_NM AS ¾÷Á¾ºÐ·ù¸í -- HEADER °ªÀº À§ÀÇ Äõ¸®¹® °á°ú¿¡ µû¶ó°£´Ù.
+SELECT INDUTY_CL_CD AS ì—…ì¢…ë¶„ë¥˜ì½”ë“œ, INDUTY_CL_NM AS ì—…ì¢…ë¶„ë¥˜ëª… -- HEADER ê°’ì€ ìœ„ì˜ ì¿¼ë¦¬ë¬¸ ê²°ê³¼ì— ë”°ë¼ê°„ë‹¤.
 FROM TB_INDUTY_CL A
-WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ÁßºÐ·ù¸¸
-	AND INDUTY_CL_CD LIKE 'O%'   ---¼÷¹Ú
+WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ì¤‘ë¶„ë¥˜ë§Œ
+	AND INDUTY_CL_CD LIKE 'O%'   ---ìˆ™ë°•
 UNION ALL 
 SELECT INDUTY_CL_CD, INDUTY_CL_NM
 FROM TB_INDUTY_CL B
-WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ÁßºÐ·ù¸¸
-	AND INDUTY_CL_CD LIKE 'N%'   ---°ü±¤/¿©°¡/¿À¶ô
-ORDER BY ¾÷Á¾ºÐ·ùÄÚµå            -- ORDER BY Àý¿¡ ¾µ ÄÃ·³¸íµµ HEADER¿¡ ¸ÂÃçÁØ´Ù.
+WHERE   INDUTY_CL_SE_CD = 'ICS002' -- ì¤‘ë¶„ë¥˜ë§Œ
+	AND INDUTY_CL_CD LIKE 'N%'   ---ê´€ê´‘/ì—¬ê°€/ì˜¤ë½
+ORDER BY ì—…ì¢…ë¶„ë¥˜ì½”ë“œ            -- ORDER BY ì ˆì— ì“¸ ì»¬ëŸ¼ëª…ë„ HEADERì— ë§žì¶°ì¤€ë‹¤.
 ;
+
+	

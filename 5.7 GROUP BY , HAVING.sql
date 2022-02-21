@@ -13,9 +13,9 @@ VARIAN(ATTRIBUTE)
 
 
 SELECT
-	COUNT(*) AS "ÀüÃ¼»ó°¡¼ö",
-	MAX(LO) AS "ÃÖ´ë°æµµ", MIN(LO) AS "ÃÖ¼Ò°æµµ",
-	MAX(LA) AS "ÃÖ´ëÀ§µµ", MIN(LA) AS "ÃÖ¼ÒÀ§µµ"
+	COUNT(*) AS "ì „ì²´ìƒê°€ìˆ˜",
+	MAX(LO) AS "ìµœëŒ€ê²½ë„", MIN(LO) AS "ìµœì†Œê²½ë„",
+	MAX(LA) AS "ìµœëŒ€ìœ„ë„", MIN(LA) AS "ìµœì†Œìœ„ë„"
 FROM TB_BSSH;
 
 
@@ -24,32 +24,32 @@ FROM TB_BSSH;
  **********************************************************************/
 SELECT *
 FROM TB_SUBWAY_STATN A
-WHERE A.STATN_NM = 'Æò¾ç¿ª'; -- °øÁýÇÕ ¸®ÅÏ
+WHERE A.STATN_NM = 'í‰ì–‘ì—­'; -- ê³µì§‘í•© ë¦¬í„´
 
 SELECT
-	MAX(A.SUBWAY_STATN_NO), -- MAX ÇÔ¼ö´Â °øÁýÇÕÀÌ¶óµµ NULLÀ» Æ÷ÇÔÇÑ 1ÇàÀº ¹ÝÈ¯ÇÑ´Ù.
+	MAX(A.SUBWAY_STATN_NO), -- MAX í•¨ìˆ˜ëŠ” ê³µì§‘í•©ì´ë¼ë„ NULLì„ í¬í•¨í•œ 1í–‰ì€ ë°˜í™˜í•œë‹¤.
 	MAX(A.LN_NM),
 	MAX(A.STATN_NM)
 FROM TB_SUBWAY_STATN A
-WHERE A.STATN_NM = 'Æò¾ç¿ª';
+WHERE A.STATN_NM = 'í‰ì–‘ì—­';
 
 SELECT
-	NVL(MAX(A.SUBWAY_STATN_NO), 'ÁöÇÏÃ¶¿ª¾øÀ½') AS SUBWAY_STATN_NO, -- MAXÀÇ NULL°ªÀ» ÀÌ¿ëÇØ¼­ °øÁýÇÕÀÏ °æ¿ì Ãâ·ÂÇÒ ¸Þ½ÃÁö ÇàÀ» ±¸¼º
-	NVL(MAX(A.LN_NM), '³ë¼±¸í¾øÀ½') AS LN_NM,
-	NVL(MAX(A.STATN_NM), '¿ª¸í¾øÀ½') AS STATN_NM
+	NVL(MAX(A.SUBWAY_STATN_NO), 'ì§€í•˜ì² ì—­ì—†ìŒ') AS SUBWAY_STATN_NO, -- MAXì˜ NULLê°’ì„ ì´ìš©í•´ì„œ ê³µì§‘í•©ì¼ ê²½ìš° ì¶œë ¥í•  ë©”ì‹œì§€ í–‰ì„ êµ¬ì„±
+	NVL(MAX(A.LN_NM), 'ë…¸ì„ ëª…ì—†ìŒ') AS LN_NM,
+	NVL(MAX(A.STATN_NM), 'ì—­ëª…ì—†ìŒ') AS STATN_NM
 FROM TB_SUBWAY_STATN A
-WHERE A.STATN_NM = 'Æò¾ç¿ª';
+WHERE A.STATN_NM = 'í‰ì–‘ì—­';
 
 /**********************************************************************
  * 5.7.6 GROUP BY
  **********************************************************************/
---ÀÎ±¸ Å×ÀÌºí¿¡¼­ ÀÎ±¸±¸ºÐÄÚµåº° ÀÎ±¸¼ö ÄÃ·³ÀÇ ÇÕ°è¸¦ ±¸ÇÏ¶ó.
+--ì¸êµ¬ í…Œì´ë¸”ì—ì„œ ì¸êµ¬êµ¬ë¶„ì½”ë“œë³„ ì¸êµ¬ìˆ˜ ì»¬ëŸ¼ì˜ í•©ê³„ë¥¼ êµ¬í•˜ë¼.
 
 SELECT * FROM TB_POPLTN;
 SELECT DISTINCT STD_YM FROM TB_POPLTN;
 
 SELECT
-	DECODE(POPLTN_SE_CD, 'M', '³²¼º', 'F', '¿©¼º', 'T', 'ÀüÃ¼', '?') AS ÀÎ±¸±¸ºÐ,
+	DECODE(POPLTN_SE_CD, 'M', 'ë‚¨ì„±', 'F', 'ì—¬ì„±', 'T', 'ì „ì²´', '?') AS ì¸êµ¬êµ¬ë¶„,
 	SUM(POPLTN_CNT)
 FROM TB_POPLTN
 GROUP BY POPLTN_SE_CD;
@@ -57,20 +57,20 @@ GROUP BY POPLTN_SE_CD;
 SELECT
 	POPLTN_SE_CD,
 	AGRDE_SE_CD,
-	SUM(POPLTN_CNT) AS "ÀÎ±¸¼öÇÕ°è"
+	SUM(POPLTN_CNT) AS "ì¸êµ¬ìˆ˜í•©ê³„"
 FROM TB_POPLTN
 GROUP BY POPLTN_SE_CD, AGRDE_SE_CD
 	HAVING SUM(POPLTN_CNT) < 1000000	
-ORDER BY ÀÎ±¸¼öÇÕ°è;
+ORDER BY ì¸êµ¬ìˆ˜í•©ê³„;
 
 
 SELECT
 	SUBWAY_STATN_NO,
-	"½ÂÂ÷ÀÎ¿ø¼öÇÕ°è"
-	"ÇÏÂ÷ÀÎ¿ø¼öÇÕ°è"
-	"Ãâ±Ù½Ã°£´ë½ÂÂ÷ÀÎ¿ø¼öÇÕ°è"	"Ãâ±Ù½Ã°£´ëÇÏÂ÷ÀÎ¿ø¼öÇÕ°è"
-	"Åð±Ù½Ã°£´ë½ÂÂ÷ÀÎ¿ø¼öÇÕ°è"	"Åð±Ù½Ã°£´ëÇÏÂ÷ÀÎ¿ø¼öÇÕ°è"
-	"½ÂÇÏÂ÷ÀÎ¿ø¼öÇÕ°è"
+	"ìŠ¹ì°¨ì¸ì›ìˆ˜í•©ê³„"
+	"í•˜ì°¨ì¸ì›ìˆ˜í•©ê³„"
+	"ì¶œê·¼ì‹œê°„ëŒ€ìŠ¹ì°¨ì¸ì›ìˆ˜í•©ê³„"	"ì¶œê·¼ì‹œê°„ëŒ€í•˜ì°¨ì¸ì›ìˆ˜í•©ê³„"
+	"í‡´ê·¼ì‹œê°„ëŒ€ìŠ¹ì°¨ì¸ì›ìˆ˜í•©ê³„"	"í‡´ê·¼ì‹œê°„ëŒ€í•˜ì°¨ì¸ì›ìˆ˜í•©ê³„"
+	"ìŠ¹í•˜ì°¨ì¸ì›ìˆ˜í•©ê³„"
 FROM TB_SUBWAY_STATN_TK_GFF
 WHERE STD_YM = '202010';
 
@@ -81,41 +81,41 @@ SELECT
 			WHEN TK_GFF_SE_CD = 'TGS001'
 			THEN TK_GFF_CNT
 			ELSE 0 
-		END) AS "½ÂÂ÷ÀÎ¿ø¼öÇÕ°è",
+		END) AS "ìŠ¹ì°¨ì¸ì›ìˆ˜í•©ê³„",
 	SUM(CASE
 			WHEN TK_GFF_SE_CD = 'TGS002'
 			THEN TK_GFF_CNT
 			ELSE 0 
-		END) AS "ÇÏÂ÷ÀÎ¿ø¼öÇÕ°è",
+		END) AS "í•˜ì°¨ì¸ì›ìˆ˜í•©ê³„",
 	SUM(CASE
 			WHEN	BEGIN_TIME = '0800'
 			AND		END_TIME = '0900'
 			AND 	TK_GFF_SE_CD = 'TGS001'
 			THEN 	TK_GFF_CNT
 			ELSE 	0
-		END) AS "Ãâ±Ù½Ã°£´ë½ÂÂ÷ÀÎ¿ø¼öÇÕ°è",
+		END) AS "ì¶œê·¼ì‹œê°„ëŒ€ìŠ¹ì°¨ì¸ì›ìˆ˜í•©ê³„",
 	SUM(CASE
 			WHEN	BEGIN_TIME = '0800'
 			AND		END_TIME = '0900'
 			AND 	TK_GFF_SE_CD = 'TGS002'
 			THEN 	TK_GFF_CNT
 			ELSE 	0
-		END) AS "Ãâ±Ù½Ã°£´ëÇÏÂ÷ÀÎ¿ø¼öÇÕ°è",
+		END) AS "ì¶œê·¼ì‹œê°„ëŒ€í•˜ì°¨ì¸ì›ìˆ˜í•©ê³„",
 	SUM(CASE
 			WHEN	BEGIN_TIME = '1800'
 			AND		END_TIME = '1900'
 			AND 	TK_GFF_SE_CD = 'TGS001'
 			THEN 	TK_GFF_CNT
 			ELSE 	0
-		END) AS "Åð±Ù½Ã°£´ë½ÂÂ÷ÀÎ¿ø¼öÇÕ°è",
+		END) AS "í‡´ê·¼ì‹œê°„ëŒ€ìŠ¹ì°¨ì¸ì›ìˆ˜í•©ê³„",
 	SUM(CASE
 			WHEN	BEGIN_TIME = '1800'
 			AND		END_TIME = '1900'
 			AND 	TK_GFF_SE_CD = 'TGS002'
 			THEN 	TK_GFF_CNT
 			ELSE 	0
-		END) AS "Åð±Ù½Ã°£´ëÇÏÂ÷ÀÎ¿ø¼öÇÕ°è",
-	SUM(TK_GFF_CNT) AS "½ÂÇÏÂ÷ÀÎ¿ø¼öÇÕ°è"
+		END) AS "í‡´ê·¼ì‹œê°„ëŒ€í•˜ì°¨ì¸ì›ìˆ˜í•©ê³„",
+	SUM(TK_GFF_CNT) AS "ìŠ¹í•˜ì°¨ì¸ì›ìˆ˜í•©ê³„"
 FROM TB_SUBWAY_STATN_TK_GFF A
 WHERE STD_YM = '202010'
 GROUP BY SUBWAY_STATN_NO
@@ -125,9 +125,9 @@ GROUP BY SUBWAY_STATN_NO
 					THEN TK_GFF_CNT ELSE 0 END) >= 1000000;
 
 /**********************************************************************
- * 5.7.9 Áý°è ÇÔ¼ö¿Í NULL
+ * 5.7.9 ì§‘ê³„ í•¨ìˆ˜ì™€ NULL
  **********************************************************************/
---Å×½ºÆ® Å×ÀÌºí »ý¼º
+--í…ŒìŠ¤íŠ¸ í…Œì´ë¸” ìƒì„±
 CREATE TABLE TB_AGG_NULL_TEST (NUM NUMBER(15, 2));
 
 INSERT INTO TB_AGG_NULL_TEST (NUM) VALUES(NULL);
@@ -136,7 +136,7 @@ INSERT INTO TB_AGG_NULL_TEST (NUM) VALUES(20);
 INSERT INTO TB_AGG_NULL_TEST (NUM) VALUES(30);
 INSERT INTO TB_AGG_NULL_TEST (NUM) VALUES(40);
 COMMIT;
--- Áý°è ÇÔ¼ö ÀÌ¿ë
+-- ì§‘ê³„ í•¨ìˆ˜ ì´ìš©
 SELECT * FROM TB_AGG_NULL_TEST;
 SELECT
 	SUM(NUM), AVG(NUM), MAX(NUM), MIN(NUM), COUNT(NUM), COUNT(*)
@@ -165,8 +165,8 @@ FROM TB_INDUTY_CL A
 WHERE INDUTY_CL_SE_CD = 'ICS001'
 ORDER BY INDUTY_CL_CD DESC;
 
--- NULLÀÇ Á¤·Ä
--- ¿À¶óÅ¬Àº ORDER BY ÀýÀÇ Ä®·³ÀÇ °ªÀÌ NULLÀÏ¶§ °¡Àå Å« °ªÀÌ¶ó°í ÀÎ½ÄÇÑ´Ù.
+-- NULLì˜ ì •ë ¬
+-- ì˜¤ë¼í´ì€ ORDER BY ì ˆì˜ ì¹¼ëŸ¼ì˜ ê°’ì´ NULLì¼ë•Œ ê°€ìž¥ í° ê°’ì´ë¼ê³  ì¸ì‹í•œë‹¤.
 SELECT
 	INDUTY_CL_CD,
 	INDUTY_CL_NM,
@@ -174,10 +174,10 @@ SELECT
 	UPPER_INDUTY_CL_CD
 FROM TB_INDUTY_CL A
 WHERE INDUTY_CL_CD LIKE 'Q%'
-	AND INDUTY_CL_NM LIKE '%À½½Ä%'
+	AND INDUTY_CL_NM LIKE '%ìŒì‹%'
 ORDER BY UPPER_INDUTY_CL_CD DESC;
 
--- SELECT ¹®ÀÇ ½ÇÇà ¼ø¼­
+-- SELECT ë¬¸ì˜ ì‹¤í–‰ ìˆœì„œ
 FROM
 WHERE
 GROUP BY
@@ -185,7 +185,7 @@ HAVING
 SELECT
 ORDER BY
 
--- PROJECTION ´ë»óÀÌ ¾Æ´Ñ ÄÃ·³À¸·Îµµ Á¤·ÄÀÌ °¡´ÉÇÏ´Ù.
+-- PROJECTION ëŒ€ìƒì´ ì•„ë‹Œ ì»¬ëŸ¼ìœ¼ë¡œë„ ì •ë ¬ì´ ê°€ëŠ¥í•˜ë‹¤.
 SELECT
 	SUBWAY_STATN_NO,
 	LN_NM
@@ -194,11 +194,11 @@ WHERE LN_NM LIKE '9%' ORDER BY STATN_NM;
 
 SELECT
 	SUBWAY_STATN_NO,
-	LN_NM, STATN_NM -- È®ÀÎ 
+	LN_NM, STATN_NM -- í™•ì¸ 
 FROM TB_SUBWAY_STATN
 WHERE LN_NM LIKE '9%' ORDER BY STATN_NM;
 
--- GROUP BYÇÑ °æ¿ì¿¡´Â PROJECTION ´ë»ó ATTR¸¸À» Á¤·Ä¿¡ »ç¿ëÇÒ¼ö ÀÖ´Ù.
+-- GROUP BYí•œ ê²½ìš°ì—ëŠ” PROJECTION ëŒ€ìƒ ATTRë§Œì„ ì •ë ¬ì— ì‚¬ìš©í• ìˆ˜ ìžˆë‹¤.
 SELECT
 	AGRDE_SE_CD,
 	SUM(POPLTN_CNT)
@@ -212,7 +212,7 @@ SELECT
 FROM TB_POPLTN
 WHERE STD_YM = '202010' AND POPLTN_SE_CD IN ('M', 'F')
 GROUP BY AGRDE_SE_CD
-ORDER BY POPLTN_SE_CD DESC; -- ¿À·ù°¡ ³³´Ï´Ù.
+ORDER BY POPLTN_SE_CD DESC; -- ì˜¤ë¥˜ê°€ ë‚©ë‹ˆë‹¤.
 
 -- ROWNUM
 
