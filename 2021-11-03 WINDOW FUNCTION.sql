@@ -18,8 +18,8 @@ FROM EMP;
 SELECT
     ENAME, JOB,
     RANK() OVER (PARTITION BY JOB ORDER BY SAL DESC) SAL_RANK_BY_JOB,
-    DEPTNO        -- 급여 순위를 직업별로
-FROM EMP C;
+    DEPTNO        -- 급여 순위를 직업별로w
+FROM EMP;
 
 /*******************************
     WINDOW_FUNCTION.RANK()

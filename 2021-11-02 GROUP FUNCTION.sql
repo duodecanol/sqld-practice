@@ -50,6 +50,26 @@ GROUP BY CUBE(DEPTNO, JOB) -- 서로 속하는 경우의 수를 다 구한다.
 ORDER BY DEPTNO;
 
 -------------------------------------------------------
+--GROUPING
+SELECT  
+    DEPTNO, 
+    GROUPING(DEPTNO),
+    JOB,
+    GROUPING(JOB),
+    SUM(SAL)
+FROM EMP
+GROUP BY ROLLUP(DEPTNO, JOB);
+
+SELECT  
+    DEPTNO, 
+    DECODE(GROUPING(DEPTNO), 1, 'TOTAL SUM') AS TOTAL_SUM,
+    JOB,
+    DECODE(GROUPING(JOB), 1, 'DEPT SUM') AS DEPT_SUM,
+    SUM(SAL)
+FROM EMP
+GROUP BY ROLLUP(DEPTNO, JOB);
+
+-------------------------------------------------------
 --GROUPING SETS
 SELECT  
     DEPTNO,
